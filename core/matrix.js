@@ -1,4 +1,6 @@
-Matrix = function (rows, columns) {
+var asteroids = asteroids || {};
+
+asteroids.Matrix = function (rows, columns) {
   var i, j;
   this.data = new Array(rows);
   for (i = 0; i < rows; i++) {
