@@ -120,10 +120,10 @@ Sprite = function () {
     this.configureTransform();
     this.draw();
 
-    var canidates = this.findCollisionCanidates();
+    var candidates = this.findCollisionCandidates();
 
     this.matrix.configure(this.rot, this.scale, this.x, this.y);
-    this.checkCollisionsAgainst(canidates);
+    this.checkCollisionsAgainst(candidates);
 
     this.context.restore();
 
@@ -132,7 +132,7 @@ Sprite = function () {
       this.context.save();
       this.configureTransform();
       this.draw();
-      this.checkCollisionsAgainst(canidates);
+      this.checkCollisionsAgainst(candidates);
       this.context.restore();
       if (this.currentNode) {
         this.x -= this.currentNode.dupe.horizontal;
@@ -143,7 +143,7 @@ Sprite = function () {
       this.context.save();
       this.configureTransform();
       this.draw();
-      this.checkCollisionsAgainst(canidates);
+      this.checkCollisionsAgainst(candidates);
       this.context.restore();
       if (this.currentNode) {
         this.y -= this.currentNode.dupe.vertical;
@@ -158,7 +158,7 @@ Sprite = function () {
       this.context.save();
       this.configureTransform();
       this.draw();
-      this.checkCollisionsAgainst(canidates);
+      this.checkCollisionsAgainst(candidates);
       this.context.restore();
       if (this.currentNode) {
         this.x -= this.currentNode.dupe.horizontal;
@@ -244,24 +244,24 @@ Sprite = function () {
     this.context.closePath();
     this.context.stroke();
   };
-  this.findCollisionCanidates = function () {
+  this.findCollisionCandidates = function () {
     if (!this.visible || !this.currentNode) return [];
     var cn = this.currentNode;
-    var canidates = [];
-    if (cn.nextSprite) canidates.push(cn.nextSprite);
-    if (cn.north.nextSprite) canidates.push(cn.north.nextSprite);
-    if (cn.south.nextSprite) canidates.push(cn.south.nextSprite);
-    if (cn.east.nextSprite) canidates.push(cn.east.nextSprite);
-    if (cn.west.nextSprite) canidates.push(cn.west.nextSprite);
-    if (cn.north.east.nextSprite) canidates.push(cn.north.east.nextSprite);
-    if (cn.north.west.nextSprite) canidates.push(cn.north.west.nextSprite);
-    if (cn.south.east.nextSprite) canidates.push(cn.south.east.nextSprite);
-    if (cn.south.west.nextSprite) canidates.push(cn.south.west.nextSprite);
-    return canidates
+    var candidates = [];
+    if (cn.nextSprite) candidates.push(cn.nextSprite);
+    if (cn.north.nextSprite) candidates.push(cn.north.nextSprite);
+    if (cn.south.nextSprite) candidates.push(cn.south.nextSprite);
+    if (cn.east.nextSprite) candidates.push(cn.east.nextSprite);
+    if (cn.west.nextSprite) candidates.push(cn.west.nextSprite);
+    if (cn.north.east.nextSprite) candidates.push(cn.north.east.nextSprite);
+    if (cn.north.west.nextSprite) candidates.push(cn.north.west.nextSprite);
+    if (cn.south.east.nextSprite) candidates.push(cn.south.east.nextSprite);
+    if (cn.south.west.nextSprite) candidates.push(cn.south.west.nextSprite);
+    return candidates
   };
-  this.checkCollisionsAgainst = function (canidates) {
-    for (var i = 0; i < canidates.length; i++) {
-      var ref = canidates[i];
+  this.checkCollisionsAgainst = function (candidates) {
+    for (var i = 0; i < candidates.length; i++) {
+      var ref = candidates[i];
       do {
         this.checkCollision(ref);
         ref = ref.nextSprite;
