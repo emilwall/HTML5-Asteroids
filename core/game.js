@@ -1,4 +1,6 @@
-Game = {
+var asteroids = asteroids || {};
+
+asteroids.Game = {
   score: 0,
   totalAsteroids: 5,
   lives: 0,
