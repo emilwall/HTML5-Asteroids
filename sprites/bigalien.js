@@ -37,10 +37,10 @@ BigAlien = function () {
       this.x = -20;
       this.vel.x = 1.5;
     } else {
-      this.x = Game.canvasWidth + 20;
+      this.x = asteroids.Game.canvasWidth + 20;
       this.vel.x = -1.5;
     }
-    this.y = Math.random() * Game.canvasHeight;
+    this.y = Math.random() * asteroids.Game.canvasHeight;
   };
 
   this.setup = function () {
@@ -49,7 +49,7 @@ BigAlien = function () {
     for (var i = 0; i < 3; i++) {
       var bull = new AlienBullet();
       this.bullets.push(bull);
-      Game.sprites.push(bull);
+      asteroids.Game.sprites.push(bull);
     }
   };
 
@@ -97,20 +97,20 @@ BigAlien = function () {
   };
 
   BigAlien.prototype.collision = function (other) {
-    if (other.name == "bullet") Game.score += 200;
-    Game.explosionAt(other.x, other.y);
+    if (other.name == "bullet") asteroids.Game.score += 200;
+    asteroids.Game.explosionAt(other.x, other.y);
     this.visible = false;
     this.newPosition();
   };
 
   this.postMove = function () {
-    if (this.y > Game.canvasHeight) {
+    if (this.y > asteroids.Game.canvasHeight) {
       this.y = 0;
     } else if (this.y < 0) {
-      this.y = Game.canvasHeight;
+      this.y = asteroids.Game.canvasHeight;
     }
 
-    if ((this.vel.x > 0 && this.x > Game.canvasWidth + 20) ||
+    if ((this.vel.x > 0 && this.x > asteroids.Game.canvasWidth + 20) ||
         (this.vel.x < 0 && this.x < -20)) {
       // why did the alien cross the road?
       this.visible = false;

@@ -275,15 +275,15 @@ Sprite = function () {
             cn.south.west.isEmpty(this.collidesWith));
   };
   this.wrapPostMove = function () {
-    if (this.x > Game.canvasWidth) {
+    if (this.x > asteroids.Game.canvasWidth) {
       this.x = 0;
     } else if (this.x < 0) {
-      this.x = Game.canvasWidth;
+      this.x = asteroids.Game.canvasWidth;
     }
-    if (this.y > Game.canvasHeight) {
+    if (this.y > asteroids.Game.canvasHeight) {
       this.y = 0;
     } else if (this.y < 0) {
-      this.y = Game.canvasHeight;
+      this.y = asteroids.Game.canvasHeight;
     }
   };
 

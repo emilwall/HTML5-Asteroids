@@ -31,7 +31,7 @@ asteroids.Game = {
         roid.points.reverse();
       }
       roid.vel.rot = Math.random() * 2 - 1;
-      Game.sprites.push(roid);
+      asteroids.Game.sprites.push(roid);
     }
   },
 
@@ -40,16 +40,16 @@ asteroids.Game = {
     splosion.x = x;
     splosion.y = y;
     splosion.visible = true;
-    Game.sprites.push(splosion);
+    asteroids.Game.sprites.push(splosion);
   },
 
   FSM: {
     boot: function () {
-      Game.spawnAsteroids(5);
+      asteroids.Game.spawnAsteroids(5);
       this.state = 'waiting';
     },
     waiting: function () {
-      Text.renderText('Press Space to Start', 36, Game.canvasWidth/2 - 270, Game.canvasHeight/2);
+      Text.renderText('Press Space to Start', 36, asteroids.Game.canvasWidth/2 - 270, asteroids.Game.canvasHeight/2);
       if (KEY_STATUS.space || window.gameStart) {
         KEY_STATUS.space = false; // hack so we don't shoot right away
         window.gameStart = false;
@@ -57,48 +57,48 @@ asteroids.Game = {
       }
     },
     start: function () {
-      for (var i = 0; i < Game.sprites.length; i++) {
-        if (Game.sprites[i].name == 'asteroid') {
-          Game.sprites[i].die();
-        } else if (Game.sprites[i].name == 'bullet' ||
-                   Game.sprites[i].name == 'bigalien') {
-          Game.sprites[i].visible = false;
+      for (var i = 0; i < asteroids.Game.sprites.length; i++) {
+        if (asteroids.Game.sprites[i].name == 'asteroid') {
+          asteroids.Game.sprites[i].die();
+        } else if (asteroids.Game.sprites[i].name == 'bullet' ||
+                   asteroids.Game.sprites[i].name == 'bigalien') {
+          asteroids.Game.sprites[i].visible = false;
         }
       }
 
-      Game.score = 0;
-      Game.lives = 2;
-      Game.totalAsteroids = 2;
-      Game.spawnAsteroids();
+      asteroids.Game.score = 0;
+      asteroids.Game.lives = 2;
+      asteroids.Game.totalAsteroids = 2;
+      asteroids.Game.spawnAsteroids();
 
-      Game.nextBigAlienTime = Date.now() + 30000 + (30000 * Math.random());
+      asteroids.Game.nextBigAlienTime = Date.now() + 30000 + (30000 * Math.random());
 
       this.state = 'spawn_ship';
     },
     spawn_ship: function () {
-      Game.ship.x = Game.canvasWidth / 2;
-      Game.ship.y = Game.canvasHeight / 2;
-      if (Game.ship.isClear()) {
-        Game.ship.rot = 0;
-        Game.ship.vel.x = 0;
-        Game.ship.vel.y = 0;
-        Game.ship.visible = true;
+      asteroids.Game.ship.x = asteroids.Game.canvasWidth / 2;
+      asteroids.Game.ship.y = asteroids.Game.canvasHeight / 2;
+      if (asteroids.Game.ship.isClear()) {
+        asteroids.Game.ship.rot = 0;
+        asteroids.Game.ship.vel.x = 0;
+        asteroids.Game.ship.vel.y = 0;
+        asteroids.Game.ship.visible = true;
         this.state = 'run';
       }
     },
     run: function () {
-      for (var i = 0; i < Game.sprites.length; i++) {
-        if (Game.sprites[i].name == 'asteroid') {
+      for (var i = 0; i < asteroids.Game.sprites.length; i++) {
+        if (asteroids.Game.sprites[i].name == 'asteroid') {
           break;
         }
       }
-      if (i == Game.sprites.length) {
+      if (i == asteroids.Game.sprites.length) {
         this.state = 'new_level';
       }
-      if (!Game.bigAlien.visible &&
-          Date.now() > Game.nextBigAlienTime) {
-        Game.bigAlien.visible = true;
-        Game.nextBigAlienTime = Date.now() + (30000 * Math.random());
+      if (!asteroids.Game.bigAlien.visible &&
+          Date.now() > asteroids.Game.nextBigAlienTime) {
+        asteroids.Game.bigAlien.visible = true;
+        asteroids.Game.nextBigAlienTime = Date.now() + (30000 * Math.random());
       }
     },
     new_level: function () {
@@ -108,14 +108,14 @@ asteroids.Game = {
       // wait a second before spawning more asteroids
       if (Date.now() - this.timer > 1000) {
         this.timer = null;
-        Game.totalAsteroids++;
-        if (Game.totalAsteroids > 12) Game.totalAsteroids = 12;
-        Game.spawnAsteroids();
+        asteroids.Game.totalAsteroids++;
+        if (asteroids.Game.totalAsteroids > 12) asteroids.Game.totalAsteroids = 12;
+        asteroids.Game.spawnAsteroids();
         this.state = 'run';
       }
     },
     player_died: function () {
-      if (Game.lives < 0) {
+      if (asteroids.Game.lives < 0) {
         this.state = 'end_game';
       } else {
         if (this.timer == null) {
@@ -129,7 +129,7 @@ asteroids.Game = {
       }
     },
     end_game: function () {
-      Text.renderText('GAME OVER', 50, Game.canvasWidth/2 - 160, Game.canvasHeight/2 + 10);
+      Text.renderText('GAME OVER', 50, asteroids.Game.canvasWidth/2 - 160, asteroids.Game.canvasHeight/2 + 10);
       if (this.timer == null) {
         this.timer = Date.now();
       }

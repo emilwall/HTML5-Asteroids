@@ -1,15 +1,15 @@
 $(function () {
   var canvas = $("#canvas");
-  Game.canvasWidth  = canvas.width();
-  Game.canvasHeight = canvas.height();
+  asteroids.Game.canvasWidth  = canvas.width();
+  asteroids.Game.canvasHeight = canvas.height();
 
   var context = canvas[0].getContext("2d");
 
   Text.context = context;
   Text.face = vector_battle;
 
-  var gridWidth = Math.round(Game.canvasWidth / GRID_SIZE);
-  var gridHeight = Math.round(Game.canvasHeight / GRID_SIZE);
+  var gridWidth = Math.round(asteroids.Game.canvasWidth / GRID_SIZE);
+  var gridHeight = Math.round(asteroids.Game.canvasHeight / GRID_SIZE);
   var grid = new Array(gridWidth);
   for (var i = 0; i < gridWidth; i++) {
     grid[i] = new Array(gridHeight);
@@ -31,27 +31,27 @@ $(function () {
 
   // set up borders
   for (var i = 0; i < gridWidth; i++) {
-    grid[i][0].dupe.vertical            =  Game.canvasHeight;
-    grid[i][gridHeight-1].dupe.vertical = -Game.canvasHeight;
+    grid[i][0].dupe.vertical            =  asteroids.Game.canvasHeight;
+    grid[i][gridHeight-1].dupe.vertical = -asteroids.Game.canvasHeight;
   }
 
   for (var j = 0; j < gridHeight; j++) {
-    grid[0][j].dupe.horizontal           =  Game.canvasWidth;
-    grid[gridWidth-1][j].dupe.horizontal = -Game.canvasWidth;
+    grid[0][j].dupe.horizontal           =  asteroids.Game.canvasWidth;
+    grid[gridWidth-1][j].dupe.horizontal = -asteroids.Game.canvasWidth;
   }
 
   var sprites = [];
-  Game.sprites = sprites;
+  asteroids.Game.sprites = sprites;
 
   // so all the sprites can use it
   Sprite.prototype.context = context;
   Sprite.prototype.grid    = grid;
-  Sprite.prototype.matrix  = new Matrix(2, 3);
+  Sprite.prototype.matrix  = new asteroids.Matrix(2, 3);
 
   var ship = new Ship();
 
-  ship.x = Game.canvasWidth / 2;
-  ship.y = Game.canvasHeight / 2;
+  ship.x = asteroids.Game.canvasWidth / 2;
+  ship.y = asteroids.Game.canvasHeight / 2;
 
   sprites.push(ship);
 
@@ -61,12 +61,12 @@ $(function () {
     ship.bullets.push(bull);
     sprites.push(bull);
   }
-  Game.ship = ship;
+  asteroids.Game.ship = ship;
 
   var bigAlien = new BigAlien();
   bigAlien.setup();
   sprites.push(bigAlien);
-  Game.bigAlien = bigAlien;
+  asteroids.Game.bigAlien = bigAlien;
 
   var extraDude = new Ship();
   extraDude.scale = 0.6;
@@ -104,19 +104,19 @@ $(function () {
   })();
 
   var mainLoop = function () {
-    context.clearRect(0, 0, Game.canvasWidth, Game.canvasHeight);
+    context.clearRect(0, 0, asteroids.Game.canvasWidth, asteroids.Game.canvasHeight);
 
-    Game.FSM.execute();
+    asteroids.Game.FSM.execute();
 
     if (KEY_STATUS.g) {
       context.beginPath();
       for (var i = 0; i < gridWidth; i++) {
         context.moveTo(i * GRID_SIZE, 0);
-        context.lineTo(i * GRID_SIZE, Game.canvasHeight);
+        context.lineTo(i * GRID_SIZE, asteroids.Game.canvasHeight);
       }
       for (var j = 0; j < gridHeight; j++) {
         context.moveTo(0, j * GRID_SIZE);
-        context.lineTo(Game.canvasWidth, j * GRID_SIZE);
+        context.lineTo(asteroids.Game.canvasWidth, j * GRID_SIZE);
       }
       context.closePath();
       context.stroke();
@@ -139,13 +139,13 @@ $(function () {
     }
 
     // score
-    var score_text = ''+Game.score;
-    Text.renderText(score_text, 18, Game.canvasWidth - 14 * score_text.length, 20);
+    var score_text = ''+asteroids.Game.score;
+    Text.renderText(score_text, 18, asteroids.Game.canvasWidth - 14 * score_text.length, 20);
 
     // extra dudes
-    for (i = 0; i < Game.lives; i++) {
+    for (i = 0; i < asteroids.Game.lives; i++) {
       context.save();
-      extraDude.x = Game.canvasWidth - (8 * (i + 1));
+      extraDude.x = asteroids.Game.canvasWidth - (8 * (i + 1));
       extraDude.y = 32;
       extraDude.configureTransform();
       extraDude.draw();
@@ -153,7 +153,7 @@ $(function () {
     }
 
     if (showFramerate) {
-      Text.renderText(''+avgFramerate, 24, Game.canvasWidth - 38, Game.canvasHeight - 2);
+      Text.renderText(''+avgFramerate, 24, asteroids.Game.canvasWidth - 38, asteroids.Game.canvasHeight - 2);
     }
 
     frameCount++;
@@ -165,7 +165,7 @@ $(function () {
     }
 
     if (paused) {
-      Text.renderText('PAUSED', 72, Game.canvasWidth/2 - 160, 120);
+      Text.renderText('PAUSED', 72, asteroids.Game.canvasWidth/2 - 160, 120);
     } else {
       requestAnimFrame(mainLoop, canvasNode);
     }
