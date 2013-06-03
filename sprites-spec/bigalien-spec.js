@@ -20,5 +20,14 @@ describe("BigAlien", function() {
 
       expect(this.bigAlien.visible).toBe(false);
     });
+
+    it("should increase score by 200 when hit by bullet", function() {
+      var bullet = { name: "bullet" };
+      asteroids.Game.score = 100;
+
+      this.bigAlien.collision(bullet);
+
+      expect(asteroids.Game.score).toBe(300);
+    });
   });
 });
