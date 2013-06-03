@@ -1,78 +1,6 @@
 $(function () {
   var canvas = $("#canvas");
-  asteroids.Game.canvasWidth  = canvas.width();
-  asteroids.Game.canvasHeight = canvas.height();
-
-  var context = canvas[0].getContext("2d");
-
-  Text.context = context;
-  Text.face = vector_battle;
-
-  var gridWidth = Math.round(asteroids.Game.canvasWidth / GRID_SIZE);
-  var gridHeight = Math.round(asteroids.Game.canvasHeight / GRID_SIZE);
-  var grid = new Array(gridWidth);
-  for (var i = 0; i < gridWidth; i++) {
-    grid[i] = new Array(gridHeight);
-    for (var j = 0; j < gridHeight; j++) {
-      grid[i][j] = new GridNode();
-    }
-  }
-
-  // set up the positional references
-  for (var i = 0; i < gridWidth; i++) {
-    for (var j = 0; j < gridHeight; j++) {
-      var node   = grid[i][j];
-      node.north = grid[i][(j == 0) ? gridHeight-1 : j-1];
-      node.south = grid[i][(j == gridHeight-1) ? 0 : j+1];
-      node.west  = grid[(i == 0) ? gridWidth-1 : i-1][j];
-      node.east  = grid[(i == gridWidth-1) ? 0 : i+1][j];
-    }
-  }
-
-  // set up borders
-  for (var i = 0; i < gridWidth; i++) {
-    grid[i][0].dupe.vertical            =  asteroids.Game.canvasHeight;
-    grid[i][gridHeight-1].dupe.vertical = -asteroids.Game.canvasHeight;
-  }
-
-  for (var j = 0; j < gridHeight; j++) {
-    grid[0][j].dupe.horizontal           =  asteroids.Game.canvasWidth;
-    grid[gridWidth-1][j].dupe.horizontal = -asteroids.Game.canvasWidth;
-  }
-
-  var sprites = [];
-  asteroids.Game.sprites = sprites;
-
-  // so all the sprites can use it
-  Sprite.prototype.context = context;
-  Sprite.prototype.grid    = grid;
-  Sprite.prototype.matrix  = new asteroids.Matrix(2, 3);
-
-  var ship = new Ship();
-
-  ship.x = asteroids.Game.canvasWidth / 2;
-  ship.y = asteroids.Game.canvasHeight / 2;
-
-  sprites.push(ship);
-
-  ship.bullets = [];
-  for (var i = 0; i < 10; i++) {
-    var bull = new Bullet();
-    ship.bullets.push(bull);
-    sprites.push(bull);
-  }
-  asteroids.Game.ship = ship;
-
-  var bigAlien = new BigAlien();
-  bigAlien.setup();
-  sprites.push(bigAlien);
-  asteroids.Game.bigAlien = bigAlien;
-
-  var extraDude = new Ship();
-  extraDude.scale = 0.6;
-  extraDude.visible = true;
-  extraDude.preMove = null;
-  extraDude.children = [];
+  var rendering = new Rendering(canvas);
 
   var i, j = 0;
 
@@ -104,22 +32,22 @@ $(function () {
   })();
 
   var mainLoop = function () {
-    context.clearRect(0, 0, asteroids.Game.canvasWidth, asteroids.Game.canvasHeight);
+    rendering.context.clearRect(0, 0, asteroids.Game.canvasWidth, asteroids.Game.canvasHeight);
 
     asteroids.Game.FSM.execute();
 
     if (KEY_STATUS.g) {
-      context.beginPath();
+      rendering.context.beginPath();
       for (var i = 0; i < gridWidth; i++) {
-        context.moveTo(i * GRID_SIZE, 0);
-        context.lineTo(i * GRID_SIZE, asteroids.Game.canvasHeight);
+        rendering.context.moveTo(i * GRID_SIZE, 0);
+        rendering.context.lineTo(i * GRID_SIZE, asteroids.Game.canvasHeight);
       }
       for (var j = 0; j < gridHeight; j++) {
-        context.moveTo(0, j * GRID_SIZE);
-        context.lineTo(asteroids.Game.canvasWidth, j * GRID_SIZE);
+        rendering.context.moveTo(0, j * GRID_SIZE);
+        rendering.context.lineTo(asteroids.Game.canvasWidth, j * GRID_SIZE);
       }
-      context.closePath();
-      context.stroke();
+      rendering.context.closePath();
+      rendering.context.stroke();
     }
 
     thisFrame = Date.now();
@@ -127,13 +55,13 @@ $(function () {
     lastFrame = thisFrame;
     delta = elapsed / 30;
 
-    for (i = 0; i < sprites.length; i++) {
+    for (i = 0; i < asteroids.Game.sprites.length; i++) {
 
-      sprites[i].run(delta);
+      asteroids.Game.sprites[i].run(delta);
 
-      if (sprites[i].reap) {
-        sprites[i].reap = false;
-        sprites.splice(i, 1);
+      if (asteroids.Game.sprites[i].reap) {
+        asteroids.Game.sprites[i].reap = false;
+        asteroids.Game.sprites.splice(i, 1);
         i--;
       }
     }
@@ -144,12 +72,12 @@ $(function () {
 
     // extra dudes
     for (i = 0; i < asteroids.Game.lives; i++) {
-      context.save();
-      extraDude.x = asteroids.Game.canvasWidth - (8 * (i + 1));
-      extraDude.y = 32;
-      extraDude.configureTransform();
-      extraDude.draw();
-      context.restore();
+      rendering.context.save();
+      rendering.extraDude.x = asteroids.Game.canvasWidth - (8 * (i + 1));
+      rendering.extraDude.y = 32;
+      rendering.extraDude.configureTransform();
+      rendering.extraDude.draw();
+      rendering.context.restore();
     }
 
     if (showFramerate) {
