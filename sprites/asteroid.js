@@ -18,7 +18,7 @@ Asteroid = function () {
   this.collidesWith = ["ship", "bullet", "bigalien", "alienbullet"];
 
   this.collision = function (other) {
-    if (other.name == "bullet") Game.score += 120 / this.scale;
+    if (other.name == "bullet") asteroids.Game.score += 120 / this.scale;
     this.scale /= 3;
     if (this.scale > 0.5) {
       // break into fragments
@@ -31,10 +31,10 @@ Asteroid = function () {
         }
         roid.vel.rot = Math.random() * 2 - 1;
         roid.move(roid.scale * 3); // give them a little push
-        Game.sprites.push(roid);
+        asteroids.Game.sprites.push(roid);
       }
     }
-    Game.explosionAt(other.x, other.y);
+    asteroids.Game.explosionAt(other.x, other.y);
     this.die();
   };
 };
