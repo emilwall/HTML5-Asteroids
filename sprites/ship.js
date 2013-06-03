@@ -68,12 +68,12 @@ Ship = function () {
   };
 
   this.collision = function (other) {
-    Game.explosionAt(other.x, other.y);
-    Game.FSM.state = 'player_died';
+    asteroids.Game.explosionAt(other.x, other.y);
+    asteroids.Game.FSM.state = 'player_died';
     this.visible = false;
     this.currentNode.leave(this);
     this.currentNode = null;
-    Game.lives--;
+    asteroids.Game.lives--;
   };
 
 };
