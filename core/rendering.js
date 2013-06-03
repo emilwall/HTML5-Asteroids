@@ -62,7 +62,7 @@ Rendering = function (canvas) {
   }
   asteroids.Game.ship = ship;
 
-  var bigAlien = new BigAlien();
+  var bigAlien = new asteroids.BigAlien();
   bigAlien.setup();
   sprites.push(bigAlien);
   asteroids.Game.bigAlien = bigAlien;

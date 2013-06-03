@@ -1,4 +1,6 @@
-BigAlien = function () {
+var asteroids = asteroids || {};
+
+asteroids.BigAlien = function () {
   this.init("bigalien",
             [-20,   0,
              -12,  -4,
@@ -96,7 +98,8 @@ BigAlien = function () {
 
   };
 
-  BigAlien.prototype.collision = function (other) {
+  this.prototype = this.prototype || {};
+  this.prototype.collision = function (other) {
     if (other.name == "bullet") asteroids.Game.score += 200;
     asteroids.Game.explosionAt(other.x, other.y);
     this.visible = false;
@@ -118,4 +121,4 @@ BigAlien = function () {
     }
   }
 };
-BigAlien.prototype = new Sprite();
+asteroids.BigAlien.prototype = new Sprite();
