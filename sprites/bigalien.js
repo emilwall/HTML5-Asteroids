@@ -98,8 +98,7 @@ asteroids.BigAlien = function () {
 
   };
 
-  this.prototype = this.prototype || {};
-  this.prototype.collision = function (other) {
+  this.collision = function (other) {
     if (other.name == "bullet") asteroids.Game.score += 200;
     asteroids.Game.explosionAt(other.x, other.y);
     this.visible = false;

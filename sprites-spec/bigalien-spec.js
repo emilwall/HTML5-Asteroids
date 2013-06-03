@@ -10,4 +10,15 @@ describe("BigAlien", function() {
     expect(typeof this.bigAlien.collision).toBe("function");
     expect(typeof this.bigAlien.postMove).toBe("function");
   });
+
+  describe("Collision", function() {
+    it("should set visible to false when hit by bullet", function() {
+      var bullet = { name: "bullet" };
+      this.bigAlien.visible = true;
+
+      this.bigAlien.collision(bullet);
+
+      expect(this.bigAlien.visible).toBe(false);
+    });
+  });
 });
