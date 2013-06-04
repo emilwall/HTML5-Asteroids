@@ -15,16 +15,15 @@ describe("Rendering", function() {
     this.canvas.height = sinon.stub().returns(540);
     this.canvas.getContext = sinon.stub().returns(context);
     this.canvas[0] = this.canvas;
+
+    this.rendering = new Rendering(this.canvas);
   });
 
   it("should set context of canvas as attribute of self", function() {
-    var rendering = new Rendering(this.canvas);
-
-    expect(rendering.context).toBeDefined();
+    expect(this.rendering.context).toBeDefined();
   });
 
   it("should add ship to asteroids.Game.sprites", function() {
-    var rendering = new Rendering(this.canvas);
     var length = asteroids.Game.sprites.length;
     var found = false;
 
@@ -39,7 +38,6 @@ describe("Rendering", function() {
   });
 
   it("should add 10 bullets to asteroids.Game.sprites", function() {
-    var rendering = new Rendering(this.canvas);
     var length = asteroids.Game.sprites.length;
     var found = 0;
 
@@ -50,5 +48,27 @@ describe("Rendering", function() {
     }
 
     expect(found).toBe(10);
+  });
+
+  it("should define drawGrid method", function () {
+    expect(typeof this.rendering.drawGrid).toBe("function");
+  });
+
+  describe("drawGrid", function () {
+    beforeEach(function () {
+      this.g = asteroids.KEY_STATUS.g;
+    });
+
+    afterEach(function () {
+      asteroids.KEY_STATUS.g = this.g;
+    });
+
+    it("should call context.stroke when asteroids.KEY_STATUS.g is true", function () {
+      asteroids.KEY_STATUS.g = true;
+
+      this.rendering.drawGrid();
+
+      expect(this.rendering.context.stroke.called).toBe(true);
+    });
   });
 });

@@ -12,22 +12,22 @@ asteroids.KEY_CODES = {
   80: 'p'
 };
 
-KEY_STATUS = { keyDown:false };
+asteroids.KEY_STATUS = { keyDown:false };
 for (code in asteroids.KEY_CODES) {
-  KEY_STATUS[asteroids.KEY_CODES[code]] = false;
+  asteroids.KEY_STATUS[asteroids.KEY_CODES[code]] = false;
 };
 
 $(window).keydown(function (e) {
-  KEY_STATUS.keyDown = true;
+  asteroids.KEY_STATUS.keyDown = true;
   if (asteroids.KEY_CODES[e.keyCode]) {
     e.preventDefault();
-    KEY_STATUS[asteroids.KEY_CODES[e.keyCode]] = true;
+    asteroids.KEY_STATUS[asteroids.KEY_CODES[e.keyCode]] = true;
   }
 }).keyup(function (e) {
-  KEY_STATUS.keyDown = false;
+  asteroids.KEY_STATUS.keyDown = false;
   if (asteroids.KEY_CODES[e.keyCode]) {
     e.preventDefault();
-    KEY_STATUS[asteroids.KEY_CODES[e.keyCode]] = false;
+    asteroids.KEY_STATUS[asteroids.KEY_CODES[e.keyCode]] = false;
   }
 });
 

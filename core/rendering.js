@@ -74,7 +74,7 @@ Rendering = function (canvas) {
   extraShip.children = [];
 
   this.drawGrid = function() {
-    if (KEY_STATUS.g) {
+    if (asteroids.KEY_STATUS.g) {
       this.context.beginPath();
       for (var i = 0; i < gridWidth; i++) {
         this.context.moveTo(i * GRID_SIZE, 0);
