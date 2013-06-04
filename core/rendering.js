@@ -67,11 +67,11 @@ Rendering = function (canvas) {
   sprites.push(bigAlien);
   asteroids.Game.bigAlien = bigAlien;
 
-  this.extraDude = new asteroids.Ship();
-  this.extraDude.scale = 0.6;
-  this.extraDude.visible = true;
-  this.extraDude.preMove = null;
-  this.extraDude.children = [];
+  var extraDude = new asteroids.Ship(); // TODO: come up with better name
+  extraDude.scale = 0.6;
+  extraDude.visible = true;
+  extraDude.preMove = null;
+  extraDude.children = [];
 
   this.drawGrid = function() {
     this.context.beginPath();
@@ -85,5 +85,14 @@ Rendering = function (canvas) {
     }
     this.context.closePath();
     this.context.stroke();
+  };
+
+  this.drawExtraDude = function() {
+    this.context.save();
+    extraDude.x = asteroids.Game.canvasWidth - (8 * (i + 1));
+    extraDude.y = 32;
+    extraDude.configureTransform();
+    extraDude.draw();
+    this.context.restore();
   };
 };

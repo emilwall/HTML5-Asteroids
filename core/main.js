@@ -62,12 +62,7 @@ $(function () {
 
     // extra dudes
     for (i = 0; i < asteroids.Game.lives; i++) {
-      rendering.context.save();
-      rendering.extraDude.x = asteroids.Game.canvasWidth - (8 * (i + 1));
-      rendering.extraDude.y = 32;
-      rendering.extraDude.configureTransform();
-      rendering.extraDude.draw();
-      rendering.context.restore();
+      rendering.drawExtraDude();
     }
 
     if (showFramerate) {
