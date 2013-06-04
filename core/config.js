@@ -1,4 +1,6 @@
-KEY_CODES = {
+var asteroids = asteroids || {};
+
+asteroids.KEY_CODES = {
   32: 'space',
   37: 'left',
   38: 'up',
@@ -8,24 +10,24 @@ KEY_CODES = {
   71: 'g',
   72: 'h',
   80: 'p'
-}
+};
 
 KEY_STATUS = { keyDown:false };
-for (code in KEY_CODES) {
-  KEY_STATUS[KEY_CODES[code]] = false;
-}
+for (code in asteroids.KEY_CODES) {
+  KEY_STATUS[asteroids.KEY_CODES[code]] = false;
+};
 
 $(window).keydown(function (e) {
   KEY_STATUS.keyDown = true;
-  if (KEY_CODES[e.keyCode]) {
+  if (asteroids.KEY_CODES[e.keyCode]) {
     e.preventDefault();
-    KEY_STATUS[KEY_CODES[e.keyCode]] = true;
+    KEY_STATUS[asteroids.KEY_CODES[e.keyCode]] = true;
   }
 }).keyup(function (e) {
   KEY_STATUS.keyDown = false;
-  if (KEY_CODES[e.keyCode]) {
+  if (asteroids.KEY_CODES[e.keyCode]) {
     e.preventDefault();
-    KEY_STATUS[KEY_CODES[e.keyCode]] = false;
+    KEY_STATUS[asteroids.KEY_CODES[e.keyCode]] = false;
   }
 });
 
