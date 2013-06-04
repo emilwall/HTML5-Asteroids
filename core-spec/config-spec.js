@@ -15,4 +15,18 @@ describe("Config", function() {
       expect(asteroids.KEY_CODES[32]).toBe("space");
     });
   });
+
+  it("should define KEY_STATUS object", function() {
+    expect(typeof asteroids.KEY_STATUS).toBe("object");
+  });
+
+  describe("KEY_STATUS", function () {
+    it("should have keyDown attribute", function () {
+      expect(asteroids.KEY_STATUS.keyDown).toBeDefined();
+    });
+
+    it("should have a boolean for each key code", function () {
+      expect(typeof asteroids.KEY_STATUS["space"]).toBe("boolean");
+    });
+  });
 });

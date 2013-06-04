@@ -19,15 +19,15 @@ asteroids.Ship = function () {
   this.collidesWith = ["asteroid", "bigalien", "alienbullet"];
 
   this.preMove = function (delta) {
-    if (KEY_STATUS.left) {
+    if (asteroids.KEY_STATUS.left) {
       this.vel.rot = -6;
-    } else if (KEY_STATUS.right) {
+    } else if (asteroids.KEY_STATUS.right) {
       this.vel.rot = 6;
     } else {
       this.vel.rot = 0;
     }
 
-    if (KEY_STATUS.up) {
+    if (asteroids.KEY_STATUS.up) {
       var rad = ((this.rot-90) * Math.PI)/180;
       this.acc.x = 0.5 * Math.cos(rad);
       this.acc.y = 0.5 * Math.sin(rad);
@@ -41,7 +41,7 @@ asteroids.Ship = function () {
     if (this.bulletCounter > 0) {
       this.bulletCounter -= delta;
     }
-    if (KEY_STATUS.space) {
+    if (asteroids.KEY_STATUS.space) {
       if (this.bulletCounter <= 0) {
         this.bulletCounter = 10;
         for (var i = 0; i < this.bullets.length; i++) {
