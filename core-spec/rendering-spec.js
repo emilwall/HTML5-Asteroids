@@ -22,4 +22,33 @@ describe("Rendering", function() {
 
     expect(rendering.context).toBeDefined();
   });
+
+  it("should add ship to asteroids.Game.sprites", function() {
+    var rendering = new Rendering(this.canvas);
+    var length = asteroids.Game.sprites.length;
+    var found = false;
+
+    for (var i = 0; i < length; i++) {
+      if (asteroids.Game.sprites[i].name === "ship") {
+        found = true;
+        break;
+      }
+    }
+
+    assert(found);
+  });
+
+  it("should add 10 bullets to asteroids.Game.sprites", function() {
+    var rendering = new Rendering(this.canvas);
+    var length = asteroids.Game.sprites.length;
+    var found = 0;
+
+    for (var i = 0; i < length; i++) {
+      if (asteroids.Game.sprites[i].name === "bullet") {
+        found++;
+      }
+    }
+
+    expect(found).toBe(10);
+  });
 });
