@@ -74,17 +74,19 @@ Rendering = function (canvas) {
   extraShip.children = [];
 
   this.drawGrid = function() {
-    this.context.beginPath();
-    for (var i = 0; i < gridWidth; i++) {
-      this.context.moveTo(i * GRID_SIZE, 0);
-      this.context.lineTo(i * GRID_SIZE, asteroids.Game.canvasHeight);
+    if (KEY_STATUS.g) {
+      this.context.beginPath();
+      for (var i = 0; i < gridWidth; i++) {
+        this.context.moveTo(i * GRID_SIZE, 0);
+        this.context.lineTo(i * GRID_SIZE, asteroids.Game.canvasHeight);
+      }
+      for (var j = 0; j < gridHeight; j++) {
+        this.context.moveTo(0, j * GRID_SIZE);
+        this.context.lineTo(asteroids.Game.canvasWidth, j * GRID_SIZE);
+      }
+      this.context.closePath();
+      this.context.stroke();
     }
-    for (var j = 0; j < gridHeight; j++) {
-      this.context.moveTo(0, j * GRID_SIZE);
-      this.context.lineTo(asteroids.Game.canvasWidth, j * GRID_SIZE);
-    }
-    this.context.closePath();
-    this.context.stroke();
   };
 
   this.drawExtraLives = function(lives) {

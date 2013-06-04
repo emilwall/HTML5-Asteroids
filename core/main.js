@@ -36,9 +36,7 @@ $(function () {
 
     asteroids.Game.FSM.execute();
 
-    if (KEY_STATUS.g) {
-      rendering.drawGrid();
-    }
+    rendering.drawGrid();
 
     thisFrame = Date.now();
     elapsed = thisFrame - lastFrame;
