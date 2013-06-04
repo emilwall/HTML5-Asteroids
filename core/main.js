@@ -37,17 +37,7 @@ $(function () {
     asteroids.Game.FSM.execute();
 
     if (KEY_STATUS.g) {
-      rendering.context.beginPath();
-      for (var i = 0; i < gridWidth; i++) {
-        rendering.context.moveTo(i * GRID_SIZE, 0);
-        rendering.context.lineTo(i * GRID_SIZE, asteroids.Game.canvasHeight);
-      }
-      for (var j = 0; j < gridHeight; j++) {
-        rendering.context.moveTo(0, j * GRID_SIZE);
-        rendering.context.lineTo(asteroids.Game.canvasWidth, j * GRID_SIZE);
-      }
-      rendering.context.closePath();
-      rendering.context.stroke();
+      rendering.drawGrid();
     }
 
     thisFrame = Date.now();
