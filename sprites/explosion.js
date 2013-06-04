@@ -1,4 +1,4 @@
-asteroids = asteroids || {};
+var asteroids = asteroids || {};
 
 asteroids.Explosion = function () {
   this.init("explosion");
