@@ -43,16 +43,7 @@ $(function () {
     lastFrame = thisFrame;
     delta = elapsed / 30;
 
-    for (i = 0; i < asteroids.Game.sprites.length; i++) {
-
-      asteroids.Game.sprites[i].run(delta);
-
-      if (asteroids.Game.sprites[i].reap) {
-        asteroids.Game.sprites[i].reap = false;
-        asteroids.Game.sprites.splice(i, 1);
-        i--;
-      }
-    }
+    asteroids.Game.updateSprites(delta);
 
     // score
     var score_text = ''+asteroids.Game.score;

@@ -43,6 +43,18 @@ asteroids.Game = {
     asteroids.Game.sprites.push(splosion);
   },
 
+  updateSprites: function (delta) {
+    for (var i = 0; i < this.sprites.length; i++) {
+      this.sprites[i].run(delta);
+
+      if (this.sprites[i].reap) {
+        this.sprites[i].reap = false;
+        this.sprites.splice(i, 1);
+        i--;
+      }
+    }
+  },
+
   FSM: {
     boot: function () {
       asteroids.Game.spawnAsteroids(5);
