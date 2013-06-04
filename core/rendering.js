@@ -47,7 +47,7 @@ Rendering = function (canvas) {
   Sprite.prototype.grid    = grid;
   Sprite.prototype.matrix  = new asteroids.Matrix(2, 3);
 
-  var ship = new Ship();
+  var ship = new asteroids.Ship();
 
   ship.x = asteroids.Game.canvasWidth / 2;
   ship.y = asteroids.Game.canvasHeight / 2;
@@ -67,7 +67,7 @@ Rendering = function (canvas) {
   sprites.push(bigAlien);
   asteroids.Game.bigAlien = bigAlien;
 
-  this.extraDude = new Ship();
+  this.extraDude = new asteroids.Ship();
   this.extraDude.scale = 0.6;
   this.extraDude.visible = true;
   this.extraDude.preMove = null;

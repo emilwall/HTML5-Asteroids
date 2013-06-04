@@ -1,6 +1,6 @@
 describe("Ship", function() {
   beforeEach(function() {
-    this.ship = new Ship();
+    this.ship = new asteroids.Ship();
     asteroids.Game.explosionAt = sinon.stub();
     this.ship.currentNode = this.ship.currentNode || {};
     this.ship.currentNode.leave = sinon.stub();
