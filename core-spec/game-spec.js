@@ -12,6 +12,15 @@ describe("Game", function() {
   });
 
   describe("explosionAt", function() {
+    beforeEach(function () {
+      this.sprites = asteroids.Game.sprites;
+      asteroids.Game.sprites = [];
+    });
+
+    afterEach(function () {
+      asteroids.Game.sprites = this.sprites;
+    });
+
     it("should add explosion to sprites", function() {
       var prevLength = asteroids.Game.sprites.length;
 
