@@ -1,4 +1,6 @@
-Explosion = function () {
+asteroids = asteroids || {};
+
+asteroids.Explosion = function () {
   this.init("explosion");
 
   this.bridgesH = false;
@@ -36,4 +38,4 @@ Explosion = function () {
     }
   };
 };
-Explosion.prototype = new Sprite();
+asteroids.Explosion.prototype = new Sprite();

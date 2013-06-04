@@ -1,7 +1,7 @@
 // init: set name to explosion
 describe("Explosion", function() {
   beforeEach(function() {
-    this.explosion = new Explosion();
+    this.explosion = new asteroids.Explosion();
   });
 
   it("should have init method", function() {

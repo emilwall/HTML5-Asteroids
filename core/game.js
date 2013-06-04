@@ -36,7 +36,7 @@ asteroids.Game = {
   },
 
   explosionAt: function (x, y) {
-    var splosion = new Explosion();
+    var splosion = new asteroids.Explosion();
     splosion.x = x;
     splosion.y = y;
     splosion.visible = true;
