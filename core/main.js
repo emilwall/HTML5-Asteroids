@@ -62,7 +62,7 @@ $(function () {
 
     // extra dudes
     for (i = 0; i < asteroids.Game.lives; i++) {
-      rendering.drawExtraDude();
+      rendering.drawExtraShip();
     }
 
     if (showFramerate) {
