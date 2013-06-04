@@ -71,7 +71,7 @@ $(function () {
   mainLoop();
 
   $(window).keydown(function (e) {
-    switch (KEY_CODES[e.keyCode]) {
+    switch (asteroids.KEY_CODES[e.keyCode]) {
       case 'f': // show framerate
         showFramerate = !showFramerate;
         break;
