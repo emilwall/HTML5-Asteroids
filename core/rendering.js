@@ -104,4 +104,8 @@ Rendering = function (canvas) {
       this.context.restore();
     }
   };
+
+  this.displayFramerate = function (avgFramerate) {
+    Text.renderText(''+avgFramerate, 24, asteroids.Game.canvasWidth - 38, asteroids.Game.canvasHeight - 2);
+  };
 };

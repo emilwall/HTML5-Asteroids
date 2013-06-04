@@ -50,7 +50,7 @@ $(function () {
     rendering.drawExtraLives(asteroids.Game.lives);
 
     if (showFramerate) {
-      Text.renderText(''+avgFramerate, 24, asteroids.Game.canvasWidth - 38, asteroids.Game.canvasHeight - 2);
+      rendering.displayFramerate(avgFramerate);
     }
 
     frameCount++;
