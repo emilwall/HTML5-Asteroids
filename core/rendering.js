@@ -89,6 +89,11 @@ Rendering = function (canvas) {
     }
   };
 
+  this.displayScore = function () {
+    var score_text = ''+asteroids.Game.score;
+    Text.renderText(score_text, 18, asteroids.Game.canvasWidth - 14 * score_text.length, 20);
+  };
+
   this.drawExtraLives = function(lives) {
     for (i = 0; i < lives; i++) {
       this.context.save();

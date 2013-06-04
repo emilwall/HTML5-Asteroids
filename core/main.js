@@ -45,9 +45,7 @@ $(function () {
 
     asteroids.Game.updateSprites(delta);
 
-    // score
-    var score_text = ''+asteroids.Game.score;
-    Text.renderText(score_text, 18, asteroids.Game.canvasWidth - 14 * score_text.length, 20);
+    rendering.displayScore(asteroids.Game.score);
 
     rendering.drawExtraLives(asteroids.Game.lives);
 
