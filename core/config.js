@@ -1,4 +1,4 @@
-var asteroids = {};
+var asteroids = asteroids || {};
 
 asteroids.KEY_CODES = {
   32: 'space',
