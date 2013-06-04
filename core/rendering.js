@@ -87,12 +87,14 @@ Rendering = function (canvas) {
     this.context.stroke();
   };
 
-  this.drawExtraShip = function() {
-    this.context.save();
-    extraShip.x = asteroids.Game.canvasWidth - (8 * (i + 1));
-    extraShip.y = 32;
-    extraShip.configureTransform();
-    extraShip.draw();
-    this.context.restore();
+  this.drawExtraLives = function(lives) {
+    for (i = 0; i < lives; i++) {
+      this.context.save();
+      extraShip.x = asteroids.Game.canvasWidth - (8 * (i + 1));
+      extraShip.y = 32;
+      extraShip.configureTransform();
+      extraShip.draw();
+      this.context.restore();
+    }
   };
 };

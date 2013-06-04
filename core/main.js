@@ -60,10 +60,7 @@ $(function () {
     var score_text = ''+asteroids.Game.score;
     Text.renderText(score_text, 18, asteroids.Game.canvasWidth - 14 * score_text.length, 20);
 
-    // extra dudes
-    for (i = 0; i < asteroids.Game.lives; i++) {
-      rendering.drawExtraShip();
-    }
+    rendering.drawExtraLives(asteroids.Game.lives);
 
     if (showFramerate) {
       Text.renderText(''+avgFramerate, 24, asteroids.Game.canvasWidth - 38, asteroids.Game.canvasHeight - 2);
