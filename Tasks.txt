@@ -5,6 +5,7 @@ Tasks:
 * Allow the energy to recharge after a couple of seconds of use, or with each hit, up to the maximum
 * Do not preserve momentum of the ship when moving
 * Add new type of alien ship, SmallAlien. It should be smaller, move faster, and aim at the player ship, but fire much less often (and always aim directly at the player, not across the boundaries, just as in the original game).
+* Enable option for allowing asteroids to collide with each other
 * Enable weapon upgrade that allows for automatic fire when holding space
 * Enable weapon upgrade that fires three bullets at once in a spread out manner
 * Enable multiplayer using separate controls for the players
