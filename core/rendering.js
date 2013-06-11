@@ -15,7 +15,7 @@ asteroids.Rendering = function (canvas) {
   for (var i = 0; i < gridWidth; i++) {
     grid[i] = new Array(gridHeight);
     for (var j = 0; j < gridHeight; j++) {
-      grid[i][j] = new GridNode();
+      grid[i][j] = new asteroids.GridNode();
     }
   }
 

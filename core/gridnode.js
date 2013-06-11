@@ -1,4 +1,6 @@
-GridNode = function () {
+var asteroids = asteroids || {};
+
+asteroids.GridNode = function () {
   this.north = null;
   this.south = null;
   this.east  = null;
