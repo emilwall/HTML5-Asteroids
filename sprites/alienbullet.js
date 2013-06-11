@@ -15,4 +15,4 @@ asteroids.AlienBullet = function () {
     }
   };
 };
-asteroids.AlienBullet.prototype = new Bullet();
+asteroids.AlienBullet.prototype = new asteroids.Bullet();

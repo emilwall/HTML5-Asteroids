@@ -1,4 +1,6 @@
-Bullet = function () {
+var asteroids = asteroids || {};
+
+asteroids.Bullet = function () {
   this.init("bullet", [0, 0]);
   this.time = 0;
   this.bridgesH = false;
@@ -42,4 +44,4 @@ Bullet = function () {
   };
 
 };
-Bullet.prototype = new Sprite();
+asteroids.Bullet.prototype = new Sprite();

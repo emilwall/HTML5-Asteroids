@@ -58,7 +58,7 @@ asteroids.Rendering = function (canvas) {
 
   ship.bullets = [];
   for (var i = 0; i < 10; i++) {
-    var bull = new Bullet();
+    var bull = new asteroids.Bullet();
     ship.bullets.push(bull);
     sprites.push(bull);
   }
