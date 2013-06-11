@@ -132,9 +132,10 @@ Sprite = function () {
     }
 
     if (asteroids.KEY_STATUS.g && this.currentNode) {
+      var gridSize = asteroids.GRID_SIZE;
       this.context.lineWidth = 3.0;
       this.context.strokeStyle = 'green';
-      this.context.strokeRect(gridx*GRID_SIZE+2, gridy*GRID_SIZE+2, GRID_SIZE-4, GRID_SIZE-4);
+      this.context.strokeRect(gridx*gridSize+2, gridy*gridSize+2, gridSize-4, gridSize-4);
       this.context.strokeStyle = 'black';
       this.context.lineWidth = 1.0;
     }

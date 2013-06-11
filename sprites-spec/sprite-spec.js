@@ -40,16 +40,18 @@ describe("Sprite", function() {
    * calls postMove iff defined
    */
   /* updateGrid:
-   * Does nothing if not visible
    * Updates currentNode if moving to new grid square
    * If grid is activated, displays the boundaries on context
    */
   describe("isClear", function () {
     beforeEach(function () {
-      this.grid = this.sprite.grid;
+      this.g = asteroids.KEY_STATUS.g;
 
-      var cn = { enter: sinon.spy(), leave: sinon.spy() };
-      this.sprite.grid = [[cn]];
+      this.context = this.sprite.context;
+      this.sprite.context = { strokeRect: sinon.spy() };
+
+      this.grid = this.sprite.grid;
+      this.sprite.grid = [[{ enter: sinon.spy(), leave: sinon.spy() }]];
 
       this.sprite.x = 0;
       this.sprite.y = 0;
@@ -58,6 +60,8 @@ describe("Sprite", function() {
 
     afterEach(function () {
       this.sprite.grid = this.grid;
+      asteroids.KEY_STATUS.g = this.g;
+      this.sprite.context = this.context;
     });
 
     it("should do nothing if not visible", function () {
@@ -75,6 +79,14 @@ describe("Sprite", function() {
       this.sprite.updateGrid();
 
       expect(this.sprite.currentNode).not.toBe(prevCurrentNode);
+    });
+
+    it("should display boundaries on context when grid activated", function () {
+      asteroids.KEY_STATUS.g = true;
+
+      this.sprite.updateGrid();
+
+      sinon.assert.called(this.sprite.context.strokeRect);
     });
   });
 
