@@ -88,6 +88,17 @@ describe("Sprite", function() {
 
       sinon.assert.called(this.sprite.context.strokeRect);
     });
+
+    it("should restore lineWidth and strokeStyle of context after displaying boundaries", function () {
+      asteroids.KEY_STATUS.g = true;
+      this.sprite.context.lineWidth = 2.0;
+      this.sprite.context.strokeStyle = "white";
+
+      this.sprite.updateGrid();
+
+      expect(this.sprite.context.lineWidth).toBe(2.0);
+      expect(this.sprite.context.strokeStyle).toBe("white");
+    });
   });
 
   // configureTransform: translates, rotates and scales if visible
