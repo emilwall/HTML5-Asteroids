@@ -11,7 +11,19 @@ describe("BigAlien", function() {
     expect(typeof this.bigAlien.postMove).toBe("function");
   });
 
-  describe("Collision", function() {
+  describe("setup", function() {
+    it("should set position", function() {
+      this.bigAlien.x = null;
+      this.bigAlien.y = null;
+
+      this.bigAlien.setup();
+
+      expect(typeof this.bigAlien.x).toBe("number");
+      expect(typeof this.bigAlien.y).toBe("number");
+    });
+  });
+
+  describe("collision", function() {
     it("should set visible to false when hit by bullet", function() {
       var bullet = { name: "bullet" };
       this.bigAlien.visible = true;

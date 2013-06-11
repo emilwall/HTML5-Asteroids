@@ -49,7 +49,7 @@ asteroids.BigAlien = function () {
     this.newPosition();
 
     for (var i = 0; i < 3; i++) {
-      var bull = new AlienBullet();
+      var bull = new asteroids.AlienBullet();
       this.bullets.push(bull);
       asteroids.Game.sprites.push(bull);
     }

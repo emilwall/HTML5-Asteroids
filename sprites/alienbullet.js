@@ -1,4 +1,6 @@
-AlienBullet = function () {
+var asteroids = asteroids || {};
+
+asteroids.AlienBullet = function () {
   this.init("alienbullet");
 
   this.draw = function () {
@@ -13,4 +15,4 @@ AlienBullet = function () {
     }
   };
 };
-AlienBullet.prototype = new Bullet();
+asteroids.AlienBullet.prototype = new Bullet();

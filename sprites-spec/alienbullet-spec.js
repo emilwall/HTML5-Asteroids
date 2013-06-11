@@ -1,6 +1,6 @@
 describe("AlienBullet", function() {
   beforeEach(function () {
-    this.alienBullet = new AlienBullet();
+    this.alienBullet = new asteroids.AlienBullet();
   });
 
   it("should have init method", function() {
