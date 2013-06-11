@@ -1,6 +1,6 @@
 $(function () {
   var canvas = $("#canvas");
-  var rendering = new Rendering(canvas);
+  var rendering = new asteroids.Rendering(canvas);
 
   var i, j = 0;
 

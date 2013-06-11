@@ -1,4 +1,6 @@
-Rendering = function (canvas) {
+var asteroids = asteroids || {};
+
+asteroids.Rendering = function (canvas) {
   asteroids.Game.canvasWidth  = canvas.width();
   asteroids.Game.canvasHeight = canvas.height();
 

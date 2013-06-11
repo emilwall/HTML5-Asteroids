@@ -16,7 +16,7 @@ describe("Rendering", function() {
     this.canvas.getContext = sinon.stub().returns(context);
     this.canvas[0] = this.canvas;
 
-    this.rendering = new Rendering(this.canvas);
+    this.rendering = new asteroids.Rendering(this.canvas);
   });
 
   it("should set context of canvas as attribute of self", function() {
