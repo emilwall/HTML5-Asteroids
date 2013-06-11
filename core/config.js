@@ -31,4 +31,4 @@ $(window).keydown(function (e) {
   }
 });
 
-GRID_SIZE = 60;
+asteroids.GRID_SIZE = 60;

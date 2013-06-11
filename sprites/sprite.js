@@ -116,8 +116,8 @@ Sprite = function () {
   };
   this.updateGrid = function () {
     if (!this.visible) return;
-    var gridx = Math.floor(this.x / GRID_SIZE);
-    var gridy = Math.floor(this.y / GRID_SIZE);
+    var gridx = Math.floor(this.x / asteroids.GRID_SIZE);
+    var gridy = Math.floor(this.y / asteroids.GRID_SIZE);
     gridx = (gridx >= this.grid.length) ? 0 : gridx;
     gridy = (gridy >= this.grid[0].length) ? 0 : gridy;
     gridx = (gridx < 0) ? this.grid.length-1 : gridx;
@@ -258,8 +258,8 @@ Sprite = function () {
     if (this.collidesWith.length == 0) return true;
     var cn = this.currentNode;
     if (cn == null) {
-      var gridx = Math.floor(this.x / GRID_SIZE);
-      var gridy = Math.floor(this.y / GRID_SIZE);
+      var gridx = Math.floor(this.x / asteroids.GRID_SIZE);
+      var gridy = Math.floor(this.y / asteroids.GRID_SIZE);
       gridx = (gridx >= this.grid.length) ? 0 : gridx;
       gridy = (gridy >= this.grid[0].length) ? 0 : gridy;
       cn = this.grid[gridx][gridy];

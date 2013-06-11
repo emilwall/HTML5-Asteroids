@@ -7,8 +7,8 @@ Rendering = function (canvas) {
   Text.context = this.context;
   Text.face = vector_battle;
 
-  var gridWidth = Math.round(asteroids.Game.canvasWidth / GRID_SIZE);
-  var gridHeight = Math.round(asteroids.Game.canvasHeight / GRID_SIZE);
+  var gridWidth = Math.round(asteroids.Game.canvasWidth / asteroids.GRID_SIZE);
+  var gridHeight = Math.round(asteroids.Game.canvasHeight / asteroids.GRID_SIZE);
   var grid = new Array(gridWidth);
   for (var i = 0; i < gridWidth; i++) {
     grid[i] = new Array(gridHeight);
@@ -77,12 +77,12 @@ Rendering = function (canvas) {
     if (asteroids.KEY_STATUS.g) {
       this.context.beginPath();
       for (var i = 0; i < gridWidth; i++) {
-        this.context.moveTo(i * GRID_SIZE, 0);
-        this.context.lineTo(i * GRID_SIZE, asteroids.Game.canvasHeight);
+        this.context.moveTo(i * asteroids.GRID_SIZE, 0);
+        this.context.lineTo(i * asteroids.GRID_SIZE, asteroids.Game.canvasHeight);
       }
       for (var j = 0; j < gridHeight; j++) {
-        this.context.moveTo(0, j * GRID_SIZE);
-        this.context.lineTo(asteroids.Game.canvasWidth, j * GRID_SIZE);
+        this.context.moveTo(0, j * asteroids.GRID_SIZE);
+        this.context.lineTo(asteroids.Game.canvasWidth, j * asteroids.GRID_SIZE);
       }
       this.context.closePath();
       this.context.stroke();
