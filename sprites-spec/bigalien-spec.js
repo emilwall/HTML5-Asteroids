@@ -21,6 +21,22 @@ describe("BigAlien", function() {
       expect(typeof this.bigAlien.x).toBe("number");
       expect(typeof this.bigAlien.y).toBe("number");
     });
+
+    it("should add 3 bullets to this.bullets", function() {
+      var numBullets = this.bigAlien.bullets.length;
+
+      this.bigAlien.setup();
+
+      expect(this.bigAlien.bullets.length).toBe(numBullets + 3);
+    });
+
+    it("should add 3 bullets to asteroids.Game.sprites", function() {
+      var numBullets = asteroids.Game.sprites.length;
+
+      this.bigAlien.setup();
+
+      expect(asteroids.Game.sprites.length).toBe(numBullets + 3);
+    });
   });
 
   describe("collision", function() {
