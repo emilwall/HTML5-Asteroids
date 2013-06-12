@@ -1,4 +1,6 @@
-Asteroid = function () {
+var asteroids = asteroids || {};
+
+asteroids.Asteroid = function () {
   this.init("asteroid",
             [-10,   0,
               -5,   7,
@@ -38,4 +40,4 @@ Asteroid = function () {
     this.die();
   };
 };
-Asteroid.prototype = new Sprite();
+asteroids.Asteroid.prototype = new Sprite();

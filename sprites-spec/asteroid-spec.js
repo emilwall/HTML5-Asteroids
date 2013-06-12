@@ -1,6 +1,6 @@
 describe("Asteroid", function() {
   beforeEach(function() {
-    this.asteroid = new Asteroid();
+    this.asteroid = new asteroids.Asteroid();
   });
 
   it("should have collision method", function() {
@@ -15,9 +15,9 @@ describe("Asteroid", function() {
 
     it("should die when other is bullet", function() {
       var bullet = { name: "bullet" };
-      
+
       this.asteroid.collision(bullet);
-      
+
       assert(this.asteroid.die.called);
     });
   });

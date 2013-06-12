@@ -18,7 +18,7 @@ asteroids.Game = {
   spawnAsteroids: function (count) {
     if (!count) count = this.totalAsteroids;
     for (var i = 0; i < count; i++) {
-      var roid = new Asteroid();
+      var roid = new asteroids.Asteroid();
       roid.x = Math.random() * this.canvasWidth;
       roid.y = Math.random() * this.canvasHeight;
       while (!roid.isClear()) {
