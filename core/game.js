@@ -19,12 +19,7 @@ asteroids.Game = {
     if (!count) count = this.totalAsteroids;
     for (var i = 0; i < count; i++) {
       var roid = new asteroids.Asteroid();
-      roid.x = Math.random() * this.canvasWidth;
-      roid.y = Math.random() * this.canvasHeight;
-      while (!roid.isClear()) {
-        roid.x = Math.random() * this.canvasWidth;
-        roid.y = Math.random() * this.canvasHeight;
-      }
+      roid.moveToSafePosition(this.canvasWidth, this.canvasHeight);
       roid.vel.x = Math.random() * 4 - 2;
       roid.vel.y = Math.random() * 4 - 2;
       if (Math.random() > 0.5) {

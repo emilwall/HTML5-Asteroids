@@ -39,5 +39,14 @@ asteroids.Asteroid = function () {
     asteroids.Game.explosionAt(other.x, other.y);
     this.die();
   };
+
+  this.moveToSafePosition = function (width, height) {
+    this.x = Math.random() * width;
+    this.y = Math.random() * height;
+    while (!this.isClear()) {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+    }
+  }
 };
 asteroids.Asteroid.prototype = new Sprite();

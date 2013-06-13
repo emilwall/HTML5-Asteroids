@@ -1,5 +1,32 @@
-describe("Game", function() {
-  it("should have finite state machine (FSM)", function() {
+describe("Game", function () {
+  var stubGrid = function () {
+    Sprite.prototype.grid = [[{
+      enter: sinon.spy(),
+      leave: sinon.spy(),
+      isEmpty: sinon.stub().returns(true)
+    }]];
+    var node = Sprite.prototype.grid[0][0];
+    node.north = node;
+    node.south = node;
+    node.east = node;
+    node.west = node;
+  }
+
+  beforeEach(function () {
+    this.spriteGrid = Sprite.prototype.grid;
+    this.width = asteroids.Game.canvasWidth;
+    asteroids.Game.canvasWidth = 0;
+    this.height = asteroids.Game.canvasHeight;
+    asteroids.Game.canvasHeight = 0;
+  });
+
+  afterEach(function () {
+    Sprite.prototype.grid = this.spriteGrid;
+    asteroids.Game.canvasWidth = this.width;
+    asteroids.Game.canvasHeight = this.height;
+  });
+
+  it("should have finite state machine (FSM)", function () {
     expect(asteroids.Game.FSM).not.toBeUndefined();
   });
 
