@@ -60,7 +60,7 @@ asteroids.Game = {
       this.state = 'waiting';
     },
     waiting: function () {
-      Text.renderText('Press Space to Start', 36, asteroids.Game.canvasWidth/2 - 270, asteroids.Game.canvasHeight/2);
+      Text.renderText('Press Space to Start', 36, asteroids.Game.canvasWidth / 2 - 270, asteroids.Game.canvasHeight / 2);
       if (asteroids.KEY_STATUS.space || window.gameStart) {
         asteroids.KEY_STATUS.space = false; // hack so we don't shoot right away
         window.gameStart = false;
@@ -140,7 +140,7 @@ asteroids.Game = {
       }
     },
     end_game: function () {
-      Text.renderText('GAME OVER', 50, asteroids.Game.canvasWidth/2 - 160, asteroids.Game.canvasHeight/2 + 10);
+      Text.renderText('GAME OVER', 50, asteroids.Game.canvasWidth / 2 - 160, asteroids.Game.canvasHeight / 2 + 10);
       if (this.timer == null) {
         this.timer = Date.now();
       }

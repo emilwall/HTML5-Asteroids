@@ -8,11 +8,11 @@ asteroids.Matrix = function (rows, columns) {
   }
 
   this.configure = function (rot, scale, transx, transy) {
-    var rad = (rot * Math.PI)/180;
+    var rad = (rot * Math.PI) / 180;
     var sin = Math.sin(rad) * scale;
     var cos = Math.cos(rad) * scale;
     this.set(cos, -sin, transx,
-             sin,  cos, transy);
+             sin, cos, transy);
   };
 
   this.set = function () {

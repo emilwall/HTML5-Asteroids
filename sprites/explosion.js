@@ -11,7 +11,7 @@ asteroids.Explosion = function () {
     var rad = 2 * Math.PI * Math.random();
     var x = Math.cos(rad);
     var y = Math.sin(rad);
-    this.lines.push([x, y, x*2, y*2]);
+    this.lines.push([x, y, x * 2, y * 2]);
   }
 
   this.draw = function () {

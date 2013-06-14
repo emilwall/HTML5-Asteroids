@@ -1,7 +1,7 @@
 var asteroids = asteroids || {};
 
 asteroids.Rendering = function (canvas) {
-  asteroids.Game.canvasWidth  = canvas.width();
+  asteroids.Game.canvasWidth = canvas.width();
   asteroids.Game.canvasHeight = canvas.height();
 
   this.context = canvas[0].getContext("2d");
@@ -22,23 +22,23 @@ asteroids.Rendering = function (canvas) {
   // set up the positional references
   for (var i = 0; i < gridWidth; i++) {
     for (var j = 0; j < gridHeight; j++) {
-      var node   = grid[i][j];
-      node.north = grid[i][(j == 0) ? gridHeight-1 : j-1];
-      node.south = grid[i][(j == gridHeight-1) ? 0 : j+1];
-      node.west  = grid[(i == 0) ? gridWidth-1 : i-1][j];
-      node.east  = grid[(i == gridWidth-1) ? 0 : i+1][j];
+      var node = grid[i][j];
+      node.north = grid[i][(j == 0) ? gridHeight - 1 : j - 1];
+      node.south = grid[i][(j == gridHeight - 1) ? 0 : j + 1];
+      node.west = grid[(i == 0) ? gridWidth - 1 : i - 1][j];
+      node.east = grid[(i == gridWidth - 1) ? 0 : i + 1][j];
     }
   }
 
   // set up borders
   for (var i = 0; i < gridWidth; i++) {
-    grid[i][0].dupe.vertical            =  asteroids.Game.canvasHeight;
-    grid[i][gridHeight-1].dupe.vertical = -asteroids.Game.canvasHeight;
+    grid[i][0].dupe.vertical = asteroids.Game.canvasHeight;
+    grid[i][gridHeight - 1].dupe.vertical = -asteroids.Game.canvasHeight;
   }
 
   for (var j = 0; j < gridHeight; j++) {
-    grid[0][j].dupe.horizontal           =  asteroids.Game.canvasWidth;
-    grid[gridWidth-1][j].dupe.horizontal = -asteroids.Game.canvasWidth;
+    grid[0][j].dupe.horizontal = asteroids.Game.canvasWidth;
+    grid[gridWidth - 1][j].dupe.horizontal = -asteroids.Game.canvasWidth;
   }
 
   var sprites = [];
@@ -46,8 +46,8 @@ asteroids.Rendering = function (canvas) {
 
   // so all the sprites can use it
   Sprite.prototype.context = this.context;
-  Sprite.prototype.grid    = grid;
-  Sprite.prototype.matrix  = new asteroids.Matrix(2, 3);
+  Sprite.prototype.grid = grid;
+  Sprite.prototype.matrix = new asteroids.Matrix(2, 3);
 
   var ship = new asteroids.Ship();
 
@@ -75,7 +75,7 @@ asteroids.Rendering = function (canvas) {
   extraShip.preMove = null;
   extraShip.children = [];
 
-  this.drawGrid = function() {
+  this.drawGrid = function () {
     if (asteroids.KEY_STATUS.g) {
       this.context.beginPath();
       for (var i = 0; i < gridWidth; i++) {
@@ -92,11 +92,11 @@ asteroids.Rendering = function (canvas) {
   };
 
   this.displayScore = function () {
-    var score_text = ''+asteroids.Game.score;
+    var score_text = '' + asteroids.Game.score;
     Text.renderText(score_text, 18, asteroids.Game.canvasWidth - 14 * score_text.length, 20);
   };
 
-  this.drawExtraLives = function(lives) {
+  this.drawExtraLives = function (lives) {
     for (i = 0; i < lives; i++) {
       this.context.save();
       extraShip.x = asteroids.Game.canvasWidth - (8 * (i + 1));
@@ -108,6 +108,6 @@ asteroids.Rendering = function (canvas) {
   };
 
   this.displayFramerate = function (avgFramerate) {
-    Text.renderText(''+avgFramerate, 24, asteroids.Game.canvasWidth - 38, asteroids.Game.canvasHeight - 2);
+    Text.renderText('' + avgFramerate, 24, asteroids.Game.canvasWidth - 38, asteroids.Game.canvasHeight - 2);
   };
 };

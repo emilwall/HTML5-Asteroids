@@ -10,16 +10,16 @@ asteroids.Bullet = function () {
   // to be other way around
   //this.collidesWith = ["asteroid"];
 
-  this.configureTransform = function () {};
+  this.configureTransform = function () { };
   this.draw = function () {
     if (this.visible) {
       this.context.save();
       this.context.lineWidth = 2;
       this.context.beginPath();
-      this.context.moveTo(this.x-1, this.y-1);
-      this.context.lineTo(this.x+1, this.y+1);
-      this.context.moveTo(this.x+1, this.y-1);
-      this.context.lineTo(this.x-1, this.y+1);
+      this.context.moveTo(this.x - 1, this.y - 1);
+      this.context.lineTo(this.x + 1, this.y + 1);
+      this.context.moveTo(this.x + 1, this.y - 1);
+      this.context.lineTo(this.x - 1, this.y + 1);
       this.context.stroke();
       this.context.restore();
     }

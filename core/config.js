@@ -12,7 +12,7 @@ asteroids.KEY_CODES = {
   80: 'p'
 };
 
-asteroids.KEY_STATUS = { keyDown:false };
+asteroids.KEY_STATUS = { keyDown: false };
 for (code in asteroids.KEY_CODES) {
   asteroids.KEY_STATUS[asteroids.KEY_CODES[code]] = false;
 };

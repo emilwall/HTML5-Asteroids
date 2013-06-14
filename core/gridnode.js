@@ -3,14 +3,14 @@ var asteroids = asteroids || {};
 asteroids.GridNode = function () {
   this.north = null;
   this.south = null;
-  this.east  = null;
-  this.west  = null;
+  this.east = null;
+  this.west = null;
 
   this.nextSprite = null;
 
   this.dupe = {
     horizontal: null,
-    vertical:   null
+    vertical: null
   };
 
   this.enter = function (sprite) {
@@ -29,7 +29,7 @@ asteroids.GridNode = function () {
     }
   };
 
-  this.eachSprite = function(sprite, callback) {
+  this.eachSprite = function (sprite, callback) {
     var ref = this;
     while (ref.nextSprite) {
       ref = ref.nextSprite;

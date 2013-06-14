@@ -28,7 +28,7 @@ asteroids.Ship = function () {
     }
 
     if (asteroids.KEY_STATUS.up) {
-      var rad = ((this.rot-90) * Math.PI)/180;
+      var rad = ((this.rot - 90) * Math.PI) / 180;
       this.acc.x = 0.5 * Math.cos(rad);
       this.acc.y = 0.5 * Math.sin(rad);
       this.children.exhaust.visible = Math.random() > 0.1;
@@ -47,7 +47,7 @@ asteroids.Ship = function () {
         for (var i = 0; i < this.bullets.length; i++) {
           if (!this.bullets[i].visible) {
             var bullet = this.bullets[i];
-            var rad = ((this.rot-90) * Math.PI)/180;
+            var rad = ((this.rot - 90) * Math.PI) / 180;
             var vectorx = Math.cos(rad);
             var vectory = Math.sin(rad);
             // move to the nose of the ship
