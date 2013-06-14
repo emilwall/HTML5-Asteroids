@@ -1,11 +1,11 @@
 describe("Game", function () {
   var stubGrid = function () {
-    Sprite.prototype.grid = [[{
+    asteroids.Sprite.prototype.grid = [[{
       enter: sinon.spy(),
       leave: sinon.spy(),
       isEmpty: sinon.stub().returns(true)
     }]];
-    var node = Sprite.prototype.grid[0][0];
+    var node = asteroids.Sprite.prototype.grid[0][0];
     node.north = node;
     node.south = node;
     node.east = node;
@@ -13,7 +13,7 @@ describe("Game", function () {
   }
 
   beforeEach(function () {
-    this.spriteGrid = Sprite.prototype.grid;
+    this.spriteGrid = asteroids.Sprite.prototype.grid;
     stubGrid();
     this.width = asteroids.Game.canvasWidth;
     asteroids.Game.canvasWidth = 0;
@@ -24,7 +24,7 @@ describe("Game", function () {
   });
 
   afterEach(function () {
-    Sprite.prototype.grid = this.spriteGrid;
+    asteroids.Sprite.prototype.grid = this.spriteGrid;
     asteroids.Game.canvasWidth = this.width;
     asteroids.Game.canvasHeight = this.height;
     asteroids.Game.addSprite.restore();

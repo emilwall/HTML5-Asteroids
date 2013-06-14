@@ -45,9 +45,9 @@ asteroids.Rendering = function (canvas) {
   asteroids.Game.sprites = sprites;
 
   // so all the sprites can use it
-  Sprite.prototype.context = this.context;
-  Sprite.prototype.grid = grid;
-  Sprite.prototype.matrix = new asteroids.Matrix(2, 3);
+  asteroids.Sprite.prototype.context = this.context;
+  asteroids.Sprite.prototype.grid = grid;
+  asteroids.Sprite.prototype.matrix = new asteroids.Matrix(2, 3);
 
   var ship = new asteroids.Ship();
 

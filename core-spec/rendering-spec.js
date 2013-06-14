@@ -19,9 +19,9 @@ describe("Rendering", function () {
     this.canvasWidth = asteroids.Game.canvasWidth;
     this.canvasHeight = asteroids.Game.canvasHeight;
     this.sprites = asteroids.Game.sprites;
-    this.context = Sprite.prototype.context;
-    this.grid = Sprite.prototype.grid;
-    this.matrix = Sprite.prototype.matrix;
+    this.context = asteroids.Sprite.prototype.context;
+    this.grid = asteroids.Sprite.prototype.grid;
+    this.matrix = asteroids.Sprite.prototype.matrix;
     this.ship = asteroids.Game.ship;
     this.bigAlien = asteroids.Game.bigAlien;
 
@@ -32,9 +32,9 @@ describe("Rendering", function () {
     asteroids.Game.canvasWidth = this.canvasWidth;
     asteroids.Game.canvasHeight = this.canvasHeight;
     asteroids.Game.sprites = this.sprites;
-    Sprite.prototype.context = this.context;
-    Sprite.prototype.grid = this.grid;
-    Sprite.prototype.matrix = this.matrix;
+    asteroids.Sprite.prototype.context = this.context;
+    asteroids.Sprite.prototype.grid = this.grid;
+    asteroids.Sprite.prototype.matrix = this.matrix;
     asteroids.Game.ship = this.ship;
     asteroids.Game.bigAlien = this.bigAlien;
   });

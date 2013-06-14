@@ -23,4 +23,4 @@ describe("Explosion", function () {
  * save and restore context
  */
 // preMove: Increase scale, die if scale exceeds limit (8).
-// Inherits from Sprite
+// Inherits from asteroids.Sprite

@@ -49,4 +49,4 @@ asteroids.Asteroid = function () {
     }
   }
 };
-asteroids.Asteroid.prototype = new Sprite();
+asteroids.Asteroid.prototype = new asteroids.Sprite();

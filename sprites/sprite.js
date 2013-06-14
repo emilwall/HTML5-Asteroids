@@ -1,4 +1,6 @@
-Sprite = function () {
+var asteroids = asteroids || {};
+
+asteroids.Sprite = function () {
   this.init = function (name, points) {
     this.name = name;
     this.points = points;

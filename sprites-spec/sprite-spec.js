@@ -1,6 +1,6 @@
 describe("Sprite", function () {
   beforeEach(function () {
-    this.sprite = new Sprite();
+    this.sprite = new asteroids.Sprite();
   });
 
   // init: sets name, points, vel and acc

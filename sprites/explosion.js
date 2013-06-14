@@ -38,4 +38,4 @@ asteroids.Explosion = function () {
     }
   };
 };
-asteroids.Explosion.prototype = new Sprite();
+asteroids.Explosion.prototype = new asteroids.Sprite();

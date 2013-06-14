@@ -44,4 +44,4 @@ asteroids.Bullet = function () {
   };
 
 };
-asteroids.Bullet.prototype = new Sprite();
+asteroids.Bullet.prototype = new asteroids.Sprite();

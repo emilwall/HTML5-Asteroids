@@ -10,7 +10,7 @@ describe("Bullet", function () {
   // init: set name (and coordinates (0, 0)?)
   // does not collide with anything (asteroids and aliens check this themselves)
   // sets time, bridgesH and bridgesV attributes
-  // defines postMove to be same as Sprite.wrapPostMove
+  // defines postMove to be same as asteroids.Sprite.wrapPostMove
   // defined configureTransform as empty function (why?)
   /* draw:
    * do nothing if not visible
@@ -23,5 +23,5 @@ describe("Bullet", function () {
    */
   // collision: This method essentially does the same as preMove when time > threshold, but is it ever called?
   // transformedPoints: returns array of the x and y coordinates
-  // Inherits from Sprite
+  // Inherits from asteroids.Sprite
 });

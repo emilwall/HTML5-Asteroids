@@ -6,7 +6,7 @@ asteroids.Ship = function () {
               0, -12,
               5,   4]);
 
-  this.children.exhaust = new Sprite();
+  this.children.exhaust = new asteroids.Sprite();
   this.children.exhaust.init("exhaust",
                              [-3,  6,
                                0, 11,
@@ -79,4 +79,4 @@ asteroids.Ship = function () {
   };
 
 };
-asteroids.Ship.prototype = new Sprite();
+asteroids.Ship.prototype = new asteroids.Sprite();

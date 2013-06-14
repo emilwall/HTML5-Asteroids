@@ -11,7 +11,7 @@ asteroids.BigAlien = function () {
              -20,   0,
               20,   0]);
 
-  this.children.top = new Sprite();
+  this.children.top = new asteroids.Sprite();
   this.children.top.init("bigalien_top",
                          [-8, -4,
                           -6, -6,
@@ -19,7 +19,7 @@ asteroids.BigAlien = function () {
                            8, -4]);
   this.children.top.visible = true;
 
-  this.children.bottom = new Sprite();
+  this.children.bottom = new asteroids.Sprite();
   this.children.bottom.init("bigalien_top",
                             [ 8, 4,
                               6, 6,
@@ -120,4 +120,4 @@ asteroids.BigAlien = function () {
     }
   }
 };
-asteroids.BigAlien.prototype = new Sprite();
+asteroids.BigAlien.prototype = new asteroids.Sprite();
