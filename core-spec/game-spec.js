@@ -19,7 +19,8 @@ describe("Game", function () {
     asteroids.Game.canvasWidth = 0;
     this.height = asteroids.Game.canvasHeight;
     asteroids.Game.canvasHeight = 0;
-    sinon.spy(asteroids.Game, "addSprite");
+    sinon.stub(asteroids.Game, "addSprite");
+    sinon.stub(asteroids.Game, "removeSprite");
   });
 
   afterEach(function () {
@@ -27,6 +28,7 @@ describe("Game", function () {
     asteroids.Game.canvasWidth = this.width;
     asteroids.Game.canvasHeight = this.height;
     asteroids.Game.addSprite.restore();
+    asteroids.Game.removeSprite.restore();
   });
 
   it("should have finite state machine (FSM)", function () {
@@ -40,34 +42,57 @@ describe("Game", function () {
   });
 
   describe("spawnAsteroids", function () {
-    it("should spawn this.totalAsteroids number of asteroids when called without argument", function () {
-      var prevLength = asteroids.Game.sprites.length;
+    it("should call addSprite this.totalAsteroids number of times when called without argument", function () {
       asteroids.Game.totalAsteroids = 5;
 
       asteroids.Game.spawnAsteroids();
 
-      expect(asteroids.Game.sprites.length).toBe(prevLength + asteroids.Game.totalAsteroids);
+      expect(asteroids.Game.addSprite.callCount).toBe(5);
     });
   });
 
   describe("explosionAt", function () {
-    it("should add explosion to sprites", function () {
-      var prevLength = asteroids.Game.sprites.length;
-
-      asteroids.Game.explosionAt(0, 0);
-
-      expect(asteroids.Game.sprites.length).toBe(prevLength + 1);
-    });
-
-    it("should set x, y and visible of explosion added to sprites", function () {
-      var index = asteroids.Game.sprites.length;
-
+    it("should call addSprite with explosion with set x, y and visible attributes", function () {
       asteroids.Game.explosionAt(5, 7);
-      var explosion = asteroids.Game.sprites[index];
+
+      var explosion = asteroids.Game.addSprite.args[0][0];
 
       expect(explosion.x).toBe(5);
       expect(explosion.y).toBe(7);
       expect(explosion.visible).toBe(true);
+    });
+  });
+
+  describe("updateSprites", function () {
+    beforeEach(function () {
+      this.sprite1 = { run: sinon.stub(), reap: true };
+      this.sprite2 = { run: sinon.stub(), reap: false };
+      this.sprite3 = { run: sinon.stub(), reap: true };
+      asteroids.Game.sprites.push(this.sprite1);
+      asteroids.Game.sprites.push(this.sprite2);
+      asteroids.Game.sprites.push(this.sprite3);
+    });
+
+    afterEach(function () {
+      asteroids.Game.sprites.pop();
+      asteroids.Game.sprites.pop();
+      asteroids.Game.sprites.pop();
+    });
+
+    it("should call run on sprites with truthy reappear value", function () {
+      var delta = 7;
+
+      asteroids.Game.updateSprites(delta);
+
+      expect(this.sprite1.run.calledWith(delta)).toBeTruthy();
+    });
+
+    it("should call removeSprite on sprites with truthy reappear value", function () {
+      asteroids.Game.updateSprites(1);
+
+      expect(asteroids.Game.removeSprite.calledWith(0)).toBeTruthy();
+      expect(asteroids.Game.removeSprite.calledWith(1)).toBeFalsy();
+      expect(asteroids.Game.removeSprite.calledWith(2)).toBeTruthy();
     });
   });
 });

@@ -19,6 +19,10 @@ asteroids.Game = {
     return this.sprites.push(sprite);
   },
 
+  removeSprite: function (index) {
+    return this.sprites.splice(index, 1);
+  },
+
   spawnAsteroids: function (count) {
     if (!count) count = this.totalAsteroids;
     for (var i = 0; i < count; i++) {
@@ -48,7 +52,7 @@ asteroids.Game = {
 
       if (this.sprites[i].reap) {
         this.sprites[i].reap = false;
-        this.sprites.splice(i, 1);
+        this.removeSprite(i);
         i--;
       }
     }
