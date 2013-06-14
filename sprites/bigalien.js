@@ -51,7 +51,7 @@ asteroids.BigAlien = function () {
     for (var i = 0; i < 3; i++) {
       var bull = new asteroids.AlienBullet();
       this.bullets.push(bull);
-      asteroids.Game.sprites.push(bull);
+      asteroids.Game.addSprite(bull);
     }
   };
 

@@ -33,7 +33,7 @@ asteroids.Asteroid = function () {
         }
         roid.vel.rot = Math.random() * 2 - 1;
         roid.move(roid.scale * 3); // give them a little push
-        asteroids.Game.sprites.push(roid);
+        asteroids.Game.addSprite(roid);
       }
     }
     asteroids.Game.explosionAt(other.x, other.y);

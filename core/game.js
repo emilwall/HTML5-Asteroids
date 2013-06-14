@@ -15,6 +15,10 @@ asteroids.Game = {
   nextBigAlienTime: null,
 
 
+  addSprite: function (sprite) {
+    return this.sprites.push(sprite);
+  },
+
   spawnAsteroids: function (count) {
     if (!count) count = this.totalAsteroids;
     for (var i = 0; i < count; i++) {
@@ -26,7 +30,7 @@ asteroids.Game = {
         roid.points.reverse();
       }
       roid.vel.rot = Math.random() * 2 - 1;
-      asteroids.Game.sprites.push(roid);
+      asteroids.Game.addSprite(roid);
     }
   },
 
@@ -35,7 +39,7 @@ asteroids.Game = {
     splosion.x = x;
     splosion.y = y;
     splosion.visible = true;
-    asteroids.Game.sprites.push(splosion);
+    asteroids.Game.addSprite(splosion);
   },
 
   updateSprites: function (delta) {

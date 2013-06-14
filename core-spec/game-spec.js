@@ -14,16 +14,19 @@ describe("Game", function () {
 
   beforeEach(function () {
     this.spriteGrid = Sprite.prototype.grid;
+    stubGrid();
     this.width = asteroids.Game.canvasWidth;
     asteroids.Game.canvasWidth = 0;
     this.height = asteroids.Game.canvasHeight;
     asteroids.Game.canvasHeight = 0;
+    sinon.spy(asteroids.Game, "addSprite");
   });
 
   afterEach(function () {
     Sprite.prototype.grid = this.spriteGrid;
     asteroids.Game.canvasWidth = this.width;
     asteroids.Game.canvasHeight = this.height;
+    asteroids.Game.addSprite.restore();
   });
 
   it("should have finite state machine (FSM)", function () {
@@ -47,17 +50,8 @@ describe("Game", function () {
     });
   });
 
-  describe("explosionAt", function() {
-    beforeEach(function () {
-      this.sprites = asteroids.Game.sprites;
-      asteroids.Game.sprites = [];
-    });
-
-    afterEach(function () {
-      asteroids.Game.sprites = this.sprites;
-    });
-
-    it("should add explosion to sprites", function() {
+  describe("explosionAt", function () {
+    it("should add explosion to sprites", function () {
       var prevLength = asteroids.Game.sprites.length;
 
       asteroids.Game.explosionAt(0, 0);

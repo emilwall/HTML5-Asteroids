@@ -1,15 +1,18 @@
 describe("Asteroid", function() {
   beforeEach(function() {
     this.asteroid = new asteroids.Asteroid();
+    sinon.stub(asteroids.Game, "addSprite");
+    this.gameScore = asteroids.Game.score;
   });
 
-  it("should have collision method", function() {
-    expect(typeof this.asteroid.collision).toBe("function");
+  afterEach(function () {
+    asteroids.Game.addSprite.restore();
+    asteroids.Game.score = this.gameScore;
   });
-  
-  describe("Collision", function() {
 
-    beforeEach(function() {
+  describe("Collision", function () {
+
+    beforeEach(function () {
       this.asteroid.die = sinon.spy();
     });
 

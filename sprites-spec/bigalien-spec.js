@@ -11,8 +11,16 @@ describe("BigAlien", function() {
     expect(typeof this.bigAlien.postMove).toBe("function");
   });
 
-  describe("setup", function() {
-    it("should set position", function() {
+  describe("setup", function () {
+    beforeEach(function () {
+      sinon.stub(asteroids.Game, "addSprite");
+    });
+
+    afterEach(function () {
+      asteroids.Game.addSprite.restore();
+    });
+
+    it("should set position", function () {
       this.bigAlien.x = null;
       this.bigAlien.y = null;
 
@@ -35,12 +43,20 @@ describe("BigAlien", function() {
 
       this.bigAlien.setup();
 
-      expect(asteroids.Game.sprites.length).toBe(numBullets + 3);
+      expect(asteroids.Game.addSprite.calledThrice).toBeTruthy();
     });
   });
 
-  describe("collision", function() {
-    it("should set visible to false when hit by bullet", function() {
+  describe("collision", function () {
+    beforeEach(function () {
+      sinon.stub(asteroids.Game, "explosionAt");
+    });
+
+    afterEach(function () {
+      asteroids.Game.explosionAt.restore();
+    });
+
+    it("should set visible to false when hit by bullet", function () {
       var bullet = { name: "bullet" };
       this.bigAlien.visible = true;
 

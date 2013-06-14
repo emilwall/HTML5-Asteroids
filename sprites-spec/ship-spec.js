@@ -1,12 +1,18 @@
 describe("Ship", function() {
   beforeEach(function() {
     this.ship = new asteroids.Ship();
-    asteroids.Game.explosionAt = sinon.stub();
     this.ship.currentNode = this.ship.currentNode || {};
     this.ship.currentNode.leave = sinon.stub();
+    sinon.stub(asteroids.Game, "explosionAt");
+    this.gameLives = asteroids.Game.lives;
   });
 
-  it("should have collision method", function() {
+  afterEach(function () {
+    asteroids.Game.explosionAt.restore();
+    asteroids.Game.lives = this.gameLives;
+  });
+
+  it("should have collision method", function () {
     expect(typeof this.ship.collision).toBe("function");
   });
   
