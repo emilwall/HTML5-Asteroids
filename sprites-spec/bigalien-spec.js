@@ -1,9 +1,9 @@
-describe("BigAlien", function() {
-  beforeEach(function() {
+describe("BigAlien", function () {
+  beforeEach(function () {
     this.bigAlien = new asteroids.BigAlien();
   });
 
-  it("should have newPosition, setup, preMove, collision and postMove methods", function() {
+  it("should have newPosition, setup, preMove, collision and postMove methods", function () {
     expect(typeof this.bigAlien.newPosition).toBe("function");
     expect(typeof this.bigAlien.setup).toBe("function");
     expect(typeof this.bigAlien.preMove).toBe("function");
@@ -30,7 +30,7 @@ describe("BigAlien", function() {
       expect(typeof this.bigAlien.y).toBe("number");
     });
 
-    it("should add 3 bullets to this.bullets", function() {
+    it("should add 3 bullets to this.bullets", function () {
       var numBullets = this.bigAlien.bullets.length;
 
       this.bigAlien.setup();
@@ -38,7 +38,7 @@ describe("BigAlien", function() {
       expect(this.bigAlien.bullets.length).toBe(numBullets + 3);
     });
 
-    it("should add 3 bullets to asteroids.Game.sprites", function() {
+    it("should add 3 bullets to asteroids.Game.sprites", function () {
       var numBullets = asteroids.Game.sprites.length;
 
       this.bigAlien.setup();
@@ -65,7 +65,7 @@ describe("BigAlien", function() {
       expect(this.bigAlien.visible).toBe(false);
     });
 
-    it("should increase score by 200 when hit by bullet", function() {
+    it("should increase score by 200 when hit by bullet", function () {
       var bullet = { name: "bullet" };
       asteroids.Game.score = 100;
 

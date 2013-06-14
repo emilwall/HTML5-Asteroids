@@ -1,4 +1,4 @@
-describe("Sprite", function() {
+describe("Sprite", function () {
   beforeEach(function () {
     this.sprite = new Sprite();
   });
@@ -51,7 +51,7 @@ describe("Sprite", function() {
       this.sprite.context = { strokeRect: sinon.spy() };
 
       this.grid = this.sprite.grid;
-      this.sprite.grid = [[{ enter: sinon.spy(), leave: sinon.spy() }]];
+      this.sprite.grid = [[{ enter: sinon.spy(), leave: sinon.spy()}]];
 
       this.sprite.x = 0;
       this.sprite.y = 0;
@@ -114,7 +114,7 @@ describe("Sprite", function() {
   it("should define isClear method", function () {
     expect(typeof this.sprite.isClear).toBe("function");
   });
-  
+
   describe("isClear", function () {
     beforeEach(function () {
       this.grid = this.sprite.grid;
@@ -122,8 +122,8 @@ describe("Sprite", function() {
       var cn = new function () {
         this.north = this;
         this.south = this;
-        this.east  = this;
-        this.west  = this;
+        this.east = this;
+        this.west = this;
         this.isEmpty = sinon.stub().returns(true);
       }
       this.sprite.grid = [[cn]];

@@ -1,5 +1,5 @@
-describe("Rendering", function() {
-  beforeEach(function() {
+describe("Rendering", function () {
+  beforeEach(function () {
     var context = {};
     context.clearRect = sinon.stub();
     context.beginPath = sinon.stub();
@@ -9,21 +9,41 @@ describe("Rendering", function() {
     context.stroke = sinon.stub();
     context.save = sinon.stub();
     context.restore = sinon.stub();
-    
+
     this.canvas = {};
     this.canvas.width = sinon.stub().returns(780);
     this.canvas.height = sinon.stub().returns(540);
     this.canvas.getContext = sinon.stub().returns(context);
     this.canvas[0] = this.canvas;
 
+    this.canvasWidth = asteroids.Game.canvasWidth;
+    this.canvasHeight = asteroids.Game.canvasHeight;
+    this.sprites = asteroids.Game.sprites;
+    this.context = Sprite.prototype.context;
+    this.grid = Sprite.prototype.grid;
+    this.matrix = Sprite.prototype.matrix;
+    this.ship = asteroids.Game.ship;
+    this.bigAlien = asteroids.Game.bigAlien;
+
     this.rendering = new asteroids.Rendering(this.canvas);
   });
 
-  it("should set context of canvas as attribute of self", function() {
+  afterEach(function () {
+    asteroids.Game.canvasWidth = this.canvasWidth;
+    asteroids.Game.canvasHeight = this.canvasHeight;
+    asteroids.Game.sprites = this.sprites;
+    Sprite.prototype.context = this.context;
+    Sprite.prototype.grid = this.grid;
+    Sprite.prototype.matrix = this.matrix;
+    asteroids.Game.ship = this.ship;
+    asteroids.Game.bigAlien = this.bigAlien;
+  });
+
+  it("should set context of canvas as attribute of self", function () {
     expect(this.rendering.context).toBeDefined();
   });
 
-  it("should add ship to asteroids.Game.sprites", function() {
+  it("should add ship to asteroids.Game.sprites", function () {
     var length = asteroids.Game.sprites.length;
     var found = false;
 
@@ -37,7 +57,7 @@ describe("Rendering", function() {
     assert(found);
   });
 
-  it("should add 10 bullets to asteroids.Game.sprites", function() {
+  it("should add 10 bullets to asteroids.Game.sprites", function () {
     var length = asteroids.Game.sprites.length;
     var found = 0;
 

@@ -1,9 +1,9 @@
-describe("AlienBullet", function() {
+describe("AlienBullet", function () {
   beforeEach(function () {
     this.alienBullet = new asteroids.AlienBullet();
   });
 
-  it("should have init method", function() {
+  it("should have init method", function () {
     expect(typeof this.alienBullet.init).toBe("function");
   });
 

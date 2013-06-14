@@ -1,5 +1,5 @@
-describe("Asteroid", function() {
-  beforeEach(function() {
+describe("Asteroid", function () {
+  beforeEach(function () {
     this.asteroid = new asteroids.Asteroid();
     sinon.stub(asteroids.Game, "addSprite");
     this.gameScore = asteroids.Game.score;
@@ -16,7 +16,7 @@ describe("Asteroid", function() {
       this.asteroid.die = sinon.spy();
     });
 
-    it("should die when other is bullet", function() {
+    it("should die when other is bullet", function () {
       var bullet = { name: "bullet" };
 
       this.asteroid.collision(bullet);

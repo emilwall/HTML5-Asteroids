@@ -3,8 +3,8 @@
  * If defined as key_code, preventDefault of the event and set KEY_STATUS
  */
 
-describe("Config", function() {
-  it("should define KEY_CODES object", function() {
+describe("Config", function () {
+  it("should define KEY_CODES object", function () {
     expect(typeof asteroids.KEY_CODES).toBe("object");
   });
 
@@ -14,7 +14,7 @@ describe("Config", function() {
     });
   });
 
-  it("should define KEY_STATUS object", function() {
+  it("should define KEY_STATUS object", function () {
     expect(typeof asteroids.KEY_STATUS).toBe("object");
   });
 
@@ -30,7 +30,7 @@ describe("Config", function() {
     });
   });
 
-  it("should define GRID_SIZE to 60", function() {
+  it("should define GRID_SIZE to 60", function () {
     expect(asteroids.GRID_SIZE).toBe(60);
   });
 });
