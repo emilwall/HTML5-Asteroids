@@ -13,22 +13,46 @@ describe("Game", function () {
   }
 
   beforeEach(function () {
-    this.spriteGrid = asteroids.Sprite.prototype.grid;
+    this.spritePrototypeDefined = asteroids.Sprite && asteroids.Sprite.prototype;
+    if (this.spritePrototypeDefined) {
+      this.spriteGrid = asteroids.Sprite.prototype.grid;
+    } else {
+      asteroids.Sprite = asteroids.Sprite || {};
+      asteroids.Sprite.prototype = {}
+    }
     stubGrid();
     this.width = asteroids.Game.canvasWidth;
     asteroids.Game.canvasWidth = 0;
     this.height = asteroids.Game.canvasHeight;
     asteroids.Game.canvasHeight = 0;
+
     sinon.stub(asteroids.Game, "addSprite");
     sinon.stub(asteroids.Game, "removeSprite");
+
+    this.asteroidFake = {
+      moveToSafePosition: sinon.spy(),
+      vel: {},
+      points: { reverse: sinon.spy() }
+    };
+    asteroids.Asteroid = asteroids.Asteroid || function () { };
+    sinon.stub(asteroids, "Asteroid").returns(this.asteroidFake);
+
+    asteroids.Explosion = asteroids.Explosion || function () { };
+    sinon.stub(asteroids, "Explosion").returns(this.asteroidFake);
   });
 
   afterEach(function () {
-    asteroids.Sprite.prototype.grid = this.spriteGrid;
+    if (this.spritePrototypeDefined) {
+      asteroids.Sprite.prototype.grid = this.spriteGrid;
+    } else {
+      delete asteroids.Sprite.prototype;
+    }
     asteroids.Game.canvasWidth = this.width;
     asteroids.Game.canvasHeight = this.height;
     asteroids.Game.addSprite.restore();
     asteroids.Game.removeSprite.restore();
+    asteroids.Asteroid.restore();
+    asteroids.Explosion.restore();
   });
 
   it("should have finite state machine (FSM)", function () {
