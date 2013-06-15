@@ -93,6 +93,58 @@ describe("Game", function () {
         expect(asteroids.Game.FSM.state).toBe("waiting");
       });
     });
+
+    describe("waiting", function () {
+      beforeEach(function () {
+        sinon.stub(Text, "renderText");
+        asteroids.Game.FSM.state = "waiting";
+        this.KEY_STATUS = asteroids.KEY_STATUS;
+        asteroids.KEY_STATUS = { space: false };
+        window.gameStart = false;
+      });
+
+      afterEach(function () {
+        Text.renderText.restore();
+        asteroids.KEY_STATUS = this.KEY_STATUS;
+      });
+
+      it("should call Text.renderText with Press Space to Start", function () {
+        asteroids.Game.FSM.waiting();
+
+        expect(Text.renderText.called).toBeTruthy();
+        expect(Text.renderText.args[0][0]).toBe("Press Space to Start");
+      });
+
+      it("should set state to start when space is pressed", function () {
+        asteroids.KEY_STATUS.space = true;
+
+        asteroids.Game.FSM.waiting();
+
+        expect(asteroids.Game.FSM.state).toBe("start");
+      });
+
+      it("should set state to start when window.gameStart is true", function () {
+        window.gameStart = true;
+
+        asteroids.Game.FSM.waiting();
+
+        expect(asteroids.Game.FSM.state).toBe("start");
+      });
+
+      it("should not set state when space is not pressed and window.gameStart is false", function () {
+        asteroids.Game.FSM.waiting();
+
+        expect(asteroids.Game.FSM.state).toBe("waiting");
+      });
+
+      it("should set state KEY_STATUS.space to false when setting state to start", function () {
+        asteroids.KEY_STATUS.space = true;
+
+        asteroids.Game.FSM.waiting();
+
+        expect(asteroids.KEY_STATUS.space).toBeFalsy();
+      });
+    });
   });
 
   it("should define spawnAsteroids, explosionAt and updateSprites methods", function () {
