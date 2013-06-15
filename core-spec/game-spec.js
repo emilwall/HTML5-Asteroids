@@ -145,6 +145,102 @@ describe("Game", function () {
         expect(asteroids.KEY_STATUS.space).toBeFalsy();
       });
     });
+
+    describe("start", function () {
+      beforeEach(function () {
+        sinon.stub(Date, "now").returns(1371304246157);
+        sinon.stub(Math, "random").returns(0.5);
+        sinon.stub(asteroids.Game, "spawnAsteroids");
+        asteroids.Game.FSM.state = "start";
+        this.sprites = asteroids.Game.sprites;
+        asteroids.Game.sprites = [];
+        this.score = asteroids.Game.score;
+        this.lives = asteroids.Game.lives;
+        this.totalAsteroids = asteroids.Game.totalAsteroids;
+        this.nextBigAlienTime = asteroids.Game.nextBigAlienTime;
+      });
+
+      afterEach(function () {
+        Date.now.restore();
+        Math.random.restore();
+        asteroids.Game.spawnAsteroids.restore();
+        asteroids.Game.sprites = this.sprites;
+        asteroids.Game.score = this.score;
+        asteroids.Game.lives = this.lives;
+        asteroids.Game.nextBigAlienTime = this.nextBigAlienTime;
+      });
+
+      it("should set state to spawn_ship", function () {
+        asteroids.Game.FSM.start();
+
+        expect(asteroids.Game.FSM.state).toBe("spawn_ship");
+      });
+
+      it("should call spawnAsteroids", function () {
+        asteroids.Game.FSM.start();
+
+        expect(asteroids.Game.spawnAsteroids.called).toBeTruthy();
+      });
+
+      it("should call die on all asteroids in asteroids.Game.sprites", function () {
+        var asteroid = { name: "asteroid", die: sinon.spy() };
+        asteroids.Game.sprites.push(asteroid);
+
+        asteroids.Game.FSM.start();
+
+        expect(asteroid.die.called).toBeTruthy();
+      });
+
+      it("should not call die on sprites that are not asteroids in asteroids.Game.sprites", function () {
+        var sprite = { name: "ship", die: sinon.spy() };
+        asteroids.Game.sprites.push(sprite);
+
+        asteroids.Game.FSM.start();
+
+        expect(sprite.die.called).toBeFalsy();
+      });
+
+      it("should set visible to false on bullets and bigalien in asteroids.Game.sprites", function () {
+        var bullet = { name: "bullet", visible: true };
+        var bigAlien = { name: "bigalien", visible: true };
+        asteroids.Game.sprites.push(bullet);
+        asteroids.Game.sprites.push(bigAlien);
+
+        asteroids.Game.FSM.start();
+
+        expect(bullet.visible).toBeFalsy();
+        expect(bigAlien.visible).toBeFalsy();
+      });
+
+      it("should not set visible to false on other than bullets and bigalien in asteroids.Game.sprites", function () {
+        var sprite = { name: "ship", visible: true };
+        asteroids.Game.sprites.push(sprite);
+
+        asteroids.Game.FSM.start();
+
+        expect(sprite.visible).toBeTruthy();
+      });
+
+      it("should set score, lives and totalAsteroids to 0, 2 and 2 respectively", function () {
+        asteroids.Game.score = 1;
+        asteroids.Game.lives = 1;
+        asteroids.Game.totalAsteroids = 1;
+
+        asteroids.Game.FSM.start();
+
+        expect(asteroids.Game.score).toBe(0);
+        expect(asteroids.Game.lives).toBe(2);
+        expect(asteroids.Game.totalAsteroids).toBe(2);
+      });
+
+      it("should set asteroids.Game.nextBigAlienTime to time in the future", function () {
+        var now = Date.now();
+
+        asteroids.Game.FSM.start();
+
+        expect(asteroids.Game.nextBigAlienTime).toBeGreaterThan(now);
+      });
+    });
   });
 
   it("should define spawnAsteroids, explosionAt and updateSprites methods", function () {
