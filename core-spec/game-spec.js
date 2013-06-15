@@ -70,6 +70,29 @@ describe("Game", function () {
       expect(asteroids.Game.FSM.player_died).toBeDefined();
       expect(asteroids.Game.FSM.end_game).toBeDefined();
     });
+
+    describe("boot", function () {
+      beforeEach(function () {
+        sinon.stub(asteroids.Game, "spawnAsteroids");
+        asteroids.Game.FSM.state = "boot";
+      });
+
+      afterEach(function () {
+        asteroids.Game.spawnAsteroids.restore();
+      });
+
+      it("should call spawnAsteroids", function () {
+        asteroids.Game.FSM.boot();
+
+        expect(asteroids.Game.spawnAsteroids.called).toBeTruthy();
+      });
+
+      it("should set state to waiting", function () {
+        asteroids.Game.FSM.boot();
+
+        expect(asteroids.Game.FSM.state).toBe("waiting");
+      });
+    });
   });
 
   it("should define spawnAsteroids, explosionAt and updateSprites methods", function () {
