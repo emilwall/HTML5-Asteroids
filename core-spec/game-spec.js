@@ -167,6 +167,7 @@ describe("Game", function () {
         asteroids.Game.sprites = this.sprites;
         asteroids.Game.score = this.score;
         asteroids.Game.lives = this.lives;
+        asteroids.Game.totalAsteroids = this.totalAsteroids;
         asteroids.Game.nextBigAlienTime = this.nextBigAlienTime;
       });
 
