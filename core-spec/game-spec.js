@@ -56,7 +56,20 @@ describe("Game", function () {
   });
 
   it("should have finite state machine (FSM)", function () {
-    expect(asteroids.Game.FSM).not.toBeUndefined();
+    expect(asteroids.Game.FSM).toBeDefined();
+  });
+
+  describe("FSM", function () {
+    it("should have boot, waiting, start, spawn_ship, run, new_level, player_died and end_game states", function () {
+      expect(asteroids.Game.FSM.boot).toBeDefined();
+      expect(asteroids.Game.FSM.waiting).toBeDefined();
+      expect(asteroids.Game.FSM.start).toBeDefined();
+      expect(asteroids.Game.FSM.spawn_ship).toBeDefined();
+      expect(asteroids.Game.FSM.run).toBeDefined();
+      expect(asteroids.Game.FSM.new_level).toBeDefined();
+      expect(asteroids.Game.FSM.player_died).toBeDefined();
+      expect(asteroids.Game.FSM.end_game).toBeDefined();
+    });
   });
 
   it("should define spawnAsteroids, explosionAt and updateSprites methods", function () {
