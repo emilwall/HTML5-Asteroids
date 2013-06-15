@@ -242,6 +242,59 @@ describe("Game", function () {
         expect(asteroids.Game.nextBigAlienTime).toBeGreaterThan(now);
       });
     });
+
+    describe("spawn_ship", function () {
+      beforeEach(function () {
+        asteroids.Game.FSM.state = "spawn_ship";
+        this.ship = asteroids.Game.ship;
+        asteroids.Game.ship = { vel: {}, isClear: sinon.stub().returns(true) };
+      });
+
+      afterEach(function () {
+        asteroids.Game.ship = this.ship;
+      });
+
+      it("should set state to run when ship is clear", function () {
+        asteroids.Game.FSM.spawn_ship();
+
+        expect(asteroids.Game.FSM.state).toBe("run");
+      });
+
+      it("should not change state when ship is not clear", function () {
+        asteroids.Game.ship = { vel: {}, isClear: sinon.stub().returns(false) };
+
+        asteroids.Game.FSM.spawn_ship();
+
+        expect(asteroids.Game.FSM.state).not.toBe("run");
+      });
+
+      it("should set x and y coordinates of ship", function () {
+        asteroids.Game.FSM.spawn_ship();
+
+        expect(asteroids.Game.ship.x).toBeDefined();
+        expect(asteroids.Game.ship.y).toBeDefined();
+      });
+
+      it("should set visible to true and reset rotation and velocity of ship when clear", function () {
+        asteroids.Game.FSM.spawn_ship();
+
+        expect(asteroids.Game.ship.rot).toBe(0);
+        expect(asteroids.Game.ship.vel.x).toBe(0);
+        expect(asteroids.Game.ship.vel.y).toBe(0);
+        expect(asteroids.Game.ship.visible).toBeTruthy();
+      });
+
+      it("should not set visible, rotation and velocity of ship when not clear", function () {
+        asteroids.Game.ship = { vel: {}, isClear: sinon.stub().returns(false) };
+
+        asteroids.Game.FSM.spawn_ship();
+
+        expect(asteroids.Game.ship.rot).toBeUndefined();
+        expect(asteroids.Game.ship.vel.x).toBeUndefined();
+        expect(asteroids.Game.ship.vel.y).toBeUndefined();
+        expect(asteroids.Game.ship.visible).toBeUndefined();
+      });
+    });
   });
 
   it("should define spawnAsteroids, explosionAt and updateSprites methods", function () {
