@@ -349,11 +349,11 @@ describe("Game", function () {
       });
 
       it("should set new value of nextBigAlienTime when nextBigAlienTime has passed", function () {
-        asteroids.Game.nextBigAlienTime = Date.now() - 1;
+        asteroids.Game.nextBigAlienTime = Date.now();
 
         asteroids.Game.FSM.run();
 
-        expect(asteroids.Game.nextBigAlienTime).toBeGreaterThan(Date.now() - 1);
+        expect(asteroids.Game.nextBigAlienTime).toBeGreaterThan(Date.now());
       });
     });
 

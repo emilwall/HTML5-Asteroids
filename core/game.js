@@ -108,7 +108,7 @@ asteroids.Game = {
       }
 
       if (!asteroids.Game.bigAlien.visible &&
-          Date.now() > asteroids.Game.nextBigAlienTime) {
+          Date.now() >= asteroids.Game.nextBigAlienTime) {
         asteroids.Game.bigAlien.visible = true;
         asteroids.Game.nextBigAlienTime = Date.now() + (30000 * Math.random());
       }
