@@ -369,6 +369,7 @@ describe("Game", function () {
         Date.now.restore();
         asteroids.Game.spawnAsteroids.restore();
         asteroids.Game.totalAsteroids = this.totalAsteroids;
+        asteroids.Game.FSM.timer = null;
       });
 
       it("should set state to run when one second has passed since this.timer", function () {
@@ -385,6 +386,12 @@ describe("Game", function () {
         asteroids.Game.FSM.new_level();
 
         expect(asteroids.Game.FSM.state).not.toBe("run");
+      });
+
+      it("should set this.timer to Date.now() if previously null", function () {
+        asteroids.Game.FSM.new_level();
+
+        expect(asteroids.Game.FSM.timer).toBe(Date.now());
       });
     });
   });
