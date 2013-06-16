@@ -393,6 +393,48 @@ describe("Game", function () {
 
         expect(asteroids.Game.FSM.timer).toBe(Date.now());
       });
+
+      it("should set timer to null when changing state", function () {
+        asteroids.Game.FSM.timer = Date.now() - 1000;
+
+        asteroids.Game.FSM.new_level();
+
+        expect(asteroids.Game.FSM.timer).toBeNull();
+      });
+
+      it("should increment totalAsteroids when changing state", function () {
+        var totalAsteroids = asteroids.Game.totalAsteroids;
+        asteroids.Game.FSM.timer = Date.now() - 1000;
+
+        asteroids.Game.FSM.new_level();
+
+        expect(asteroids.Game.totalAsteroids).toBe(totalAsteroids + 1);
+      });
+
+      it("should not increment totalAsteroids past 12", function () {
+        asteroids.Game.totalAsteroids = 12;
+        asteroids.Game.FSM.timer = Date.now() - 1000;
+
+        asteroids.Game.FSM.new_level();
+
+        expect(asteroids.Game.totalAsteroids).toBe(12);
+      });
+
+      it("should call spawnAsteroids when changing state", function () {
+        asteroids.Game.FSM.timer = Date.now() - 1000;
+
+        asteroids.Game.FSM.new_level();
+
+        expect(asteroids.Game.spawnAsteroids.called).toBeTruthy();
+      });
+
+      it("should not call spawnAsteroids unless changing state", function () {
+        asteroids.Game.FSM.timer = Date.now();
+
+        asteroids.Game.FSM.new_level();
+
+        expect(asteroids.Game.spawnAsteroids.called).toBeFalsy();
+      });
     });
   });
 
