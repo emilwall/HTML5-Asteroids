@@ -118,7 +118,7 @@ asteroids.Game = {
         this.timer = Date.now();
       }
       // wait a second before spawning more asteroids
-      if (Date.now() - this.timer > 1000) {
+      if (Date.now() - this.timer >= 1000) {
         this.timer = null;
         asteroids.Game.totalAsteroids++;
         if (asteroids.Game.totalAsteroids > 12) asteroids.Game.totalAsteroids = 12;

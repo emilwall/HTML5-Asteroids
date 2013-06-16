@@ -356,6 +356,29 @@ describe("Game", function () {
         expect(asteroids.Game.nextBigAlienTime).toBeGreaterThan(Date.now() - 1);
       });
     });
+
+    describe("new_level", function () {
+      beforeEach(function () {
+        sinon.stub(Date, "now").returns(1371304246157);
+        sinon.stub(asteroids.Game, "spawnAsteroids");
+        asteroids.Game.FSM.state = "new_level";
+        this.totalAsteroids = asteroids.Game.totalAsteroids;
+      });
+
+      afterEach(function () {
+        Date.now.restore();
+        asteroids.Game.spawnAsteroids.restore();
+        asteroids.Game.totalAsteroids = this.totalAsteroids;
+      });
+
+      it("should set state to run when one second has passed since this.timer", function () {
+        asteroids.Game.FSM.timer = Date.now() - 1000;
+
+        asteroids.Game.FSM.new_level();
+
+        expect(asteroids.Game.FSM.state).toBe("run");
+      });
+    });
   });
 
   it("should define spawnAsteroids, explosionAt and updateSprites methods", function () {
