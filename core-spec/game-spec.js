@@ -363,18 +363,18 @@ describe("Game", function () {
         sinon.stub(asteroids.Game, "spawnAsteroids");
         asteroids.Game.FSM.state = "new_level";
         this.totalAsteroids = asteroids.Game.totalAsteroids;
+        this.timer = asteroids.Game.FSM.timer;
+        asteroids.Game.FSM.timer = Date.now() - 1000;
       });
 
       afterEach(function () {
         Date.now.restore();
         asteroids.Game.spawnAsteroids.restore();
         asteroids.Game.totalAsteroids = this.totalAsteroids;
-        asteroids.Game.FSM.timer = null;
+        asteroids.Game.FSM.timer = this.timer;
       });
 
       it("should set state to run when one second has passed since this.timer", function () {
-        asteroids.Game.FSM.timer = Date.now() - 1000;
-
         asteroids.Game.FSM.new_level();
 
         expect(asteroids.Game.FSM.state).toBe("run");
@@ -389,14 +389,14 @@ describe("Game", function () {
       });
 
       it("should set this.timer to Date.now() if previously null", function () {
+        asteroids.Game.FSM.timer = null;
+
         asteroids.Game.FSM.new_level();
 
         expect(asteroids.Game.FSM.timer).toBe(Date.now());
       });
 
       it("should set timer to null when changing state", function () {
-        asteroids.Game.FSM.timer = Date.now() - 1000;
-
         asteroids.Game.FSM.new_level();
 
         expect(asteroids.Game.FSM.timer).toBeNull();
@@ -404,7 +404,6 @@ describe("Game", function () {
 
       it("should increment totalAsteroids when changing state", function () {
         var totalAsteroids = asteroids.Game.totalAsteroids;
-        asteroids.Game.FSM.timer = Date.now() - 1000;
 
         asteroids.Game.FSM.new_level();
 
@@ -413,7 +412,6 @@ describe("Game", function () {
 
       it("should not increment totalAsteroids past 12", function () {
         asteroids.Game.totalAsteroids = 12;
-        asteroids.Game.FSM.timer = Date.now() - 1000;
 
         asteroids.Game.FSM.new_level();
 
@@ -421,8 +419,6 @@ describe("Game", function () {
       });
 
       it("should call spawnAsteroids when changing state", function () {
-        asteroids.Game.FSM.timer = Date.now() - 1000;
-
         asteroids.Game.FSM.new_level();
 
         expect(asteroids.Game.spawnAsteroids.called).toBeTruthy();
