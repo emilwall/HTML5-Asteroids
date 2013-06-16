@@ -295,6 +295,83 @@ describe("Game", function () {
         expect(asteroids.Game.ship.visible).toBeUndefined();
       });
     });
+
+    describe("run", function () {
+      beforeEach(function () {
+        sinon.stub(Date, "now").returns(1371304246157);
+        sinon.stub(Math, "random").returns(0.5);
+        asteroids.Game.FSM.state = "start";
+        this.sprites = asteroids.Game.sprites;
+        asteroids.Game.sprites = [];
+        this.bigAlien = asteroids.Game.bigAlien;
+        asteroids.Game.bigAlien = { visible: false };
+        this.nextBigAlienTime = asteroids.Game.nextBigAlienTime;
+      });
+
+      afterEach(function () {
+        Date.now.restore();
+        Math.random.restore();
+        asteroids.Game.sprites = this.sprites;
+        asteroids.Game.bigAlien = this.bigAlien;
+        asteroids.Game.nextBigAlienTime = this.nextBigAlienTime;
+      });
+
+      it("should set state to new_level when no asteroids among Game.sprites", function () {
+        asteroids.Game.sprites.push({ name: "bullet" });
+
+        asteroids.Game.FSM.run();
+
+        expect(asteroids.Game.FSM.state).toBe("new_level");
+      });
+
+      it("should not set state to new_level when asteroids among Game.sprites", function () {
+        asteroids.Game.sprites.push({ name: "asteroid" });
+
+        asteroids.Game.FSM.run();
+
+        expect(asteroids.Game.FSM.state).not.toBe("new_level");
+      });
+
+      it("should set bigAlien to visible when nextBigAlienTime has passed", function () {
+        asteroids.Game.nextBigAlienTime = Date.now() - 1;
+
+        asteroids.Game.FSM.run();
+
+        expect(asteroids.Game.bigAlien.visible).toBeTruthy();
+      });
+
+      it("should not set bigAlien to visible unless nextBigAlienTime has passed", function () {
+        asteroids.Game.nextBigAlienTime = Date.now() + 1;
+
+        asteroids.Game.FSM.run();
+
+        expect(asteroids.Game.bigAlien.visible).toBeFalsy();
+      });
+
+      it("should set new value of nextBigAlienTime when nextBigAlienTime has passed", function () {
+        asteroids.Game.nextBigAlienTime = Date.now() - 1;
+
+        asteroids.Game.FSM.run();
+
+        expect(asteroids.Game.nextBigAlienTime).toBeGreaterThan(Date.now() - 1);
+      });
+
+      it("should use Array.some when available", function () {
+        asteroids.Game.sprites.some = sinon.stub().returns(false);
+
+        asteroids.Game.FSM.run();
+
+        expect(asteroids.Game.sprites.some.called).toBeTruthy();
+      });
+
+      it("should cope with browsers not supporting Array.some", function () {
+        asteroids.Game.sprites.some = null;
+
+        asteroids.Game.FSM.run();
+
+        expect(asteroids.Game.FSM.state).toBe("new_level");
+      });
+    });
   });
 
   it("should define spawnAsteroids, explosionAt and updateSprites methods", function () {
