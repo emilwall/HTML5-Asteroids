@@ -378,6 +378,14 @@ describe("Game", function () {
 
         expect(asteroids.Game.FSM.state).toBe("run");
       });
+
+      it("should not change state unless one second has passed since this.timer", function () {
+        asteroids.Game.FSM.timer = Date.now() - 999;
+
+        asteroids.Game.FSM.new_level();
+
+        expect(asteroids.Game.FSM.state).not.toBe("run");
+      });
     });
   });
 
