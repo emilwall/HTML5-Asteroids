@@ -102,24 +102,11 @@ asteroids.Game = {
       }
     },
     run: function () {
-      if (typeof asteroids.Game.sprites.some == 'function') {
-        var isAsteroid = function (sprite) {
-          return sprite.name === 'asteroid'
-        };
-        if (!asteroids.Game.sprites.some(isAsteroid)) {
-          this.state = 'new_level';
-        }
-      } else {
-        var i;
-        for (i = 0; i < asteroids.Game.sprites.length; i++) {
-          if (asteroids.Game.sprites[i].name === 'asteroid') {
-            break;
-          }
-        }
-        if (i == asteroids.Game.sprites.length) {
-          this.state = 'new_level';
-        }
+      var isAsteroid = function (sprite) { return sprite.name === 'asteroid' };
+      if (!asteroids.Game.sprites.some(isAsteroid)) {
+        this.state = 'new_level';
       }
+
       if (!asteroids.Game.bigAlien.visible &&
           Date.now() > asteroids.Game.nextBigAlienTime) {
         asteroids.Game.bigAlien.visible = true;

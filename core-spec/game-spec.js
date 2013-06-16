@@ -355,22 +355,6 @@ describe("Game", function () {
 
         expect(asteroids.Game.nextBigAlienTime).toBeGreaterThan(Date.now() - 1);
       });
-
-      it("should use Array.some when available", function () {
-        asteroids.Game.sprites.some = sinon.stub().returns(false);
-
-        asteroids.Game.FSM.run();
-
-        expect(asteroids.Game.sprites.some.called).toBeTruthy();
-      });
-
-      it("should cope with browsers not supporting Array.some", function () {
-        asteroids.Game.sprites.some = null;
-
-        asteroids.Game.FSM.run();
-
-        expect(asteroids.Game.FSM.state).toBe("new_level");
-      });
     });
   });
 
