@@ -477,6 +477,56 @@ describe("Game", function () {
         expect(asteroids.Game.FSM.timer).toBeNull();
       });
     });
+
+    describe("end_game", function () {
+      beforeEach(function () {
+        sinon.stub(Text, "renderText");
+        sinon.stub(Date, "now").returns(1371304246157);
+        asteroids.Game.FSM.state = "end_game";
+        this.timer = asteroids.Game.FSM.timer;
+        asteroids.Game.FSM.timer = Date.now() - 1000;
+        window.gameStart = true;
+      });
+
+      afterEach(function () {
+        Text.renderText.restore();
+        Date.now.restore();
+      });
+
+      it("should call Text.renderText with GAME OVER", function () {
+        asteroids.Game.FSM.end_game();
+
+        expect(Text.renderText.args[0][0]).toBe("GAME OVER");
+      });
+
+      it("should set this.timer to Date.now() when previously null", function () {
+        asteroids.Game.FSM.timer = null
+
+        asteroids.Game.FSM.end_game();
+
+        expect(asteroids.Game.FSM.timer).toBe(Date.now());
+      });
+
+      it("should not change state to waiting before 5 seconds", function () {
+        asteroids.Game.FSM.end_game();
+
+        expect(asteroids.Game.FSM.state).not.toBe("waiting");
+      });
+
+      it("should change state to waiting after 5 seconds", function () {
+        asteroids.Game.FSM.timer = Date.now() - 5000;
+
+        asteroids.Game.FSM.end_game();
+
+        expect(asteroids.Game.FSM.state).toBe("waiting");
+      });
+
+      it("should set window.gameStart to false", function () {
+        asteroids.Game.FSM.end_game();
+
+        expect(window.gameStart).toBeFalsy();
+      });
+    });
   });
 
   it("should define spawnAsteroids, explosionAt and updateSprites methods", function () {
