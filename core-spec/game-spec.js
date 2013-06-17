@@ -71,6 +71,10 @@ describe("Game", function () {
       expect(asteroids.Game.FSM.end_game).toBeDefined();
     });
 
+    it("should have boot as starting state", function () {
+      expect(asteroids.Game.FSM.state).toBe("boot");
+    });
+
     describe("boot", function () {
       beforeEach(function () {
         sinon.stub(asteroids.Game, "spawnAsteroids");
@@ -525,6 +529,36 @@ describe("Game", function () {
         asteroids.Game.FSM.end_game();
 
         expect(window.gameStart).toBeFalsy();
+      });
+    });
+
+    describe("execute", function () {
+      beforeEach(function () {
+        sinon.stub(asteroids.Game.FSM, "boot");
+        sinon.stub(asteroids.Game.FSM, "end_game");
+        this.state = asteroids.Game.FSM.state;
+      });
+
+      afterEach(function () {
+        asteroids.Game.FSM.boot.restore();
+        asteroids.Game.FSM.end_game.restore();
+        asteroids.Game.FSM.state = this.state;
+      });
+
+      it("should call function with same name as this.state", function () {
+        asteroids.Game.FSM.state = "boot";
+
+        asteroids.Game.FSM.execute();
+
+        expect(asteroids.Game.FSM.boot.called).toBeTruthy();
+      });
+
+      it("should call end_game when this.state = end_game", function () {
+        asteroids.Game.FSM.state = "end_game";
+
+        asteroids.Game.FSM.execute();
+
+        expect(asteroids.Game.FSM.end_game.called).toBeTruthy();
       });
     });
   });
