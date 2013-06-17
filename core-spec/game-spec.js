@@ -462,6 +462,20 @@ describe("Game", function () {
 
         expect(asteroids.Game.FSM.state).toBe("spawn_ship");
       });
+
+      it("should set this.timer to Date.now() when previously null", function () {
+        asteroids.Game.FSM.timer = null
+
+        asteroids.Game.FSM.player_died();
+
+        expect(asteroids.Game.FSM.timer).toBe(Date.now());
+      });
+
+      it("should set this.timer to null when state is set to spawn_ship", function () {
+        asteroids.Game.FSM.player_died();
+
+        expect(asteroids.Game.FSM.timer).toBeNull();
+      });
     });
   });
 
