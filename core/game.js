@@ -134,7 +134,7 @@ asteroids.Game = {
           this.timer = Date.now();
         }
         // wait a second before spawning
-        if (Date.now() - this.timer > 1000) {
+        if (Date.now() - this.timer >= 1000) {
           this.timer = null;
           this.state = 'spawn_ship';
         }

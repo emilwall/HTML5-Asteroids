@@ -432,6 +432,37 @@ describe("Game", function () {
         expect(asteroids.Game.spawnAsteroids.called).toBeFalsy();
       });
     });
+
+    describe("player_died", function () {
+      beforeEach(function () {
+        sinon.stub(Date, "now").returns(1371304246157);
+        asteroids.Game.FSM.state = "player_died";
+        this.lives = asteroids.Game.lives;
+        asteroids.Game.lives = 2;
+        this.timer = asteroids.Game.FSM.timer;
+        asteroids.Game.FSM.timer = Date.now() - 1000;
+      });
+
+      afterEach(function () {
+        Date.now.restore();
+        asteroids.Game.lives = this.lives;
+        asteroids.Game.FSM.timer = this.timer;
+      });
+
+      it("should set state to end_game when lives are -1 or fewer", function () {
+        asteroids.Game.lives = -1;
+
+        asteroids.Game.FSM.player_died();
+
+        expect(asteroids.Game.FSM.state).toBe("end_game");
+      });
+
+      it("should set state to spawn_ship when lives left and one second has passed", function () {
+        asteroids.Game.FSM.player_died();
+
+        expect(asteroids.Game.FSM.state).toBe("spawn_ship");
+      });
+    });
   });
 
   it("should define spawnAsteroids, explosionAt and updateSprites methods", function () {
