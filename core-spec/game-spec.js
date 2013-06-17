@@ -60,6 +60,43 @@ describe("Game", function () {
   });
 
   describe("FSM", function () {
+    beforeEach(function () {
+      sinon.stub(Text, "renderText");
+      sinon.stub(asteroids.Game, "spawnAsteroids");
+      sinon.stub(Date, "now").returns(1371304246157);
+      sinon.stub(Math, "random").returns(0.5);
+
+      this.state = asteroids.Game.FSM.state;
+      this.sprites = asteroids.Game.sprites;
+      asteroids.Game.sprites = [];
+      this.score = asteroids.Game.score;
+      this.lives = asteroids.Game.lives;
+      this.totalAsteroids = asteroids.Game.totalAsteroids;
+      this.bigAlien = asteroids.Game.bigAlien;
+      asteroids.Game.bigAlien = { visible: false };
+      this.nextBigAlienTime = asteroids.Game.nextBigAlienTime;
+      this.ship = asteroids.Game.ship;
+      asteroids.Game.ship = { vel: {}, isClear: sinon.stub().returns(true) };
+      this.timer = asteroids.Game.FSM.timer;
+    });
+
+    afterEach(function () {
+      Text.renderText.restore();
+      asteroids.Game.spawnAsteroids.restore();
+      Date.now.restore();
+      Math.random.restore();
+
+      asteroids.Game.FSM.state = this.state;
+      asteroids.Game.sprites = this.sprites;
+      asteroids.Game.score = this.score;
+      asteroids.Game.lives = this.lives;
+      asteroids.Game.totalAsteroids = this.totalAsteroids;
+      asteroids.Game.bigAlien = this.bigAlien;
+      asteroids.Game.nextBigAlienTime = this.nextBigAlienTime;
+      asteroids.Game.ship = this.ship;
+      asteroids.Game.FSM.timer = this.timer;
+    });
+
     it("should have boot, waiting, start, spawn_ship, run, new_level, player_died and end_game states", function () {
       expect(asteroids.Game.FSM.boot).toBeDefined();
       expect(asteroids.Game.FSM.waiting).toBeDefined();
@@ -76,15 +113,6 @@ describe("Game", function () {
     });
 
     describe("boot", function () {
-      beforeEach(function () {
-        sinon.stub(asteroids.Game, "spawnAsteroids");
-        asteroids.Game.FSM.state = "boot";
-      });
-
-      afterEach(function () {
-        asteroids.Game.spawnAsteroids.restore();
-      });
-
       it("should call spawnAsteroids", function () {
         asteroids.Game.FSM.boot();
 
@@ -100,7 +128,6 @@ describe("Game", function () {
 
     describe("waiting", function () {
       beforeEach(function () {
-        sinon.stub(Text, "renderText");
         asteroids.Game.FSM.state = "waiting";
         this.KEY_STATUS = asteroids.KEY_STATUS;
         asteroids.KEY_STATUS = { space: false };
@@ -108,7 +135,6 @@ describe("Game", function () {
       });
 
       afterEach(function () {
-        Text.renderText.restore();
         asteroids.KEY_STATUS = this.KEY_STATUS;
       });
 
@@ -151,30 +177,6 @@ describe("Game", function () {
     });
 
     describe("start", function () {
-      beforeEach(function () {
-        sinon.stub(Date, "now").returns(1371304246157);
-        sinon.stub(Math, "random").returns(0.5);
-        sinon.stub(asteroids.Game, "spawnAsteroids");
-        asteroids.Game.FSM.state = "start";
-        this.sprites = asteroids.Game.sprites;
-        asteroids.Game.sprites = [];
-        this.score = asteroids.Game.score;
-        this.lives = asteroids.Game.lives;
-        this.totalAsteroids = asteroids.Game.totalAsteroids;
-        this.nextBigAlienTime = asteroids.Game.nextBigAlienTime;
-      });
-
-      afterEach(function () {
-        Date.now.restore();
-        Math.random.restore();
-        asteroids.Game.spawnAsteroids.restore();
-        asteroids.Game.sprites = this.sprites;
-        asteroids.Game.score = this.score;
-        asteroids.Game.lives = this.lives;
-        asteroids.Game.totalAsteroids = this.totalAsteroids;
-        asteroids.Game.nextBigAlienTime = this.nextBigAlienTime;
-      });
-
       it("should set state to spawn_ship", function () {
         asteroids.Game.FSM.start();
 
@@ -248,16 +250,6 @@ describe("Game", function () {
     });
 
     describe("spawn_ship", function () {
-      beforeEach(function () {
-        asteroids.Game.FSM.state = "spawn_ship";
-        this.ship = asteroids.Game.ship;
-        asteroids.Game.ship = { vel: {}, isClear: sinon.stub().returns(true) };
-      });
-
-      afterEach(function () {
-        asteroids.Game.ship = this.ship;
-      });
-
       it("should set state to run when ship is clear", function () {
         asteroids.Game.FSM.spawn_ship();
 
@@ -301,25 +293,6 @@ describe("Game", function () {
     });
 
     describe("run", function () {
-      beforeEach(function () {
-        sinon.stub(Date, "now").returns(1371304246157);
-        sinon.stub(Math, "random").returns(0.5);
-        asteroids.Game.FSM.state = "start";
-        this.sprites = asteroids.Game.sprites;
-        asteroids.Game.sprites = [];
-        this.bigAlien = asteroids.Game.bigAlien;
-        asteroids.Game.bigAlien = { visible: false };
-        this.nextBigAlienTime = asteroids.Game.nextBigAlienTime;
-      });
-
-      afterEach(function () {
-        Date.now.restore();
-        Math.random.restore();
-        asteroids.Game.sprites = this.sprites;
-        asteroids.Game.bigAlien = this.bigAlien;
-        asteroids.Game.nextBigAlienTime = this.nextBigAlienTime;
-      });
-
       it("should set state to new_level when no asteroids among Game.sprites", function () {
         asteroids.Game.sprites.push({ name: "bullet" });
 
@@ -362,23 +335,9 @@ describe("Game", function () {
     });
 
     describe("new_level", function () {
-      beforeEach(function () {
-        sinon.stub(Date, "now").returns(1371304246157);
-        sinon.stub(asteroids.Game, "spawnAsteroids");
-        asteroids.Game.FSM.state = "new_level";
-        this.totalAsteroids = asteroids.Game.totalAsteroids;
-        this.timer = asteroids.Game.FSM.timer;
-        asteroids.Game.FSM.timer = Date.now() - 1000;
-      });
-
-      afterEach(function () {
-        Date.now.restore();
-        asteroids.Game.spawnAsteroids.restore();
-        asteroids.Game.totalAsteroids = this.totalAsteroids;
-        asteroids.Game.FSM.timer = this.timer;
-      });
-
       it("should set state to run when one second has passed since this.timer", function () {
+        asteroids.Game.FSM.timer = Date.now() - 1000;
+
         asteroids.Game.FSM.new_level();
 
         expect(asteroids.Game.FSM.state).toBe("run");
@@ -401,12 +360,15 @@ describe("Game", function () {
       });
 
       it("should set timer to null when changing state", function () {
+        asteroids.Game.FSM.timer = Date.now() - 1000;
+
         asteroids.Game.FSM.new_level();
 
         expect(asteroids.Game.FSM.timer).toBeNull();
       });
 
       it("should increment totalAsteroids when changing state", function () {
+        asteroids.Game.FSM.timer = Date.now() - 1000;
         var totalAsteroids = asteroids.Game.totalAsteroids;
 
         asteroids.Game.FSM.new_level();
@@ -415,6 +377,7 @@ describe("Game", function () {
       });
 
       it("should not increment totalAsteroids past 12", function () {
+        asteroids.Game.FSM.timer = Date.now() - 1000;
         asteroids.Game.totalAsteroids = 12;
 
         asteroids.Game.FSM.new_level();
@@ -423,6 +386,7 @@ describe("Game", function () {
       });
 
       it("should call spawnAsteroids when changing state", function () {
+        asteroids.Game.FSM.timer = Date.now() - 1000;
         asteroids.Game.FSM.new_level();
 
         expect(asteroids.Game.spawnAsteroids.called).toBeTruthy();
@@ -438,21 +402,6 @@ describe("Game", function () {
     });
 
     describe("player_died", function () {
-      beforeEach(function () {
-        sinon.stub(Date, "now").returns(1371304246157);
-        asteroids.Game.FSM.state = "player_died";
-        this.lives = asteroids.Game.lives;
-        asteroids.Game.lives = 2;
-        this.timer = asteroids.Game.FSM.timer;
-        asteroids.Game.FSM.timer = Date.now() - 1000;
-      });
-
-      afterEach(function () {
-        Date.now.restore();
-        asteroids.Game.lives = this.lives;
-        asteroids.Game.FSM.timer = this.timer;
-      });
-
       it("should set state to end_game when lives are -1 or fewer", function () {
         asteroids.Game.lives = -1;
 
@@ -462,6 +411,9 @@ describe("Game", function () {
       });
 
       it("should set state to spawn_ship when lives left and one second has passed", function () {
+        asteroids.Game.lives = 2;
+        asteroids.Game.FSM.timer = Date.now() - 1000;
+
         asteroids.Game.FSM.player_died();
 
         expect(asteroids.Game.FSM.state).toBe("spawn_ship");
@@ -475,7 +427,10 @@ describe("Game", function () {
         expect(asteroids.Game.FSM.timer).toBe(Date.now());
       });
 
-      it("should set this.timer to null when state is set to spawn_ship", function () {
+      it("should set this.timer to null when changing state to spawn_ship", function () {
+        asteroids.Game.lives = 2;
+        asteroids.Game.FSM.timer = Date.now() - 1000;
+
         asteroids.Game.FSM.player_died();
 
         expect(asteroids.Game.FSM.timer).toBeNull();
@@ -483,20 +438,6 @@ describe("Game", function () {
     });
 
     describe("end_game", function () {
-      beforeEach(function () {
-        sinon.stub(Text, "renderText");
-        sinon.stub(Date, "now").returns(1371304246157);
-        asteroids.Game.FSM.state = "end_game";
-        this.timer = asteroids.Game.FSM.timer;
-        asteroids.Game.FSM.timer = Date.now() - 1000;
-        window.gameStart = true;
-      });
-
-      afterEach(function () {
-        Text.renderText.restore();
-        Date.now.restore();
-      });
-
       it("should call Text.renderText with GAME OVER", function () {
         asteroids.Game.FSM.end_game();
 
@@ -512,6 +453,8 @@ describe("Game", function () {
       });
 
       it("should not change state to waiting before 5 seconds", function () {
+        asteroids.Game.FSM.timer = Date.now() - 1000;
+
         asteroids.Game.FSM.end_game();
 
         expect(asteroids.Game.FSM.state).not.toBe("waiting");
@@ -526,6 +469,8 @@ describe("Game", function () {
       });
 
       it("should set window.gameStart to false", function () {
+        window.gameStart = true;
+
         asteroids.Game.FSM.end_game();
 
         expect(window.gameStart).toBeFalsy();
@@ -536,13 +481,11 @@ describe("Game", function () {
       beforeEach(function () {
         sinon.stub(asteroids.Game.FSM, "boot");
         sinon.stub(asteroids.Game.FSM, "end_game");
-        this.state = asteroids.Game.FSM.state;
       });
 
       afterEach(function () {
         asteroids.Game.FSM.boot.restore();
         asteroids.Game.FSM.end_game.restore();
-        asteroids.Game.FSM.state = this.state;
       });
 
       it("should call function with same name as this.state", function () {
