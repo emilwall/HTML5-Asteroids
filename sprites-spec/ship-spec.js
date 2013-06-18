@@ -2,6 +2,7 @@ describe("Ship", function () {
   beforeEach(function () {
     sinon.stub(asteroids, "Sprite").returns({ init: sinon.spy() });
     sinon.stub(asteroids.Ship.prototype, "init");
+    sinon.stub(asteroids.Ship.prototype, "wrapPostMove");
     this.ship = new asteroids.Ship();
     this.ship.currentNode = this.ship.currentNode || {};
     this.ship.currentNode.leave = sinon.stub();
@@ -12,6 +13,7 @@ describe("Ship", function () {
   afterEach(function () {
     asteroids.Sprite.restore();
     asteroids.Ship.prototype.init.restore();
+    asteroids.Ship.prototype.wrapPostMove.restore();
     asteroids.Game.explosionAt.restore();
     asteroids.Game.lives = this.gameLives;
   });
@@ -31,8 +33,24 @@ describe("Ship", function () {
     });
   });
 
+  it("should have postMove method", function () {
+    expect(typeof this.ship.postMove).toBe("function");
+  });
+
+  describe("postMove", function () {
+    it("should call wrapPostMove", function () {
+      this.ship.postMove();
+
+      expect(asteroids.Ship.prototype.wrapPostMove.called).toBeTruthy();
+    });
+
+    it("should be wrapPostMove", function () {
+      expect(this.ship.postMove).toBe(asteroids.Ship.prototype.wrapPostMove);
+    });
+  });
+
   it("should have preMove method", function () {
-    expect(typeof this.ship.collision).toBe("function");
+    expect(typeof this.ship.preMove).toBe("function");
   });
 
   describe("preMove", function () {
