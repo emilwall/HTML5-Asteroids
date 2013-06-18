@@ -72,5 +72,33 @@ describe("Ship", function () {
 
       expect(this.ship.vel.rot).toBe(0);
     });
+
+    it("should set rotation velocity to -6 when left key is pressed", function () {
+      asteroids.KEY_STATUS.left = true;
+      this.ship.vel.rot = 5;
+
+      this.ship.preMove(3);
+
+      expect(this.ship.vel.rot).toBe(-6);
+    });
+
+    it("should set rotation velocity to -6 when both left and right keys are pressed", function () {
+      asteroids.KEY_STATUS.left = true;
+      asteroids.KEY_STATUS.right = true;
+      this.ship.vel.rot = 5;
+
+      this.ship.preMove(3);
+
+      expect(this.ship.vel.rot).toBe(-6);
+    });
+
+    it("should set rotation velocity to 6 when right key is pressed", function () {
+      asteroids.KEY_STATUS.right = true;
+      this.ship.vel.rot = 5;
+
+      this.ship.preMove(3);
+
+      expect(this.ship.vel.rot).toBe(6);
+    });
   });
 });
