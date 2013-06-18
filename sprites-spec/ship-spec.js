@@ -55,13 +55,16 @@ describe("Ship", function () {
 
   describe("preMove", function () {
     beforeEach(function () {
+      sinon.stub(Math, "random").returns(1.0);
       this.keyStatus = asteroids.KEY_STATUS;
       asteroids.KEY_STATUS = { left: false, right: false, up: false, space: false };
       this.ship.acc = {};
       this.ship.vel = {};
+      this.ship.rot = 0;
     });
 
     afterEach(function () {
+      Math.random.restore();
       asteroids.KEY_STATUS = this.keyStatus;
     });
 
@@ -99,6 +102,72 @@ describe("Ship", function () {
       this.ship.preMove(3);
 
       expect(this.ship.vel.rot).toBe(6);
+    });
+
+    it("should set acceleration to zero and exhaust.visible to false when up key is not pressed", function () {
+      this.ship.acc.x = 0.2;
+      this.ship.acc.y = 0.3;
+      this.ship.children.exhaust.visible = true;
+
+      this.ship.preMove(3);
+
+      expect(this.ship.acc.x).toBe(0);
+      expect(this.ship.acc.y).toBe(0);
+      expect(this.ship.children.exhaust.visible).toBeFalsy();
+    });
+
+    it("should set acc.x to 0 and acc.y to -0.5 when up key is pressed and no rotation", function () {
+      this.ship.rot = 0;
+      this.ship.acc.x = 0.2;
+      this.ship.acc.y = 0.3;
+      asteroids.KEY_STATUS.up = true;
+
+      this.ship.preMove(3);
+
+      expect(Math.abs(this.ship.acc.x)).toBeLessThan(0.0001);
+      expect(this.ship.acc.y).toBe(-0.5);
+    });
+
+    it("should set acc.x to 0.5 and acc.y to 0 when up key is pressed and rotation is 90 degrees", function () {
+      this.ship.rot = 90;
+      this.ship.acc.x = 0.2;
+      this.ship.acc.y = 0.3;
+      asteroids.KEY_STATUS.up = true;
+
+      this.ship.preMove(3);
+
+      expect(this.ship.acc.x).toBe(0.5);
+      expect(Math.abs(this.ship.acc.y)).toBeLessThan(0.0001);
+    });
+
+    it("should set acc.x to roughly the same non-negative value as acc.y when up key is pressed and rotation is 135 degrees", function () {
+      this.ship.rot = 135;
+      this.ship.acc.x = 0.2;
+      this.ship.acc.y = 0.3;
+      asteroids.KEY_STATUS.up = true;
+
+      this.ship.preMove(3);
+
+      expect(this.ship.acc.x).toBeGreaterThan(0.1);
+      expect(Math.abs(this.ship.acc.y - this.ship.acc.x)).toBeLessThan(0.0001);
+    });
+
+    it("should set exhaust.visible to true when up key is pressed and Math.random returns number greater than 0.1", function () {
+      asteroids.KEY_STATUS.up = true;
+      Math.random.returns(0.2);
+
+      this.ship.preMove(3);
+
+      expect(this.ship.children.exhaust.visible).toBeTruthy();
+    });
+
+    it("should set exhaust.visible to true when up key is pressed and Math.random returns number greater than 0.1", function () {
+      asteroids.KEY_STATUS.up = true;
+      Math.random.returns(0.1);
+
+      this.ship.preMove(3);
+
+      expect(this.ship.children.exhaust.visible).toBeFalsy();
     });
   });
 });
