@@ -1,5 +1,7 @@
 describe("Ship", function () {
   beforeEach(function () {
+    sinon.stub(asteroids, "Sprite").returns({ init: sinon.spy() });
+    sinon.stub(asteroids.Ship.prototype, "init");
     this.ship = new asteroids.Ship();
     this.ship.currentNode = this.ship.currentNode || {};
     this.ship.currentNode.leave = sinon.stub();
@@ -8,6 +10,8 @@ describe("Ship", function () {
   });
 
   afterEach(function () {
+    asteroids.Sprite.restore();
+    asteroids.Ship.prototype.init.restore();
     asteroids.Game.explosionAt.restore();
     asteroids.Game.lives = this.gameLives;
   });
@@ -32,6 +36,17 @@ describe("Ship", function () {
   });
 
   describe("preMove", function () {
+    beforeEach(function () {
+      this.keyStatus = asteroids.KEY_STATUS;
+      asteroids.KEY_STATUS = { left: false, right: false, up: false, space: false };
+      this.ship.acc = {};
+      this.ship.vel = {};
+    });
+
+    afterEach(function () {
+      asteroids.KEY_STATUS = this.keyStatus;
+    });
+
     it("should set rotation velocity to zero when no key is pressed", function () {
       this.ship.vel.rot = 5;
 
