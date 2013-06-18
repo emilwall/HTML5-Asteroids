@@ -155,4 +155,33 @@ describe("Sprite", function () {
   });
 
   // wrapPostMove: Set x and y to wrap around canvas edges
+  describe("wrapPostMove", function () {
+    beforeEach(function () {
+      this.canvasWidth = asteroids.Game.canvasWidth;
+      asteroids.Game.canvasWidth = 780;
+      this.canvasHeight = asteroids.Game.canvasHeight;
+      asteroids.Game.canvasHeight = 540;
+    });
+
+    afterEach(function () {
+      asteroids.Game.canvasWidth = this.canvasWidth;
+      asteroids.Game.canvasHeight = this.canvasHeight;
+    });
+
+    it("should set x to zero when exceeding canvasWidth", function () {
+      this.sprite.x = asteroids.Game.canvasWidth + 1;
+
+      this.sprite.wrapPostMove();
+
+      expect(this.sprite.x).toBe(0);
+    });
+
+    it("should not change x when not exceeding canvasWidth", function () {
+      this.sprite.x = asteroids.Game.canvasWidth;
+
+      this.sprite.wrapPostMove();
+
+      expect(this.sprite.x).toBe(asteroids.Game.canvasWidth);
+    });
+  });
 });
