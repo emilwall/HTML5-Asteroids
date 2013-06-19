@@ -18,21 +18,6 @@ describe("Ship", function () {
     asteroids.Game.lives = this.gameLives;
   });
 
-  it("should have collision method", function () {
-    expect(typeof this.ship.collision).toBe("function");
-  });
-
-  describe("Collision", function () {
-    it("should deduct lives left when colliding with asteroid", function () {
-      var roid = { name: "asteroid", x: 0, y: 0 };
-      asteroids.Game.lives = 3;
-
-      this.ship.collision(roid);
-
-      expect(asteroids.Game.lives).toBe(2);
-    });
-  });
-
   it("should have postMove method", function () {
     expect(typeof this.ship.postMove).toBe("function");
   });
@@ -230,6 +215,21 @@ describe("Ship", function () {
 
       expect(this.ship.vel.x).toBe(2);
       expect(this.ship.vel.y).toBe(2);
+    });
+  });
+
+  it("should have collision method", function () {
+    expect(typeof this.ship.collision).toBe("function");
+  });
+
+  describe("Collision", function () {
+    it("should deduct lives left when colliding with asteroid", function () {
+      var roid = { name: "asteroid", x: 0, y: 0 };
+      asteroids.Game.lives = 3;
+
+      this.ship.collision(roid);
+
+      expect(asteroids.Game.lives).toBe(2);
     });
   });
 });
