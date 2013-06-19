@@ -95,6 +95,7 @@ describe("BigAlien", function () {
       asteroids.AlienBullet = asteroids.AlienBullet || function () { };
       sinon.stub(asteroids, "AlienBullet").returns({});
       sinon.stub(asteroids.Game, "addSprite");
+      this.bigAlien.newPosition = sinon.stub();
     });
 
     afterEach(function () {
@@ -102,14 +103,10 @@ describe("BigAlien", function () {
       asteroids.AlienBullet.restore();
     });
 
-    it("should set position", function () {
-      this.bigAlien.x = null;
-      this.bigAlien.y = null;
-
+    it("should set position using newPosition", function () {
       this.bigAlien.setup();
 
-      expect(typeof this.bigAlien.x).toBe("number");
-      expect(typeof this.bigAlien.y).toBe("number");
+      expect(this.bigAlien.newPosition.called).toBeTruthy();
     });
 
     it("should add 3 bullets to this.bullets", function () {
