@@ -211,5 +211,25 @@ describe("Ship", function () {
       expect(this.ship.bullets[1].vel.x).toBeGreaterThan(0);
       expect(this.ship.bullets[1].vel.y).toBeGreaterThan(0);
     });
+
+    it("should reduce speed of ship when going too fast", function () {
+      this.ship.vel.x = 10;
+      this.ship.vel.y = 10;
+
+      this.ship.preMove(3);
+
+      expect(this.ship.vel.x).toBeLessThan(10);
+      expect(this.ship.vel.y).toBeLessThan(10);
+    });
+
+    it("should not reduce speed of ship when going slow", function () {
+      this.ship.vel.x = 2;
+      this.ship.vel.y = 2;
+
+      this.ship.preMove(3);
+
+      expect(this.ship.vel.x).toBe(2);
+      expect(this.ship.vel.y).toBe(2);
+    });
   });
 });
