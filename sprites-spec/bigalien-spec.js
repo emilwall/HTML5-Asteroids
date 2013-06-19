@@ -126,6 +126,29 @@ describe("BigAlien", function () {
     });
   });
 
+  describe("preMove", function () {
+    beforeEach(function () {
+      sinon.stub(Math, "random").returns(0.5);
+    });
+
+    afterEach(function () {
+      Math.random.restore();
+    });
+
+    it("should not change velocity, bulletCounter or bullets when currentNode is null", function () {
+      this.bigAlien.currentNode = null;
+      this.bigAlien.vel = {};
+      this.bigAlien.bulletCounter = 0;
+      this.bigAlien.bullets = [{ visible: false, vel: {}}];
+
+      this.bigAlien.preMove();
+
+      expect(this.bigAlien.vel).toEqual({});
+      expect(this.bigAlien.bulletCounter).toBe(0);
+      expect(this.bigAlien.bullets[0].visible).toBe(false);
+    });
+  });
+
   describe("collision", function () {
     beforeEach(function () {
       sinon.stub(asteroids.Game, "explosionAt");
