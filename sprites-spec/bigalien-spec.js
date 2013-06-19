@@ -34,6 +34,62 @@ describe("BigAlien", function () {
     expect(this.spriteInit.calledWith("bigalien_bottom")).toBeTruthy();
   });
 
+  describe("newPosition", function () {
+    beforeEach(function () {
+      sinon.stub(Math, "random");
+      this.gameCanvasWidth = asteroids.Game.canvasWidth;
+      asteroids.Game.canvasWidth = 780;
+      this.gameCanvasHeight = asteroids.Game.canvasHeight;
+      asteroids.Game.canvasHeight = 540;
+    });
+
+    afterEach(function () {
+      Math.random.restore();
+      asteroids.Game.canvasWidth = this.gameCanvasWidth;
+      asteroids.Game.canvasHeight = this.gameCanvasHeight
+    });
+
+    it("should set x-position to -20 when Math.random returns small number", function () {
+      Math.random.returns(0);
+
+      this.bigAlien.newPosition();
+
+      expect(this.bigAlien.x).toBe(-20);
+    });
+
+    it("should set horizontal velocity to 1.5 when Math.random returns small number", function () {
+      Math.random.returns(0.4);
+
+      this.bigAlien.newPosition();
+
+      expect(this.bigAlien.vel.x).toBe(1.5);
+    });
+
+    it("should set x-position to canvas width + 20 when Math.random returns large number", function () {
+      Math.random.returns(1);
+
+      this.bigAlien.newPosition();
+
+      expect(this.bigAlien.x).toBe(asteroids.Game.canvasWidth + 20);
+    });
+
+    it("should set horizontal velocity to -1.5 when Math.random returns large number", function () {
+      Math.random.returns(0.6);
+
+      this.bigAlien.newPosition();
+
+      expect(this.bigAlien.vel.x).toBe(-1.5);
+    });
+
+    it("should set y-position to a random value between zero and canvasHeight", function () {
+      Math.random.returns(0.5);
+
+      this.bigAlien.newPosition();
+
+      expect(this.bigAlien.y).toBe(Math.random() * asteroids.Game.canvasHeight);
+    });
+  });
+
   describe("setup", function () {
     beforeEach(function () {
       asteroids.AlienBullet = asteroids.AlienBullet || function () { };
