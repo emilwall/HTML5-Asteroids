@@ -182,5 +182,34 @@ describe("Ship", function () {
 
       expect(this.ship.bullets[1].visible).toBeTruthy();
     });
+
+    it("should not set first hidden bullet to visible when space is not pressed", function () {
+      this.ship.preMove(10);
+
+      expect(this.ship.bullets[1].visible).toBeFalsy();
+    });
+
+    it("should not set first hidden bullet to visible when bulletcounter minus delta is greater than 0", function () {
+      asteroids.KEY_STATUS.space = true;
+
+      this.ship.preMove(9);
+
+      expect(this.ship.bullets[1].visible).toBeFalsy();
+    });
+
+    it("should set position and velocity of first hidden bullet to visible when space pressed and bulletcounter minus delta is 0", function () {
+      this.ship.x = 10;
+      this.ship.y = 10;
+      this.ship.vel.x = 10;
+      this.ship.vel.y = 10;
+      asteroids.KEY_STATUS.space = true;
+
+      this.ship.preMove(10);
+
+      expect(this.ship.bullets[1].x).toBeGreaterThan(0);
+      expect(this.ship.bullets[1].y).toBeGreaterThan(0);
+      expect(this.ship.bullets[1].vel.x).toBeGreaterThan(0);
+      expect(this.ship.bullets[1].vel.y).toBeGreaterThan(0);
+    });
   });
 });
