@@ -58,9 +58,14 @@ describe("Ship", function () {
       sinon.stub(Math, "random").returns(1.0);
       this.keyStatus = asteroids.KEY_STATUS;
       asteroids.KEY_STATUS = { left: false, right: false, up: false, space: false };
+      this.ship.bullets = [{ vel: {}, visible: true}];
+      for (var i = 0; i < 9; i++) {
+        this.ship.bullets.push({ vel: {}, visible: false });
+      }
       this.ship.acc = {};
       this.ship.vel = {};
       this.ship.rot = 0;
+      this.ship.bulletCounter = 10;
     });
 
     afterEach(function () {
@@ -168,6 +173,14 @@ describe("Ship", function () {
       this.ship.preMove(3);
 
       expect(this.ship.children.exhaust.visible).toBeFalsy();
+    });
+
+    it("should set first hidden bullet to visible when space pressed and bulletcounter minus delta is 0", function () {
+      asteroids.KEY_STATUS.space = true;
+
+      this.ship.preMove(10);
+
+      expect(this.ship.bullets[1].visible).toBeTruthy();
     });
   });
 });
