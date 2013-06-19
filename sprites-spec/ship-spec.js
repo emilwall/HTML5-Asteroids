@@ -8,6 +8,7 @@ describe("Ship", function () {
     this.ship.currentNode = this.ship.currentNode || {};
     this.ship.currentNode.leave = sinon.stub();
     this.gameLives = asteroids.Game.lives;
+    this.FSMstate = asteroids.Game.FSM.state;
   });
 
   afterEach(function () {
@@ -16,6 +17,7 @@ describe("Ship", function () {
     asteroids.Ship.prototype.wrapPostMove.restore();
     asteroids.Game.explosionAt.restore();
     asteroids.Game.lives = this.gameLives;
+    asteroids.Game.FSM.state = this.FSMstate;
   });
 
   it("should have postMove method", function () {
@@ -223,13 +225,45 @@ describe("Ship", function () {
   });
 
   describe("Collision", function () {
+    beforeEach(function () {
+      this.other = { x: 0, y: 0 };
+    });
+
     it("should deduct lives left", function () {
-      var roid = { name: "asteroid", x: 0, y: 0 };
       asteroids.Game.lives = 3;
 
-      this.ship.collision(roid);
+      this.ship.collision(this.other);
 
       expect(asteroids.Game.lives).toBe(2);
+    });
+
+    it("should call asteroids.Game.explosionAt", function () {
+      this.ship.collision(this.other);
+
+      expect(asteroids.Game.explosionAt.called).toBeTruthy();
+    });
+
+    it("should set state of asteroids.Game.FSM to player_died", function () {
+      this.ship.collision(this.other);
+
+      expect(asteroids.Game.FSM.state).toBe("player_died");
+    });
+
+    it("should leave grid node and set it to null", function () {
+      var gridNode = this.ship.currentNode;
+
+      this.ship.collision(this.other);
+
+      expect(gridNode.leave.called).toBeTruthy();
+      expect(this.ship.currentNode).toBeNull();
+    });
+
+    it("should set visibility of ship to false", function () {
+      this.ship.visible = true;
+
+      this.ship.collision(this.other);
+
+      expect(this.ship.visible).toBeFalsy();
     });
   });
 });
