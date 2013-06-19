@@ -1,6 +1,16 @@
 describe("BigAlien", function () {
   beforeEach(function () {
+    sinon.stub(asteroids, "Sprite").returns({ init: sinon.spy() });
+    sinon.stub(asteroids.BigAlien.prototype, "init");
+    sinon.stub(asteroids.BigAlien.prototype, "wrapPostMove");
     this.bigAlien = new asteroids.BigAlien();
+    this.bigAlien.vel = {};
+  });
+
+  afterEach(function () {
+    asteroids.Sprite.restore();
+    asteroids.BigAlien.prototype.init.restore();
+    asteroids.BigAlien.prototype.wrapPostMove.restore();
   });
 
   it("should have newPosition, setup, preMove, collision and postMove methods", function () {
