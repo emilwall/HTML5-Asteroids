@@ -76,7 +76,7 @@ describe("Ship", function () {
     it("should set rotation velocity to zero when no key is pressed", function () {
       this.ship.vel.rot = 5;
 
-      this.ship.preMove(3);
+      this.ship.preMove();
 
       expect(this.ship.vel.rot).toBe(0);
     });
@@ -85,7 +85,7 @@ describe("Ship", function () {
       asteroids.KEY_STATUS.left = true;
       this.ship.vel.rot = 5;
 
-      this.ship.preMove(3);
+      this.ship.preMove();
 
       expect(this.ship.vel.rot).toBe(-6);
     });
@@ -95,7 +95,7 @@ describe("Ship", function () {
       asteroids.KEY_STATUS.right = true;
       this.ship.vel.rot = 5;
 
-      this.ship.preMove(3);
+      this.ship.preMove();
 
       expect(this.ship.vel.rot).toBe(-6);
     });
@@ -104,7 +104,7 @@ describe("Ship", function () {
       asteroids.KEY_STATUS.right = true;
       this.ship.vel.rot = 5;
 
-      this.ship.preMove(3);
+      this.ship.preMove();
 
       expect(this.ship.vel.rot).toBe(6);
     });
@@ -114,7 +114,7 @@ describe("Ship", function () {
       this.ship.acc.y = 0.3;
       this.ship.children.exhaust.visible = true;
 
-      this.ship.preMove(3);
+      this.ship.preMove();
 
       expect(this.ship.acc.x).toBe(0);
       expect(this.ship.acc.y).toBe(0);
@@ -127,7 +127,7 @@ describe("Ship", function () {
       this.ship.acc.y = 0.3;
       asteroids.KEY_STATUS.up = true;
 
-      this.ship.preMove(3);
+      this.ship.preMove();
 
       expect(Math.abs(this.ship.acc.x)).toBeLessThan(0.0001);
       expect(this.ship.acc.y).toBe(-0.5);
@@ -139,7 +139,7 @@ describe("Ship", function () {
       this.ship.acc.y = 0.3;
       asteroids.KEY_STATUS.up = true;
 
-      this.ship.preMove(3);
+      this.ship.preMove();
 
       expect(this.ship.acc.x).toBe(0.5);
       expect(Math.abs(this.ship.acc.y)).toBeLessThan(0.0001);
@@ -151,7 +151,7 @@ describe("Ship", function () {
       this.ship.acc.y = 0.3;
       asteroids.KEY_STATUS.up = true;
 
-      this.ship.preMove(3);
+      this.ship.preMove();
 
       expect(this.ship.acc.x).toBeGreaterThan(0.1);
       expect(Math.abs(this.ship.acc.y - this.ship.acc.x)).toBeLessThan(0.0001);
@@ -161,7 +161,7 @@ describe("Ship", function () {
       asteroids.KEY_STATUS.up = true;
       Math.random.returns(0.2);
 
-      this.ship.preMove(3);
+      this.ship.preMove();
 
       expect(this.ship.children.exhaust.visible).toBeTruthy();
     });
@@ -170,7 +170,7 @@ describe("Ship", function () {
       asteroids.KEY_STATUS.up = true;
       Math.random.returns(0.1);
 
-      this.ship.preMove(3);
+      this.ship.preMove();
 
       expect(this.ship.children.exhaust.visible).toBeFalsy();
     });
@@ -216,7 +216,7 @@ describe("Ship", function () {
       this.ship.vel.x = 10;
       this.ship.vel.y = 10;
 
-      this.ship.preMove(3);
+      this.ship.preMove();
 
       expect(this.ship.vel.x).toBeLessThan(10);
       expect(this.ship.vel.y).toBeLessThan(10);
@@ -226,7 +226,7 @@ describe("Ship", function () {
       this.ship.vel.x = 2;
       this.ship.vel.y = 2;
 
-      this.ship.preMove(3);
+      this.ship.preMove();
 
       expect(this.ship.vel.x).toBe(2);
       expect(this.ship.vel.y).toBe(2);
