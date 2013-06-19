@@ -1,6 +1,7 @@
 describe("BigAlien", function () {
   beforeEach(function () {
-    sinon.stub(asteroids, "Sprite").returns({ init: sinon.spy() });
+    this.spriteInit = sinon.spy();
+    sinon.stub(asteroids, "Sprite").returns({ init: this.spriteInit });
     sinon.stub(asteroids.BigAlien.prototype, "init");
     sinon.stub(asteroids.BigAlien.prototype, "wrapPostMove");
     this.bigAlien = new asteroids.BigAlien();
@@ -19,6 +20,18 @@ describe("BigAlien", function () {
     expect(typeof this.bigAlien.preMove).toBe("function");
     expect(typeof this.bigAlien.collision).toBe("function");
     expect(typeof this.bigAlien.postMove).toBe("function");
+  });
+
+  it("should call asteroids.BigAlien.prototype.init in constructor", function () {
+    expect(asteroids.BigAlien.prototype.init.called).toBeTruthy();
+  });
+
+  it("should call init of object created using asteroids.Sprite with name bigalien_top", function () {
+    expect(this.spriteInit.calledWith("bigalien_top")).toBeTruthy();
+  });
+
+  it("should call init of object created using asteroids.Sprite with name bigalien_bottom", function () {
+    expect(this.spriteInit.calledWith("bigalien_bottom")).toBeTruthy();
   });
 
   describe("setup", function () {

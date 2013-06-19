@@ -20,7 +20,7 @@ asteroids.BigAlien = function () {
   this.children.top.visible = true;
 
   this.children.bottom = new asteroids.Sprite();
-  this.children.bottom.init("bigalien_top",
+  this.children.bottom.init("bigalien_bottom",
                             [ 8, 4,
                               6, 6,
                              -6, 6,
