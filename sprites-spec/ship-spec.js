@@ -3,10 +3,10 @@ describe("Ship", function () {
     sinon.stub(asteroids, "Sprite").returns({ init: sinon.spy() });
     sinon.stub(asteroids.Ship.prototype, "init");
     sinon.stub(asteroids.Ship.prototype, "wrapPostMove");
+    sinon.stub(asteroids.Game, "explosionAt");
     this.ship = new asteroids.Ship();
     this.ship.currentNode = this.ship.currentNode || {};
     this.ship.currentNode.leave = sinon.stub();
-    sinon.stub(asteroids.Game, "explosionAt");
     this.gameLives = asteroids.Game.lives;
   });
 
@@ -223,7 +223,7 @@ describe("Ship", function () {
   });
 
   describe("Collision", function () {
-    it("should deduct lives left when colliding with asteroid", function () {
+    it("should deduct lives left", function () {
       var roid = { name: "asteroid", x: 0, y: 0 };
       asteroids.Game.lives = 3;
 
