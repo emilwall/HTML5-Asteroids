@@ -13,11 +13,14 @@ describe("BigAlien", function () {
 
   describe("setup", function () {
     beforeEach(function () {
+      asteroids.AlienBullet = asteroids.AlienBullet || function () { };
+      sinon.stub(asteroids, "AlienBullet").returns({});
       sinon.stub(asteroids.Game, "addSprite");
     });
 
     afterEach(function () {
       asteroids.Game.addSprite.restore();
+      asteroids.AlienBullet.restore();
     });
 
     it("should set position", function () {
