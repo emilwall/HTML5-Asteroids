@@ -28,7 +28,7 @@ describe("Ship", function () {
     it("should call wrapPostMove", function () {
       this.ship.postMove();
 
-      expect(asteroids.Ship.prototype.wrapPostMove.called).toBeTruthy();
+      expect(asteroids.Ship.prototype.wrapPostMove.called).toBe(true);
     });
 
     it("should be wrapPostMove", function () {
@@ -105,7 +105,7 @@ describe("Ship", function () {
 
       expect(this.ship.acc.x).toBe(0);
       expect(this.ship.acc.y).toBe(0);
-      expect(this.ship.children.exhaust.visible).toBeFalsy();
+      expect(this.ship.children.exhaust.visible).toBe(false);
     });
 
     it("should set acc.x to 0 and acc.y to -0.5 when up key is pressed and no rotation", function () {
@@ -150,7 +150,7 @@ describe("Ship", function () {
 
       this.ship.preMove();
 
-      expect(this.ship.children.exhaust.visible).toBeTruthy();
+      expect(this.ship.children.exhaust.visible).toBe(true);
     });
 
     it("should set exhaust.visible to true when up key is pressed and Math.random returns number greater than 0.1", function () {
@@ -159,7 +159,7 @@ describe("Ship", function () {
 
       this.ship.preMove();
 
-      expect(this.ship.children.exhaust.visible).toBeFalsy();
+      expect(this.ship.children.exhaust.visible).toBe(false);
     });
 
     it("should set first hidden bullet to visible when space pressed and bulletcounter minus delta is 0", function () {
@@ -167,13 +167,13 @@ describe("Ship", function () {
 
       this.ship.preMove(10);
 
-      expect(this.ship.bullets[1].visible).toBeTruthy();
+      expect(this.ship.bullets[1].visible).toBe(true);
     });
 
     it("should not set first hidden bullet to visible when space is not pressed", function () {
       this.ship.preMove(10);
 
-      expect(this.ship.bullets[1].visible).toBeFalsy();
+      expect(this.ship.bullets[1].visible).toBe(false);
     });
 
     it("should not set first hidden bullet to visible when bulletcounter minus delta is greater than 0", function () {
@@ -181,7 +181,7 @@ describe("Ship", function () {
 
       this.ship.preMove(9);
 
-      expect(this.ship.bullets[1].visible).toBeFalsy();
+      expect(this.ship.bullets[1].visible).toBe(false);
     });
 
     it("should set position and velocity of first hidden bullet to visible when space pressed and bulletcounter minus delta is 0", function () {
@@ -240,7 +240,7 @@ describe("Ship", function () {
     it("should call asteroids.Game.explosionAt", function () {
       this.ship.collision(this.other);
 
-      expect(asteroids.Game.explosionAt.called).toBeTruthy();
+      expect(asteroids.Game.explosionAt.called).toBe(true);
     });
 
     it("should set state of asteroids.Game.FSM to player_died", function () {
@@ -254,7 +254,7 @@ describe("Ship", function () {
 
       this.ship.collision(this.other);
 
-      expect(gridNode.leave.called).toBeTruthy();
+      expect(gridNode.leave.called).toBe(true);
       expect(this.ship.currentNode).toBeNull();
     });
 
@@ -263,7 +263,7 @@ describe("Ship", function () {
 
       this.ship.collision(this.other);
 
-      expect(this.ship.visible).toBeFalsy();
+      expect(this.ship.visible).toBe(false);
     });
   });
 });

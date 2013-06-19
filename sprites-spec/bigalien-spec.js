@@ -23,15 +23,15 @@ describe("BigAlien", function () {
   });
 
   it("should call asteroids.BigAlien.prototype.init in constructor", function () {
-    expect(asteroids.BigAlien.prototype.init.called).toBeTruthy();
+    expect(asteroids.BigAlien.prototype.init.called).toBe(true);
   });
 
   it("should call init of object created using asteroids.Sprite with name bigalien_top", function () {
-    expect(this.spriteInit.calledWith("bigalien_top")).toBeTruthy();
+    expect(this.spriteInit.calledWith("bigalien_top")).toBe(true);
   });
 
   it("should call init of object created using asteroids.Sprite with name bigalien_bottom", function () {
-    expect(this.spriteInit.calledWith("bigalien_bottom")).toBeTruthy();
+    expect(this.spriteInit.calledWith("bigalien_bottom")).toBe(true);
   });
 
   describe("newPosition", function () {
@@ -106,7 +106,7 @@ describe("BigAlien", function () {
     it("should set position using newPosition", function () {
       this.bigAlien.setup();
 
-      expect(this.bigAlien.newPosition.called).toBeTruthy();
+      expect(this.bigAlien.newPosition.called).toBe(true);
     });
 
     it("should add 3 bullets to this.bullets", function () {
@@ -122,7 +122,7 @@ describe("BigAlien", function () {
 
       this.bigAlien.setup();
 
-      expect(asteroids.Game.addSprite.calledThrice).toBeTruthy();
+      expect(asteroids.Game.addSprite.calledThrice).toBe(true);
     });
   });
 

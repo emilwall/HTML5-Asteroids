@@ -116,7 +116,7 @@ describe("Game", function () {
       it("should call spawnAsteroids", function () {
         asteroids.Game.FSM.boot();
 
-        expect(asteroids.Game.spawnAsteroids.called).toBeTruthy();
+        expect(asteroids.Game.spawnAsteroids.called).toBe(true);
       });
 
       it("should set state to waiting", function () {
@@ -141,7 +141,7 @@ describe("Game", function () {
       it("should call Text.renderText with Press Space to Start", function () {
         asteroids.Game.FSM.waiting();
 
-        expect(Text.renderText.called).toBeTruthy();
+        expect(Text.renderText.called).toBe(true);
         expect(Text.renderText.args[0][0]).toBe("Press Space to Start");
       });
 
@@ -172,7 +172,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.waiting();
 
-        expect(asteroids.KEY_STATUS.space).toBeFalsy();
+        expect(asteroids.KEY_STATUS.space).toBe(false);
       });
     });
 
@@ -186,7 +186,7 @@ describe("Game", function () {
       it("should call spawnAsteroids", function () {
         asteroids.Game.FSM.start();
 
-        expect(asteroids.Game.spawnAsteroids.called).toBeTruthy();
+        expect(asteroids.Game.spawnAsteroids.called).toBe(true);
       });
 
       it("should call die on all asteroids in asteroids.Game.sprites", function () {
@@ -195,7 +195,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.start();
 
-        expect(asteroid.die.called).toBeTruthy();
+        expect(asteroid.die.called).toBe(true);
       });
 
       it("should not call die on sprites that are not asteroids in asteroids.Game.sprites", function () {
@@ -204,7 +204,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.start();
 
-        expect(sprite.die.called).toBeFalsy();
+        expect(sprite.die.called).toBe(false);
       });
 
       it("should set visible to false on bullets and bigalien in asteroids.Game.sprites", function () {
@@ -215,8 +215,8 @@ describe("Game", function () {
 
         asteroids.Game.FSM.start();
 
-        expect(bullet.visible).toBeFalsy();
-        expect(bigAlien.visible).toBeFalsy();
+        expect(bullet.visible).toBe(false);
+        expect(bigAlien.visible).toBe(false);
       });
 
       it("should not set visible to false on other than bullets and bigalien in asteroids.Game.sprites", function () {
@@ -225,7 +225,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.start();
 
-        expect(sprite.visible).toBeTruthy();
+        expect(sprite.visible).toBe(true);
       });
 
       it("should set score, lives and totalAsteroids to 0, 2 and 2 respectively", function () {
@@ -277,7 +277,7 @@ describe("Game", function () {
         expect(asteroids.Game.ship.rot).toBe(0);
         expect(asteroids.Game.ship.vel.x).toBe(0);
         expect(asteroids.Game.ship.vel.y).toBe(0);
-        expect(asteroids.Game.ship.visible).toBeTruthy();
+        expect(asteroids.Game.ship.visible).toBe(true);
       });
 
       it("should not set visible, rotation and velocity of ship when not clear", function () {
@@ -314,7 +314,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.run();
 
-        expect(asteroids.Game.bigAlien.visible).toBeTruthy();
+        expect(asteroids.Game.bigAlien.visible).toBe(true);
       });
 
       it("should not set bigAlien to visible unless nextBigAlienTime has passed", function () {
@@ -322,7 +322,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.run();
 
-        expect(asteroids.Game.bigAlien.visible).toBeFalsy();
+        expect(asteroids.Game.bigAlien.visible).toBe(false);
       });
 
       it("should set new value of nextBigAlienTime when nextBigAlienTime has passed", function () {
@@ -389,7 +389,7 @@ describe("Game", function () {
         asteroids.Game.FSM.timer = Date.now() - 1000;
         asteroids.Game.FSM.new_level();
 
-        expect(asteroids.Game.spawnAsteroids.called).toBeTruthy();
+        expect(asteroids.Game.spawnAsteroids.called).toBe(true);
       });
 
       it("should not call spawnAsteroids unless changing state", function () {
@@ -397,7 +397,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.new_level();
 
-        expect(asteroids.Game.spawnAsteroids.called).toBeFalsy();
+        expect(asteroids.Game.spawnAsteroids.called).toBe(false);
       });
     });
 
@@ -473,7 +473,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.end_game();
 
-        expect(window.gameStart).toBeFalsy();
+        expect(window.gameStart).toBe(false);
       });
     });
 
@@ -493,7 +493,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.execute();
 
-        expect(asteroids.Game.FSM.boot.called).toBeTruthy();
+        expect(asteroids.Game.FSM.boot.called).toBe(true);
       });
 
       it("should call end_game when this.state = end_game", function () {
@@ -501,7 +501,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.execute();
 
-        expect(asteroids.Game.FSM.end_game.called).toBeTruthy();
+        expect(asteroids.Game.FSM.end_game.called).toBe(true);
       });
     });
   });
@@ -555,15 +555,15 @@ describe("Game", function () {
 
       asteroids.Game.updateSprites(delta);
 
-      expect(this.sprite1.run.calledWith(delta)).toBeTruthy();
+      expect(this.sprite1.run.calledWith(delta)).toBe(true);
     });
 
     it("should call removeSprite on sprites with truthy reappear value", function () {
       asteroids.Game.updateSprites(1);
 
-      expect(asteroids.Game.removeSprite.calledWith(0)).toBeTruthy();
-      expect(asteroids.Game.removeSprite.calledWith(1)).toBeFalsy();
-      expect(asteroids.Game.removeSprite.calledWith(2)).toBeTruthy();
+      expect(asteroids.Game.removeSprite.calledWith(0)).toBe(true);
+      expect(asteroids.Game.removeSprite.calledWith(1)).toBe(false);
+      expect(asteroids.Game.removeSprite.calledWith(2)).toBe(true);
     });
   });
 });
