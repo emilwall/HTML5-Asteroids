@@ -177,6 +177,59 @@ describe("BigAlien", function () {
 
       expect(this.bigAlien.vel).toEqual({ x: 0, y: -1, rot: 0 });
     });
+
+    it("should not change vel.y when both north and south grids contain sprites and Math.random returns 0.01 or greater", function () {
+      this.bigAlien.vel = { x: 0, y: 1, rot: 0 };
+      Math.random.returns(0.01);
+
+      this.bigAlien.preMove();
+
+      expect(this.bigAlien.vel).toEqual({ x: 0, y: 1, rot: 0 });
+    });
+
+    it("should subtract delta from this.bulletCounter", function () {
+      this.bigAlien.bulletCounter = 7
+
+      this.bigAlien.preMove(3);
+
+      expect(this.bigAlien.bulletCounter).toEqual(4);
+    });
+
+    it("should set this.bulletCounter to 22 when this.bulletCounter - delta <= zero", function () {
+      this.bigAlien.preMove(1);
+
+      expect(this.bigAlien.bulletCounter).toEqual(22);
+    });
+
+    it("should set first hidden bullet to visible when this.bulletCounter - delta <= zero", function () {
+      this.bigAlien.preMove(0);
+
+      expect(this.bigAlien.bullets[0].visible).toEqual(true);
+    });
+
+    it("should set position of first hidden bullet when this.bulletCounter - delta <= zero", function () {
+      this.bigAlien.x = 3;
+      this.bigAlien.y = 5;
+
+      this.bigAlien.preMove(0);
+
+      expect(this.bigAlien.bullets[0].x).toBeGreaterThan(0);
+      expect(this.bigAlien.bullets[0].y).toBeGreaterThan(0);
+    });
+
+    it("should set velocity of first hidden bullet using Math.random when this.bulletCounter - delta <= zero", function () {
+      this.bigAlien.preMove(0);
+
+      expect(Math.abs(this.bigAlien.bullets[0].vel.x + 6)).toBeLessThan(0.001);
+      expect(Math.abs(this.bigAlien.bullets[0].vel.y)).toBeLessThan(0.001);
+
+      Math.random.returns(0.25);
+      this.bigAlien.bullets[0].visible = false;
+      this.bigAlien.preMove(22);
+
+      expect(Math.abs(this.bigAlien.bullets[0].vel.x)).toBeLessThan(0.001);
+      expect(Math.abs(this.bigAlien.bullets[0].vel.y - 6)).toBeLessThan(0.001);
+    });
   });
 
   describe("collision", function () {
