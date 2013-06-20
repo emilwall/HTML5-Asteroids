@@ -129,6 +129,14 @@ describe("BigAlien", function () {
   describe("preMove", function () {
     beforeEach(function () {
       sinon.stub(Math, "random").returns(0.5);
+      var fakeNode = function () { this.east = this.west = this.nextSprite = this; };
+      this.bigAlien.currentNode = new function () {
+        this.north = new fakeNode();
+        this.south = new fakeNode();
+      }();
+      this.bigAlien.vel = {};
+      this.bigAlien.bulletCounter = 0;
+      this.bigAlien.bullets = [{ visible: false, vel: {} }];
     });
 
     afterEach(function () {
@@ -137,15 +145,20 @@ describe("BigAlien", function () {
 
     it("should not change velocity, bulletCounter or bullets when currentNode is null", function () {
       this.bigAlien.currentNode = null;
-      this.bigAlien.vel = {};
-      this.bigAlien.bulletCounter = 0;
-      this.bigAlien.bullets = [{ visible: false, vel: {}}];
 
       this.bigAlien.preMove();
 
       expect(this.bigAlien.vel).toEqual({});
       expect(this.bigAlien.bulletCounter).toBe(0);
       expect(this.bigAlien.bullets[0].visible).toBe(false);
+    });
+
+    it("should set vel.y to 1 when north grid contains more sprites than south grid", function () {
+      this.bigAlien.currentNode.south.nextSprite = null;
+
+      this.bigAlien.preMove();
+
+      expect(this.bigAlien.vel).toEqual({ y: 1 });
     });
   });
 
