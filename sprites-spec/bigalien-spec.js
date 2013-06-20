@@ -134,7 +134,7 @@ describe("BigAlien", function () {
         this.north = new fakeNode();
         this.south = new fakeNode();
       }();
-      this.bigAlien.vel = {};
+      this.bigAlien.vel = { x: 0, y: 0, rot: 0 };
       this.bigAlien.bulletCounter = 0;
       this.bigAlien.bullets = [{ visible: false, vel: {} }];
     });
@@ -148,17 +148,34 @@ describe("BigAlien", function () {
 
       this.bigAlien.preMove();
 
-      expect(this.bigAlien.vel).toEqual({});
+      expect(this.bigAlien.vel).toEqual({ x: 0, y: 0, rot: 0 });
       expect(this.bigAlien.bulletCounter).toBe(0);
       expect(this.bigAlien.bullets[0].visible).toBe(false);
     });
 
-    it("should set vel.y to 1 when north grid contains more sprites than south grid", function () {
+    it("should set vel.y to 1 when north grid contains sprites and south grid doesn't", function () {
       this.bigAlien.currentNode.south.nextSprite = null;
 
       this.bigAlien.preMove();
 
-      expect(this.bigAlien.vel).toEqual({ y: 1 });
+      expect(this.bigAlien.vel).toEqual({ x: 0, y: 1, rot: 0 });
+    });
+
+    it("should set vel.y to -1 when south grid contains sprites and north grid doesn't", function () {
+      this.bigAlien.currentNode.north.nextSprite = null;
+
+      this.bigAlien.preMove();
+
+      expect(this.bigAlien.vel).toEqual({ x: 0, y: -1, rot: 0 });
+    });
+
+    it("should negate vel.y when both north and south grids contain sprites and Math.random returns number smaller than 0.01", function () {
+      this.bigAlien.vel = { x: 0, y: 1, rot: 0 };
+      Math.random.returns(0.005);
+
+      this.bigAlien.preMove();
+
+      expect(this.bigAlien.vel).toEqual({ x: 0, y: -1, rot: 0 });
     });
   });
 
