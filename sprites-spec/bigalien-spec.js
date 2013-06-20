@@ -218,23 +218,11 @@ describe("BigAlien", function () {
     });
 
     it("should set velocity of first hidden bullet using Math.random when this.bulletCounter - delta <= zero", function () {
-      this.bigAlien.preMove(100);
+      this.bigAlien.preMove(0);
 
-      var prevVelX = this.bigAlien.bullets[0].vel.x;
-      var prevVelY = this.bigAlien.bullets[0].vel.y;
-
-      this.bigAlien.bullets[0].visible = false;
-      this.bigAlien.preMove(100);
-
-      expect(Math.abs(this.bigAlien.bullets[0].vel.x - prevVelX)).toBeLessThan(0.001);
-      expect(Math.abs(this.bigAlien.bullets[0].vel.y - prevVelY)).toBeLessThan(0.001);
-
-      Math.random.returns(0.25);
-      this.bigAlien.bullets[0].visible = false;
-      this.bigAlien.preMove(100);
-
-      expect(Math.abs(this.bigAlien.bullets[0].vel.x - prevVelX)).toBeGreaterThan(0.001);
-      expect(Math.abs(this.bigAlien.bullets[0].vel.y - prevVelY)).toBeGreaterThan(0.001);
+      expect(Math.random.called).toEqual(true);
+      expect(typeof this.bigAlien.bullets[0].vel.x).toBe("number");
+      expect(typeof this.bigAlien.bullets[0].vel.y).toBe("number");
     });
   });
 
