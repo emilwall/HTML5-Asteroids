@@ -1,8 +1,36 @@
 describe("Sprite", function () {
-  var sprite;
+  var sprite, keyStatus, canvasWidth, canvasHeight;
 
   beforeEach(function () {
+    keyStatus = asteroids.KEY_STATUS;
+    asteroids.KEY_STATUS = {};
+    canvasWidth = asteroids.Game.canvasWidth;
+    asteroids.Game.canvasWidth = 780;
+    canvasHeight = asteroids.Game.canvasHeight;
+    asteroids.Game.canvasHeight = 540;
+
     sprite = new asteroids.Sprite();
+    sprite.context = { strokeRect: sinon.spy() };
+    sprite.x = 0;
+    sprite.y = 0;
+    sprite.visible = true;
+
+    var cn = new function () {
+      this.north = this;
+      this.south = this;
+      this.east = this;
+      this.west = this;
+      this.isEmpty = sinon.stub().returns(true);
+      this.enter = sinon.spy();
+      this.leave = sinon.spy();
+    }();
+    sprite.grid = [[cn]];
+  });
+
+  afterEach(function () {
+    asteroids.KEY_STATUS = keyStatus;
+    asteroids.Game.canvasWidth = canvasWidth;
+    asteroids.Game.canvasHeight = canvasHeight;
   });
 
   // init: sets name, points, vel and acc
@@ -46,29 +74,6 @@ describe("Sprite", function () {
    * If grid is activated, displays the boundaries on context
    */
   describe("isClear", function () {
-    var keyStatus, context, grid;
-
-    beforeEach(function () {
-      keyStatus = asteroids.KEY_STATUS;
-      asteroids.KEY_STATUS = {};
-
-      context = sprite.context;
-      sprite.context = { strokeRect: sinon.spy() };
-
-      grid = sprite.grid;
-      sprite.grid = [[{ enter: sinon.spy(), leave: sinon.spy()}]];
-
-      sprite.x = 0;
-      sprite.y = 0;
-      sprite.visible = true;
-    });
-
-    afterEach(function () {
-      asteroids.KEY_STATUS = keyStatus;
-      sprite.context = context;
-      sprite.grid = grid;
-    });
-
     it("should do nothing if not visible", function () {
       sprite.visible = false;
 
@@ -121,28 +126,6 @@ describe("Sprite", function () {
   });
 
   describe("isClear", function () {
-    var grid;
-
-    beforeEach(function () {
-      grid = sprite.grid;
-
-      var cn = new function () {
-        this.north = this;
-        this.south = this;
-        this.east = this;
-        this.west = this;
-        this.isEmpty = sinon.stub().returns(true);
-      }
-      sprite.grid = [[cn]];
-
-      sprite.x = 0;
-      sprite.y = 0;
-    });
-
-    afterEach(function () {
-      sprite.grid = grid;
-    });
-
     it("should return true when sprite collides with nothing", function () {
       expect(sprite.isClear()).toEqual(true);
     });
@@ -163,20 +146,6 @@ describe("Sprite", function () {
 
   // wrapPostMove: Set x and y to wrap around canvas edges
   describe("wrapPostMove", function () {
-    var canvasWidth, canvasHeight;
-
-    beforeEach(function () {
-      canvasWidth = asteroids.Game.canvasWidth;
-      asteroids.Game.canvasWidth = 780;
-      canvasHeight = asteroids.Game.canvasHeight;
-      asteroids.Game.canvasHeight = 540;
-    });
-
-    afterEach(function () {
-      asteroids.Game.canvasWidth = canvasWidth;
-      asteroids.Game.canvasHeight = canvasHeight;
-    });
-
     it("should set x to zero when exceeding canvasWidth", function () {
       sprite.x = asteroids.Game.canvasWidth + 1;
 
