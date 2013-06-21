@@ -229,28 +229,52 @@ describe("BigAlien", function () {
   describe("collision", function () {
     beforeEach(function () {
       sinon.stub(asteroids.Game, "explosionAt");
+      this.bigAlien.newPosition = sinon.stub();
+      this.gameScore = asteroids.Game.score;
+      this.sprite = { name: "sprite" };
     });
 
     afterEach(function () {
+      asteroids.Game.score = this.gameScore;
       asteroids.Game.explosionAt.restore();
     });
 
-    it("should set visible to false when hit by bullet", function () {
-      var bullet = { name: "bullet" };
+    it("should set visible to false", function () {
       this.bigAlien.visible = true;
 
-      this.bigAlien.collision(bullet);
+      this.bigAlien.collision(this.sprite);
 
       expect(this.bigAlien.visible).toBe(false);
     });
 
     it("should increase score by 200 when hit by bullet", function () {
-      var bullet = { name: "bullet" };
+      this.sprite.name = "bullet";
       asteroids.Game.score = 100;
 
-      this.bigAlien.collision(bullet);
+      this.bigAlien.collision(this.sprite);
 
       expect(asteroids.Game.score).toBe(300);
+    });
+
+    it("should not increase score when hit by asteroid", function () {
+      this.sprite.name = "asteroid";
+      asteroids.Game.score = 100;
+
+      this.bigAlien.collision(this.sprite);
+
+      expect(asteroids.Game.score).toBe(100);
+    });
+
+    it("should call asteroids.Game.explosionAt", function () {
+      this.bigAlien.collision(this.sprite);
+
+      expect(asteroids.Game.explosionAt.called).toBe(true);
+    });
+
+    it("should call asteroids.Game.explosionAt", function () {
+      this.bigAlien.collision(this.sprite);
+
+      expect(this.bigAlien.newPosition.called).toBe(true);
     });
   });
 });
