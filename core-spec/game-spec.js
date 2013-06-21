@@ -56,24 +56,26 @@ describe("Game", function () {
   });
 
   describe("FSM", function () {
+    var state, sprites, score, lives, totalAsteroids, bigAlien, nextBigAlienTime, ship, timer;
+
     beforeEach(function () {
       sinon.stub(Text, "renderText");
       sinon.stub(asteroids.Game, "spawnAsteroids");
       sinon.stub(Date, "now").returns(1371304246157);
       sinon.stub(Math, "random").returns(0.5);
 
-      this.state = asteroids.Game.FSM.state;
-      this.sprites = asteroids.Game.sprites;
+      state = asteroids.Game.FSM.state;
+      sprites = asteroids.Game.sprites;
       asteroids.Game.sprites = [];
-      this.score = asteroids.Game.score;
-      this.lives = asteroids.Game.lives;
-      this.totalAsteroids = asteroids.Game.totalAsteroids;
-      this.bigAlien = asteroids.Game.bigAlien;
+      score = asteroids.Game.score;
+      lives = asteroids.Game.lives;
+      totalAsteroids = asteroids.Game.totalAsteroids;
+      bigAlien = asteroids.Game.bigAlien;
       asteroids.Game.bigAlien = { visible: false };
-      this.nextBigAlienTime = asteroids.Game.nextBigAlienTime;
-      this.ship = asteroids.Game.ship;
+      nextBigAlienTime = asteroids.Game.nextBigAlienTime;
+      ship = asteroids.Game.ship;
       asteroids.Game.ship = { vel: {}, isClear: sinon.stub().returns(true) };
-      this.timer = asteroids.Game.FSM.timer;
+      timer = asteroids.Game.FSM.timer;
     });
 
     afterEach(function () {
@@ -82,15 +84,15 @@ describe("Game", function () {
       Date.now.restore();
       Math.random.restore();
 
-      asteroids.Game.FSM.state = this.state;
-      asteroids.Game.sprites = this.sprites;
-      asteroids.Game.score = this.score;
-      asteroids.Game.lives = this.lives;
-      asteroids.Game.totalAsteroids = this.totalAsteroids;
-      asteroids.Game.bigAlien = this.bigAlien;
-      asteroids.Game.nextBigAlienTime = this.nextBigAlienTime;
-      asteroids.Game.ship = this.ship;
-      asteroids.Game.FSM.timer = this.timer;
+      asteroids.Game.FSM.state = state;
+      asteroids.Game.sprites = sprites;
+      asteroids.Game.score = score;
+      asteroids.Game.lives = lives;
+      asteroids.Game.totalAsteroids = totalAsteroids;
+      asteroids.Game.bigAlien = bigAlien;
+      asteroids.Game.nextBigAlienTime = nextBigAlienTime;
+      asteroids.Game.ship = ship;
+      asteroids.Game.FSM.timer = timer;
     });
 
     it("should have boot, waiting, start, spawn_ship, run, new_level, player_died and end_game states", function () {
