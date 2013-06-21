@@ -1,6 +1,8 @@
 describe("Sprite", function () {
+  var sprite;
+
   beforeEach(function () {
-    this.sprite = new asteroids.Sprite();
+    sprite = new asteroids.Sprite();
   });
 
   // init: sets name, points, vel and acc
@@ -44,60 +46,63 @@ describe("Sprite", function () {
    * If grid is activated, displays the boundaries on context
    */
   describe("isClear", function () {
+    var keyStatus, context, grid;
+
     beforeEach(function () {
-      this.g = asteroids.KEY_STATUS.g;
+      keyStatus = asteroids.KEY_STATUS;
+      asteroids.KEY_STATUS = {};
 
-      this.context = this.sprite.context;
-      this.sprite.context = { strokeRect: sinon.spy() };
+      context = sprite.context;
+      sprite.context = { strokeRect: sinon.spy() };
 
-      this.grid = this.sprite.grid;
-      this.sprite.grid = [[{ enter: sinon.spy(), leave: sinon.spy()}]];
+      grid = sprite.grid;
+      sprite.grid = [[{ enter: sinon.spy(), leave: sinon.spy()}]];
 
-      this.sprite.x = 0;
-      this.sprite.y = 0;
-      this.sprite.visible = true;
+      sprite.x = 0;
+      sprite.y = 0;
+      sprite.visible = true;
     });
 
     afterEach(function () {
-      this.sprite.grid = this.grid;
-      asteroids.KEY_STATUS.g = this.g;
-      this.sprite.context = this.context;
+      asteroids.KEY_STATUS = keyStatus;
+      sprite.context = context;
+      sprite.grid = grid;
     });
 
     it("should do nothing if not visible", function () {
-      this.sprite.visible = false;
+      sprite.visible = false;
 
-      this.sprite.updateGrid();
+      sprite.updateGrid();
 
-      sinon.assert.notCalled(this.sprite.grid[0][0].enter);
-      sinon.assert.notCalled(this.sprite.grid[0][0].leave);
+      sinon.assert.notCalled(sprite.grid[0][0].enter);
+      sinon.assert.notCalled(sprite.grid[0][0].leave);
     });
 
     it("should update currentNode when previously undefined", function () {
-      var prevCurrentNode = this.sprite.currentNode;
+      var prevCurrentNode = sprite.currentNode;
 
-      this.sprite.updateGrid();
+      sprite.updateGrid();
 
-      expect(this.sprite.currentNode).not.toBe(prevCurrentNode);
+      expect(sprite.currentNode).not.toBe(prevCurrentNode);
     });
 
     it("should display boundaries on context when grid activated", function () {
       asteroids.KEY_STATUS.g = true;
 
-      this.sprite.updateGrid();
+      sprite.updateGrid();
 
-      sinon.assert.called(this.sprite.context.strokeRect);
+      sinon.assert.called(sprite.context.strokeRect);
     });
 
     it("should restore lineWidth and strokeStyle of context after displaying boundaries", function () {
       asteroids.KEY_STATUS.g = true;
-      this.sprite.context.lineWidth = 2.0;
-      this.sprite.context.strokeStyle = "white";
+      sprite.context.lineWidth = 2.0;
+      sprite.context.strokeStyle = "white";
 
-      this.sprite.updateGrid();
+      sprite.updateGrid();
 
-      expect(this.sprite.context.lineWidth).toEqual(2.0);
-      expect(this.sprite.context.strokeStyle).toEqual("white");
+      expect(sprite.context.lineWidth).toEqual(2.0);
+      expect(sprite.context.strokeStyle).toEqual("white");
     });
   });
 
@@ -112,12 +117,14 @@ describe("Sprite", function () {
   // transformedPoints: translates points and caches the result
   // isClear: returns whether adjacent grids contains sprites that this can collide with
   it("should define isClear method", function () {
-    expect(typeof this.sprite.isClear).toEqual("function");
+    expect(typeof sprite.isClear).toEqual("function");
   });
 
   describe("isClear", function () {
+    var grid;
+
     beforeEach(function () {
-      this.grid = this.sprite.grid;
+      grid = sprite.grid;
 
       var cn = new function () {
         this.north = this;
@@ -126,62 +133,64 @@ describe("Sprite", function () {
         this.west = this;
         this.isEmpty = sinon.stub().returns(true);
       }
-      this.sprite.grid = [[cn]];
+      sprite.grid = [[cn]];
 
-      this.sprite.x = 0;
-      this.sprite.y = 0;
+      sprite.x = 0;
+      sprite.y = 0;
     });
 
     afterEach(function () {
-      this.sprite.grid = this.grid;
+      sprite.grid = grid;
     });
 
     it("should return true when sprite collides with nothing", function () {
-      expect(this.sprite.isClear()).toEqual(true);
+      expect(sprite.isClear()).toEqual(true);
     });
 
     it("should return true when nothing to collide with", function () {
-      this.sprite.collidesWith = ["asteroid"];
+      sprite.collidesWith = ["asteroid"];
 
-      expect(this.sprite.isClear()).toEqual(true);
+      expect(sprite.isClear()).toEqual(true);
     });
 
     it("should return false when grid node not empty", function () {
-      this.sprite.collidesWith = ["asteroid"];
-      this.sprite.grid[0][0].isEmpty = sinon.stub().returns(false);
+      sprite.collidesWith = ["asteroid"];
+      sprite.grid[0][0].isEmpty = sinon.stub().returns(false);
 
-      expect(this.sprite.isClear()).toEqual(false);
+      expect(sprite.isClear()).toEqual(false);
     });
   });
 
   // wrapPostMove: Set x and y to wrap around canvas edges
   describe("wrapPostMove", function () {
+    var canvasWidth, canvasHeight;
+
     beforeEach(function () {
-      this.canvasWidth = asteroids.Game.canvasWidth;
+      canvasWidth = asteroids.Game.canvasWidth;
       asteroids.Game.canvasWidth = 780;
-      this.canvasHeight = asteroids.Game.canvasHeight;
+      canvasHeight = asteroids.Game.canvasHeight;
       asteroids.Game.canvasHeight = 540;
     });
 
     afterEach(function () {
-      asteroids.Game.canvasWidth = this.canvasWidth;
-      asteroids.Game.canvasHeight = this.canvasHeight;
+      asteroids.Game.canvasWidth = canvasWidth;
+      asteroids.Game.canvasHeight = canvasHeight;
     });
 
     it("should set x to zero when exceeding canvasWidth", function () {
-      this.sprite.x = asteroids.Game.canvasWidth + 1;
+      sprite.x = asteroids.Game.canvasWidth + 1;
 
-      this.sprite.wrapPostMove();
+      sprite.wrapPostMove();
 
-      expect(this.sprite.x).toEqual(0);
+      expect(sprite.x).toEqual(0);
     });
 
     it("should not change x when not exceeding canvasWidth", function () {
-      this.sprite.x = asteroids.Game.canvasWidth;
+      sprite.x = asteroids.Game.canvasWidth;
 
-      this.sprite.wrapPostMove();
+      sprite.wrapPostMove();
 
-      expect(this.sprite.x).toEqual(asteroids.Game.canvasWidth);
+      expect(sprite.x).toEqual(asteroids.Game.canvasWidth);
     });
   });
 });
