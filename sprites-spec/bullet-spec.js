@@ -1,10 +1,12 @@
 describe("Bullet", function () {
+  var bullet;
+
   beforeEach(function () {
-    this.bullet = new asteroids.Bullet();
+    bullet = new asteroids.Bullet();
   });
 
   it("should have init method", function () {
-    expect(typeof this.bullet.init).toEqual("function");
+    expect(typeof bullet.init).toEqual("function");
   });
 
   // init: set name (and coordinates (0, 0)?)

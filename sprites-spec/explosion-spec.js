@@ -1,16 +1,18 @@
 // init: set name to explosion
 describe("Explosion", function () {
+  var explosion;
+
   beforeEach(function () {
-    this.explosion = new asteroids.Explosion();
+    explosion = new asteroids.Explosion();
   });
 
   it("should have init method", function () {
-    expect(typeof this.explosion.init).toEqual("function");
+    expect(typeof explosion.init).toEqual("function");
   });
 
   describe("init", function () {
     it("should set name to explosion", function () {
-      expect(this.explosion.name).toEqual("explosion");
+      expect(explosion.name).toEqual("explosion");
     });
   });
 });
