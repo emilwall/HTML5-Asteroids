@@ -4,8 +4,8 @@ describe("Matrix", function () {
   });
 
   it("should have configure, set and multiply methods", function () {
-    expect(typeof this.matrix.configure).toBe("function");
-    expect(typeof this.matrix.set).toBe("function");
-    expect(typeof this.matrix.multiply).toBe("function");
+    expect(typeof this.matrix.configure).toEqual("function");
+    expect(typeof this.matrix.set).toEqual("function");
+    expect(typeof this.matrix.multiply).toEqual("function");
   });
 });

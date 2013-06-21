@@ -5,17 +5,17 @@
 
 describe("Config", function () {
   it("should define KEY_CODES object", function () {
-    expect(typeof asteroids.KEY_CODES).toBe("object");
+    expect(typeof asteroids.KEY_CODES).toEqual("object");
   });
 
   describe("KEY_CODES", function () {
     it("should map numbers to logical names", function () {
-      expect(asteroids.KEY_CODES[32]).toBe("space");
+      expect(asteroids.KEY_CODES[32]).toEqual("space");
     });
   });
 
   it("should define KEY_STATUS object", function () {
-    expect(typeof asteroids.KEY_STATUS).toBe("object");
+    expect(typeof asteroids.KEY_STATUS).toEqual("object");
   });
 
   describe("KEY_STATUS", function () {
@@ -24,13 +24,13 @@ describe("Config", function () {
     });
 
     it("should have a boolean for each key code", function () {
-      expect(typeof asteroids.KEY_STATUS["space"]).toBe("boolean");
-      expect(typeof asteroids.KEY_STATUS["left"]).toBe("boolean");
-      expect(typeof asteroids.KEY_STATUS["p"]).toBe("boolean");
+      expect(typeof asteroids.KEY_STATUS["space"]).toEqual("boolean");
+      expect(typeof asteroids.KEY_STATUS["left"]).toEqual("boolean");
+      expect(typeof asteroids.KEY_STATUS["p"]).toEqual("boolean");
     });
   });
 
   it("should define GRID_SIZE to 60", function () {
-    expect(asteroids.GRID_SIZE).toBe(60);
+    expect(asteroids.GRID_SIZE).toEqual(60);
   });
 });

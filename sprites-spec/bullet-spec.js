@@ -4,7 +4,7 @@ describe("Bullet", function () {
   });
 
   it("should have init method", function () {
-    expect(typeof this.bullet.init).toBe("function");
+    expect(typeof this.bullet.init).toEqual("function");
   });
 
   // init: set name (and coordinates (0, 0)?)

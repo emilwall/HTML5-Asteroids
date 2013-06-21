@@ -21,14 +21,14 @@ describe("Ship", function () {
   });
 
   it("should have postMove method", function () {
-    expect(typeof this.ship.postMove).toBe("function");
+    expect(typeof this.ship.postMove).toEqual("function");
   });
 
   describe("postMove", function () {
     it("should call wrapPostMove", function () {
       this.ship.postMove();
 
-      expect(asteroids.Ship.prototype.wrapPostMove.called).toBe(true);
+      expect(asteroids.Ship.prototype.wrapPostMove.called).toEqual(true);
     });
 
     it("should be wrapPostMove", function () {
@@ -37,7 +37,7 @@ describe("Ship", function () {
   });
 
   it("should have preMove method", function () {
-    expect(typeof this.ship.preMove).toBe("function");
+    expect(typeof this.ship.preMove).toEqual("function");
   });
 
   describe("preMove", function () {
@@ -65,7 +65,7 @@ describe("Ship", function () {
 
       this.ship.preMove();
 
-      expect(this.ship.vel.rot).toBe(0);
+      expect(this.ship.vel.rot).toEqual(0);
     });
 
     it("should set rotation velocity to -6 when left key is pressed", function () {
@@ -74,7 +74,7 @@ describe("Ship", function () {
 
       this.ship.preMove();
 
-      expect(this.ship.vel.rot).toBe(-6);
+      expect(this.ship.vel.rot).toEqual(-6);
     });
 
     it("should set rotation velocity to -6 when both left and right keys are pressed", function () {
@@ -84,7 +84,7 @@ describe("Ship", function () {
 
       this.ship.preMove();
 
-      expect(this.ship.vel.rot).toBe(-6);
+      expect(this.ship.vel.rot).toEqual(-6);
     });
 
     it("should set rotation velocity to 6 when right key is pressed", function () {
@@ -93,7 +93,7 @@ describe("Ship", function () {
 
       this.ship.preMove();
 
-      expect(this.ship.vel.rot).toBe(6);
+      expect(this.ship.vel.rot).toEqual(6);
     });
 
     it("should set acceleration to zero and exhaust.visible to false when up key is not pressed", function () {
@@ -103,9 +103,9 @@ describe("Ship", function () {
 
       this.ship.preMove();
 
-      expect(this.ship.acc.x).toBe(0);
-      expect(this.ship.acc.y).toBe(0);
-      expect(this.ship.children.exhaust.visible).toBe(false);
+      expect(this.ship.acc.x).toEqual(0);
+      expect(this.ship.acc.y).toEqual(0);
+      expect(this.ship.children.exhaust.visible).toEqual(false);
     });
 
     it("should set acc.x to 0 and acc.y to -0.5 when up key is pressed and no rotation", function () {
@@ -117,7 +117,7 @@ describe("Ship", function () {
       this.ship.preMove();
 
       expect(Math.abs(this.ship.acc.x)).toBeLessThan(0.0001);
-      expect(this.ship.acc.y).toBe(-0.5);
+      expect(this.ship.acc.y).toEqual(-0.5);
     });
 
     it("should set acc.x to 0.5 and acc.y to 0 when up key is pressed and rotation is 90 degrees", function () {
@@ -128,7 +128,7 @@ describe("Ship", function () {
 
       this.ship.preMove();
 
-      expect(this.ship.acc.x).toBe(0.5);
+      expect(this.ship.acc.x).toEqual(0.5);
       expect(Math.abs(this.ship.acc.y)).toBeLessThan(0.0001);
     });
 
@@ -150,7 +150,7 @@ describe("Ship", function () {
 
       this.ship.preMove();
 
-      expect(this.ship.children.exhaust.visible).toBe(true);
+      expect(this.ship.children.exhaust.visible).toEqual(true);
     });
 
     it("should set exhaust.visible to true when up key is pressed and Math.random returns number greater than 0.1", function () {
@@ -159,7 +159,7 @@ describe("Ship", function () {
 
       this.ship.preMove();
 
-      expect(this.ship.children.exhaust.visible).toBe(false);
+      expect(this.ship.children.exhaust.visible).toEqual(false);
     });
 
     it("should set first hidden bullet to visible when space pressed and bulletcounter minus delta is 0", function () {
@@ -167,13 +167,13 @@ describe("Ship", function () {
 
       this.ship.preMove(10);
 
-      expect(this.ship.bullets[1].visible).toBe(true);
+      expect(this.ship.bullets[1].visible).toEqual(true);
     });
 
     it("should not set first hidden bullet to visible when space is not pressed", function () {
       this.ship.preMove(10);
 
-      expect(this.ship.bullets[1].visible).toBe(false);
+      expect(this.ship.bullets[1].visible).toEqual(false);
     });
 
     it("should not set first hidden bullet to visible when bulletcounter minus delta is greater than 0", function () {
@@ -181,7 +181,7 @@ describe("Ship", function () {
 
       this.ship.preMove(9);
 
-      expect(this.ship.bullets[1].visible).toBe(false);
+      expect(this.ship.bullets[1].visible).toEqual(false);
     });
 
     it("should set position and velocity of first hidden bullet to visible when space pressed and bulletcounter minus delta is 0", function () {
@@ -215,13 +215,13 @@ describe("Ship", function () {
 
       this.ship.preMove();
 
-      expect(this.ship.vel.x).toBe(2);
-      expect(this.ship.vel.y).toBe(2);
+      expect(this.ship.vel.x).toEqual(2);
+      expect(this.ship.vel.y).toEqual(2);
     });
   });
 
   it("should have collision method", function () {
-    expect(typeof this.ship.collision).toBe("function");
+    expect(typeof this.ship.collision).toEqual("function");
   });
 
   describe("Collision", function () {
@@ -234,19 +234,19 @@ describe("Ship", function () {
 
       this.ship.collision(this.other);
 
-      expect(asteroids.Game.lives).toBe(2);
+      expect(asteroids.Game.lives).toEqual(2);
     });
 
     it("should call asteroids.Game.explosionAt", function () {
       this.ship.collision(this.other);
 
-      expect(asteroids.Game.explosionAt.called).toBe(true);
+      expect(asteroids.Game.explosionAt.called).toEqual(true);
     });
 
     it("should set state of asteroids.Game.FSM to player_died", function () {
       this.ship.collision(this.other);
 
-      expect(asteroids.Game.FSM.state).toBe("player_died");
+      expect(asteroids.Game.FSM.state).toEqual("player_died");
     });
 
     it("should leave grid node and set it to null", function () {
@@ -254,7 +254,7 @@ describe("Ship", function () {
 
       this.ship.collision(this.other);
 
-      expect(gridNode.leave.called).toBe(true);
+      expect(gridNode.leave.called).toEqual(true);
       expect(this.ship.currentNode).toBeNull();
     });
 
@@ -263,7 +263,7 @@ describe("Ship", function () {
 
       this.ship.collision(this.other);
 
-      expect(this.ship.visible).toBe(false);
+      expect(this.ship.visible).toEqual(false);
     });
   });
 });

@@ -23,23 +23,23 @@ describe("BigAlien", function () {
   });
 
   it("should have newPosition, setup, preMove, collision and postMove methods", function () {
-    expect(typeof this.bigAlien.newPosition).toBe("function");
-    expect(typeof this.bigAlien.setup).toBe("function");
-    expect(typeof this.bigAlien.preMove).toBe("function");
-    expect(typeof this.bigAlien.collision).toBe("function");
-    expect(typeof this.bigAlien.postMove).toBe("function");
+    expect(typeof this.bigAlien.newPosition).toEqual("function");
+    expect(typeof this.bigAlien.setup).toEqual("function");
+    expect(typeof this.bigAlien.preMove).toEqual("function");
+    expect(typeof this.bigAlien.collision).toEqual("function");
+    expect(typeof this.bigAlien.postMove).toEqual("function");
   });
 
   it("should call asteroids.BigAlien.prototype.init in constructor", function () {
-    expect(asteroids.BigAlien.prototype.init.called).toBe(true);
+    expect(asteroids.BigAlien.prototype.init.called).toEqual(true);
   });
 
   it("should call init of object created using asteroids.Sprite with name bigalien_top", function () {
-    expect(this.spriteInit.calledWith("bigalien_top")).toBe(true);
+    expect(this.spriteInit.calledWith("bigalien_top")).toEqual(true);
   });
 
   it("should call init of object created using asteroids.Sprite with name bigalien_bottom", function () {
-    expect(this.spriteInit.calledWith("bigalien_bottom")).toBe(true);
+    expect(this.spriteInit.calledWith("bigalien_bottom")).toEqual(true);
   });
 
   describe("newPosition", function () {
@@ -48,7 +48,7 @@ describe("BigAlien", function () {
 
       this.bigAlien.newPosition();
 
-      expect(this.bigAlien.x).toBe(-20);
+      expect(this.bigAlien.x).toEqual(-20);
     });
 
     it("should set horizontal velocity to 1.5 when Math.random returns small number", function () {
@@ -56,7 +56,7 @@ describe("BigAlien", function () {
 
       this.bigAlien.newPosition();
 
-      expect(this.bigAlien.vel.x).toBe(1.5);
+      expect(this.bigAlien.vel.x).toEqual(1.5);
     });
 
     it("should set x-position to canvas width + 20 when Math.random returns large number", function () {
@@ -64,7 +64,7 @@ describe("BigAlien", function () {
 
       this.bigAlien.newPosition();
 
-      expect(this.bigAlien.x).toBe(asteroids.Game.canvasWidth + 20);
+      expect(this.bigAlien.x).toEqual(asteroids.Game.canvasWidth + 20);
     });
 
     it("should set horizontal velocity to -1.5 when Math.random returns large number", function () {
@@ -72,7 +72,7 @@ describe("BigAlien", function () {
 
       this.bigAlien.newPosition();
 
-      expect(this.bigAlien.vel.x).toBe(-1.5);
+      expect(this.bigAlien.vel.x).toEqual(-1.5);
     });
 
     it("should set y-position to a random value between zero and canvasHeight", function () {
@@ -80,7 +80,7 @@ describe("BigAlien", function () {
 
       this.bigAlien.newPosition();
 
-      expect(this.bigAlien.y).toBe(Math.random() * asteroids.Game.canvasHeight);
+      expect(this.bigAlien.y).toEqual(Math.random() * asteroids.Game.canvasHeight);
     });
   });
 
@@ -100,7 +100,7 @@ describe("BigAlien", function () {
     it("should set position using newPosition", function () {
       this.bigAlien.setup();
 
-      expect(this.bigAlien.newPosition.called).toBe(true);
+      expect(this.bigAlien.newPosition.called).toEqual(true);
     });
 
     it("should add 3 bullets to this.bullets", function () {
@@ -108,7 +108,7 @@ describe("BigAlien", function () {
 
       this.bigAlien.setup();
 
-      expect(this.bigAlien.bullets.length).toBe(numBullets + 3);
+      expect(this.bigAlien.bullets.length).toEqual(numBullets + 3);
     });
 
     it("should add 3 bullets to asteroids.Game.sprites", function () {
@@ -116,7 +116,7 @@ describe("BigAlien", function () {
 
       this.bigAlien.setup();
 
-      expect(asteroids.Game.addSprite.calledThrice).toBe(true);
+      expect(asteroids.Game.addSprite.calledThrice).toEqual(true);
     });
   });
 
@@ -138,8 +138,8 @@ describe("BigAlien", function () {
       this.bigAlien.preMove();
 
       expect(this.bigAlien.vel).toEqual({ x: 0, y: 0, rot: 0 });
-      expect(this.bigAlien.bulletCounter).toBe(0);
-      expect(this.bigAlien.bullets[0].visible).toBe(false);
+      expect(this.bigAlien.bulletCounter).toEqual(0);
+      expect(this.bigAlien.bullets[0].visible).toEqual(false);
     });
 
     it("should set vel.y to 1 when north grid contains sprites and south grid doesn't", function () {
@@ -210,8 +210,8 @@ describe("BigAlien", function () {
       this.bigAlien.preMove(0);
 
       expect(Math.random.called).toEqual(true);
-      expect(typeof this.bigAlien.bullets[0].vel.x).toBe("number");
-      expect(typeof this.bigAlien.bullets[0].vel.y).toBe("number");
+      expect(typeof this.bigAlien.bullets[0].vel.x).toEqual("number");
+      expect(typeof this.bigAlien.bullets[0].vel.y).toEqual("number");
     });
   });
 
@@ -233,7 +233,7 @@ describe("BigAlien", function () {
 
       this.bigAlien.collision(this.sprite);
 
-      expect(this.bigAlien.visible).toBe(false);
+      expect(this.bigAlien.visible).toEqual(false);
     });
 
     it("should increase score by 200 when hit by bullet", function () {
@@ -242,7 +242,7 @@ describe("BigAlien", function () {
 
       this.bigAlien.collision(this.sprite);
 
-      expect(asteroids.Game.score).toBe(300);
+      expect(asteroids.Game.score).toEqual(300);
     });
 
     it("should not increase score when hit by asteroid", function () {
@@ -251,19 +251,19 @@ describe("BigAlien", function () {
 
       this.bigAlien.collision(this.sprite);
 
-      expect(asteroids.Game.score).toBe(100);
+      expect(asteroids.Game.score).toEqual(100);
     });
 
     it("should call asteroids.Game.explosionAt", function () {
       this.bigAlien.collision(this.sprite);
 
-      expect(asteroids.Game.explosionAt.called).toBe(true);
+      expect(asteroids.Game.explosionAt.called).toEqual(true);
     });
 
     it("should call asteroids.Game.explosionAt", function () {
       this.bigAlien.collision(this.sprite);
 
-      expect(this.bigAlien.newPosition.called).toBe(true);
+      expect(this.bigAlien.newPosition.called).toEqual(true);
     });
   });
 

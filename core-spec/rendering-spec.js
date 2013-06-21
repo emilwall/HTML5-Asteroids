@@ -67,11 +67,11 @@ describe("Rendering", function () {
       }
     }
 
-    expect(found).toBe(10);
+    expect(found).toEqual(10);
   });
 
   it("should define drawGrid method", function () {
-    expect(typeof this.rendering.drawGrid).toBe("function");
+    expect(typeof this.rendering.drawGrid).toEqual("function");
   });
 
   describe("drawGrid", function () {
@@ -88,7 +88,7 @@ describe("Rendering", function () {
 
       this.rendering.drawGrid();
 
-      expect(this.rendering.context.stroke.called).toBe(true);
+      expect(this.rendering.context.stroke.called).toEqual(true);
     });
   });
 });

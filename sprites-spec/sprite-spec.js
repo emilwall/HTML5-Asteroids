@@ -96,8 +96,8 @@ describe("Sprite", function () {
 
       this.sprite.updateGrid();
 
-      expect(this.sprite.context.lineWidth).toBe(2.0);
-      expect(this.sprite.context.strokeStyle).toBe("white");
+      expect(this.sprite.context.lineWidth).toEqual(2.0);
+      expect(this.sprite.context.strokeStyle).toEqual("white");
     });
   });
 
@@ -112,7 +112,7 @@ describe("Sprite", function () {
   // transformedPoints: translates points and caches the result
   // isClear: returns whether adjacent grids contains sprites that this can collide with
   it("should define isClear method", function () {
-    expect(typeof this.sprite.isClear).toBe("function");
+    expect(typeof this.sprite.isClear).toEqual("function");
   });
 
   describe("isClear", function () {
@@ -137,20 +137,20 @@ describe("Sprite", function () {
     });
 
     it("should return true when sprite collides with nothing", function () {
-      expect(this.sprite.isClear()).toBe(true);
+      expect(this.sprite.isClear()).toEqual(true);
     });
 
     it("should return true when nothing to collide with", function () {
       this.sprite.collidesWith = ["asteroid"];
 
-      expect(this.sprite.isClear()).toBe(true);
+      expect(this.sprite.isClear()).toEqual(true);
     });
 
     it("should return false when grid node not empty", function () {
       this.sprite.collidesWith = ["asteroid"];
       this.sprite.grid[0][0].isEmpty = sinon.stub().returns(false);
 
-      expect(this.sprite.isClear()).toBe(false);
+      expect(this.sprite.isClear()).toEqual(false);
     });
   });
 
@@ -173,7 +173,7 @@ describe("Sprite", function () {
 
       this.sprite.wrapPostMove();
 
-      expect(this.sprite.x).toBe(0);
+      expect(this.sprite.x).toEqual(0);
     });
 
     it("should not change x when not exceeding canvasWidth", function () {
@@ -181,7 +181,7 @@ describe("Sprite", function () {
 
       this.sprite.wrapPostMove();
 
-      expect(this.sprite.x).toBe(asteroids.Game.canvasWidth);
+      expect(this.sprite.x).toEqual(asteroids.Game.canvasWidth);
     });
   });
 });

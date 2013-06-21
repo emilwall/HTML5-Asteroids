@@ -109,20 +109,20 @@ describe("Game", function () {
     });
 
     it("should have boot as starting state", function () {
-      expect(asteroids.Game.FSM.state).toBe("boot");
+      expect(asteroids.Game.FSM.state).toEqual("boot");
     });
 
     describe("boot", function () {
       it("should call spawnAsteroids", function () {
         asteroids.Game.FSM.boot();
 
-        expect(asteroids.Game.spawnAsteroids.called).toBe(true);
+        expect(asteroids.Game.spawnAsteroids.called).toEqual(true);
       });
 
       it("should set state to waiting", function () {
         asteroids.Game.FSM.boot();
 
-        expect(asteroids.Game.FSM.state).toBe("waiting");
+        expect(asteroids.Game.FSM.state).toEqual("waiting");
       });
     });
 
@@ -141,8 +141,8 @@ describe("Game", function () {
       it("should call Text.renderText with Press Space to Start", function () {
         asteroids.Game.FSM.waiting();
 
-        expect(Text.renderText.called).toBe(true);
-        expect(Text.renderText.args[0][0]).toBe("Press Space to Start");
+        expect(Text.renderText.called).toEqual(true);
+        expect(Text.renderText.args[0][0]).toEqual("Press Space to Start");
       });
 
       it("should set state to start when space is pressed", function () {
@@ -150,7 +150,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.waiting();
 
-        expect(asteroids.Game.FSM.state).toBe("start");
+        expect(asteroids.Game.FSM.state).toEqual("start");
       });
 
       it("should set state to start when window.gameStart is true", function () {
@@ -158,13 +158,13 @@ describe("Game", function () {
 
         asteroids.Game.FSM.waiting();
 
-        expect(asteroids.Game.FSM.state).toBe("start");
+        expect(asteroids.Game.FSM.state).toEqual("start");
       });
 
       it("should not set state when space is not pressed and window.gameStart is false", function () {
         asteroids.Game.FSM.waiting();
 
-        expect(asteroids.Game.FSM.state).toBe("waiting");
+        expect(asteroids.Game.FSM.state).toEqual("waiting");
       });
 
       it("should set state KEY_STATUS.space to false when setting state to start", function () {
@@ -172,7 +172,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.waiting();
 
-        expect(asteroids.KEY_STATUS.space).toBe(false);
+        expect(asteroids.KEY_STATUS.space).toEqual(false);
       });
     });
 
@@ -180,13 +180,13 @@ describe("Game", function () {
       it("should set state to spawn_ship", function () {
         asteroids.Game.FSM.start();
 
-        expect(asteroids.Game.FSM.state).toBe("spawn_ship");
+        expect(asteroids.Game.FSM.state).toEqual("spawn_ship");
       });
 
       it("should call spawnAsteroids", function () {
         asteroids.Game.FSM.start();
 
-        expect(asteroids.Game.spawnAsteroids.called).toBe(true);
+        expect(asteroids.Game.spawnAsteroids.called).toEqual(true);
       });
 
       it("should call die on all asteroids in asteroids.Game.sprites", function () {
@@ -195,7 +195,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.start();
 
-        expect(asteroid.die.called).toBe(true);
+        expect(asteroid.die.called).toEqual(true);
       });
 
       it("should not call die on sprites that are not asteroids in asteroids.Game.sprites", function () {
@@ -204,7 +204,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.start();
 
-        expect(sprite.die.called).toBe(false);
+        expect(sprite.die.called).toEqual(false);
       });
 
       it("should set visible to false on bullets and bigalien in asteroids.Game.sprites", function () {
@@ -215,8 +215,8 @@ describe("Game", function () {
 
         asteroids.Game.FSM.start();
 
-        expect(bullet.visible).toBe(false);
-        expect(bigAlien.visible).toBe(false);
+        expect(bullet.visible).toEqual(false);
+        expect(bigAlien.visible).toEqual(false);
       });
 
       it("should not set visible to false on other than bullets and bigalien in asteroids.Game.sprites", function () {
@@ -225,7 +225,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.start();
 
-        expect(sprite.visible).toBe(true);
+        expect(sprite.visible).toEqual(true);
       });
 
       it("should set score, lives and totalAsteroids to 0, 2 and 2 respectively", function () {
@@ -235,9 +235,9 @@ describe("Game", function () {
 
         asteroids.Game.FSM.start();
 
-        expect(asteroids.Game.score).toBe(0);
-        expect(asteroids.Game.lives).toBe(2);
-        expect(asteroids.Game.totalAsteroids).toBe(2);
+        expect(asteroids.Game.score).toEqual(0);
+        expect(asteroids.Game.lives).toEqual(2);
+        expect(asteroids.Game.totalAsteroids).toEqual(2);
       });
 
       it("should set asteroids.Game.nextBigAlienTime to time in the future", function () {
@@ -253,7 +253,7 @@ describe("Game", function () {
       it("should set state to run when ship is clear", function () {
         asteroids.Game.FSM.spawn_ship();
 
-        expect(asteroids.Game.FSM.state).toBe("run");
+        expect(asteroids.Game.FSM.state).toEqual("run");
       });
 
       it("should not change state when ship is not clear", function () {
@@ -261,7 +261,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.spawn_ship();
 
-        expect(asteroids.Game.FSM.state).not.toBe("run");
+        expect(asteroids.Game.FSM.state).not.toEqual("run");
       });
 
       it("should set x and y coordinates of ship", function () {
@@ -274,10 +274,10 @@ describe("Game", function () {
       it("should set visible to true and reset rotation and velocity of ship when clear", function () {
         asteroids.Game.FSM.spawn_ship();
 
-        expect(asteroids.Game.ship.rot).toBe(0);
-        expect(asteroids.Game.ship.vel.x).toBe(0);
-        expect(asteroids.Game.ship.vel.y).toBe(0);
-        expect(asteroids.Game.ship.visible).toBe(true);
+        expect(asteroids.Game.ship.rot).toEqual(0);
+        expect(asteroids.Game.ship.vel.x).toEqual(0);
+        expect(asteroids.Game.ship.vel.y).toEqual(0);
+        expect(asteroids.Game.ship.visible).toEqual(true);
       });
 
       it("should not set visible, rotation and velocity of ship when not clear", function () {
@@ -298,7 +298,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.run();
 
-        expect(asteroids.Game.FSM.state).toBe("new_level");
+        expect(asteroids.Game.FSM.state).toEqual("new_level");
       });
 
       it("should not set state to new_level when asteroids among Game.sprites", function () {
@@ -306,7 +306,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.run();
 
-        expect(asteroids.Game.FSM.state).not.toBe("new_level");
+        expect(asteroids.Game.FSM.state).not.toEqual("new_level");
       });
 
       it("should set bigAlien to visible when nextBigAlienTime has passed", function () {
@@ -314,7 +314,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.run();
 
-        expect(asteroids.Game.bigAlien.visible).toBe(true);
+        expect(asteroids.Game.bigAlien.visible).toEqual(true);
       });
 
       it("should not set bigAlien to visible unless nextBigAlienTime has passed", function () {
@@ -322,7 +322,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.run();
 
-        expect(asteroids.Game.bigAlien.visible).toBe(false);
+        expect(asteroids.Game.bigAlien.visible).toEqual(false);
       });
 
       it("should set new value of nextBigAlienTime when nextBigAlienTime has passed", function () {
@@ -340,7 +340,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.new_level();
 
-        expect(asteroids.Game.FSM.state).toBe("run");
+        expect(asteroids.Game.FSM.state).toEqual("run");
       });
 
       it("should not change state unless one second has passed since this.timer", function () {
@@ -348,7 +348,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.new_level();
 
-        expect(asteroids.Game.FSM.state).not.toBe("run");
+        expect(asteroids.Game.FSM.state).not.toEqual("run");
       });
 
       it("should set this.timer to Date.now() if previously null", function () {
@@ -356,7 +356,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.new_level();
 
-        expect(asteroids.Game.FSM.timer).toBe(Date.now());
+        expect(asteroids.Game.FSM.timer).toEqual(Date.now());
       });
 
       it("should set timer to null when changing state", function () {
@@ -373,7 +373,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.new_level();
 
-        expect(asteroids.Game.totalAsteroids).toBe(totalAsteroids + 1);
+        expect(asteroids.Game.totalAsteroids).toEqual(totalAsteroids + 1);
       });
 
       it("should not increment totalAsteroids past 12", function () {
@@ -382,14 +382,14 @@ describe("Game", function () {
 
         asteroids.Game.FSM.new_level();
 
-        expect(asteroids.Game.totalAsteroids).toBe(12);
+        expect(asteroids.Game.totalAsteroids).toEqual(12);
       });
 
       it("should call spawnAsteroids when changing state", function () {
         asteroids.Game.FSM.timer = Date.now() - 1000;
         asteroids.Game.FSM.new_level();
 
-        expect(asteroids.Game.spawnAsteroids.called).toBe(true);
+        expect(asteroids.Game.spawnAsteroids.called).toEqual(true);
       });
 
       it("should not call spawnAsteroids unless changing state", function () {
@@ -397,7 +397,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.new_level();
 
-        expect(asteroids.Game.spawnAsteroids.called).toBe(false);
+        expect(asteroids.Game.spawnAsteroids.called).toEqual(false);
       });
     });
 
@@ -407,7 +407,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.player_died();
 
-        expect(asteroids.Game.FSM.state).toBe("end_game");
+        expect(asteroids.Game.FSM.state).toEqual("end_game");
       });
 
       it("should set state to spawn_ship when lives left and one second has passed", function () {
@@ -416,7 +416,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.player_died();
 
-        expect(asteroids.Game.FSM.state).toBe("spawn_ship");
+        expect(asteroids.Game.FSM.state).toEqual("spawn_ship");
       });
 
       it("should set this.timer to Date.now() when previously null", function () {
@@ -424,7 +424,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.player_died();
 
-        expect(asteroids.Game.FSM.timer).toBe(Date.now());
+        expect(asteroids.Game.FSM.timer).toEqual(Date.now());
       });
 
       it("should set this.timer to null when changing state to spawn_ship", function () {
@@ -441,7 +441,7 @@ describe("Game", function () {
       it("should call Text.renderText with GAME OVER", function () {
         asteroids.Game.FSM.end_game();
 
-        expect(Text.renderText.args[0][0]).toBe("GAME OVER");
+        expect(Text.renderText.args[0][0]).toEqual("GAME OVER");
       });
 
       it("should set this.timer to Date.now() when previously null", function () {
@@ -449,7 +449,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.end_game();
 
-        expect(asteroids.Game.FSM.timer).toBe(Date.now());
+        expect(asteroids.Game.FSM.timer).toEqual(Date.now());
       });
 
       it("should not change state to waiting before 5 seconds", function () {
@@ -457,7 +457,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.end_game();
 
-        expect(asteroids.Game.FSM.state).not.toBe("waiting");
+        expect(asteroids.Game.FSM.state).not.toEqual("waiting");
       });
 
       it("should change state to waiting after 5 seconds", function () {
@@ -465,7 +465,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.end_game();
 
-        expect(asteroids.Game.FSM.state).toBe("waiting");
+        expect(asteroids.Game.FSM.state).toEqual("waiting");
       });
 
       it("should set window.gameStart to false", function () {
@@ -473,7 +473,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.end_game();
 
-        expect(window.gameStart).toBe(false);
+        expect(window.gameStart).toEqual(false);
       });
     });
 
@@ -493,7 +493,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.execute();
 
-        expect(asteroids.Game.FSM.boot.called).toBe(true);
+        expect(asteroids.Game.FSM.boot.called).toEqual(true);
       });
 
       it("should call end_game when this.state = end_game", function () {
@@ -501,15 +501,15 @@ describe("Game", function () {
 
         asteroids.Game.FSM.execute();
 
-        expect(asteroids.Game.FSM.end_game.called).toBe(true);
+        expect(asteroids.Game.FSM.end_game.called).toEqual(true);
       });
     });
   });
 
   it("should define spawnAsteroids, explosionAt and updateSprites methods", function () {
-    expect(typeof asteroids.Game.spawnAsteroids).toBe("function");
-    expect(typeof asteroids.Game.explosionAt).toBe("function");
-    expect(typeof asteroids.Game.updateSprites).toBe("function");
+    expect(typeof asteroids.Game.spawnAsteroids).toEqual("function");
+    expect(typeof asteroids.Game.explosionAt).toEqual("function");
+    expect(typeof asteroids.Game.updateSprites).toEqual("function");
   });
 
   describe("spawnAsteroids", function () {
@@ -518,7 +518,7 @@ describe("Game", function () {
 
       asteroids.Game.spawnAsteroids();
 
-      expect(asteroids.Game.addSprite.callCount).toBe(5);
+      expect(asteroids.Game.addSprite.callCount).toEqual(5);
     });
   });
 
@@ -528,9 +528,9 @@ describe("Game", function () {
 
       var explosion = asteroids.Game.addSprite.args[0][0];
 
-      expect(explosion.x).toBe(5);
-      expect(explosion.y).toBe(7);
-      expect(explosion.visible).toBe(true);
+      expect(explosion.x).toEqual(5);
+      expect(explosion.y).toEqual(7);
+      expect(explosion.visible).toEqual(true);
     });
   });
 
@@ -555,15 +555,15 @@ describe("Game", function () {
 
       asteroids.Game.updateSprites(delta);
 
-      expect(this.sprite1.run.calledWith(delta)).toBe(true);
+      expect(this.sprite1.run.calledWith(delta)).toEqual(true);
     });
 
     it("should call removeSprite on sprites with truthy reappear value", function () {
       asteroids.Game.updateSprites(1);
 
-      expect(asteroids.Game.removeSprite.calledWith(0)).toBe(true);
-      expect(asteroids.Game.removeSprite.calledWith(1)).toBe(false);
-      expect(asteroids.Game.removeSprite.calledWith(2)).toBe(true);
+      expect(asteroids.Game.removeSprite.calledWith(0)).toEqual(true);
+      expect(asteroids.Game.removeSprite.calledWith(1)).toEqual(false);
+      expect(asteroids.Game.removeSprite.calledWith(2)).toEqual(true);
     });
   });
 });

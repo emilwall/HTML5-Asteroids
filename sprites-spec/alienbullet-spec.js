@@ -4,7 +4,7 @@ describe("AlienBullet", function () {
   });
 
   it("should have init method", function () {
-    expect(typeof this.alienBullet.init).toBe("function");
+    expect(typeof this.alienBullet.init).toEqual("function");
   });
 
   // init: set name of object

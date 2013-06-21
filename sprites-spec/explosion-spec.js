@@ -5,12 +5,12 @@ describe("Explosion", function () {
   });
 
   it("should have init method", function () {
-    expect(typeof this.explosion.init).toBe("function");
+    expect(typeof this.explosion.init).toEqual("function");
   });
 
   describe("init", function () {
     it("should set name to explosion", function () {
-      expect(this.explosion.name).toBe("explosion");
+      expect(this.explosion.name).toEqual("explosion");
     });
   });
 });
