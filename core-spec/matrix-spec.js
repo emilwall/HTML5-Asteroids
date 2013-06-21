@@ -1,11 +1,13 @@
 describe("Matrix", function () {
+  var matrix;
+
   beforeEach(function () {
-    this.matrix = new asteroids.Matrix(2, 3);
+    matrix = new asteroids.Matrix(2, 3);
   });
 
   it("should have configure, set and multiply methods", function () {
-    expect(typeof this.matrix.configure).toEqual("function");
-    expect(typeof this.matrix.set).toEqual("function");
-    expect(typeof this.matrix.multiply).toEqual("function");
+    expect(typeof matrix.configure).toEqual("function");
+    expect(typeof matrix.set).toEqual("function");
+    expect(typeof matrix.multiply).toEqual("function");
   });
 });
