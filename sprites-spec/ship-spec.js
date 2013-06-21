@@ -116,7 +116,7 @@ describe("Ship", function () {
 
       this.ship.preMove();
 
-      expect(Math.abs(this.ship.acc.x)).toBeLessThan(0.0001);
+      expect(this.ship.acc.x).toBeCloseTo(0, 10);
       expect(this.ship.acc.y).toEqual(-0.5);
     });
 
@@ -129,7 +129,7 @@ describe("Ship", function () {
       this.ship.preMove();
 
       expect(this.ship.acc.x).toEqual(0.5);
-      expect(Math.abs(this.ship.acc.y)).toBeLessThan(0.0001);
+      expect(this.ship.acc.y).toBeCloseTo(0, 10);
     });
 
     it("should set acc.x to roughly the same non-negative value as acc.y when up key is pressed and rotation is 135 degrees", function () {
@@ -141,7 +141,7 @@ describe("Ship", function () {
       this.ship.preMove();
 
       expect(this.ship.acc.x).toBeGreaterThan(0.1);
-      expect(Math.abs(this.ship.acc.y - this.ship.acc.x)).toBeLessThan(0.0001);
+      expect(this.ship.acc.y).toBeCloseTo(this.ship.acc.x, 10);
     });
 
     it("should set exhaust.visible to true when up key is pressed and Math.random returns number greater than 0.1", function () {
