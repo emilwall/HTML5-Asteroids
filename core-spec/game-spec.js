@@ -1,17 +1,4 @@
 describe("Game", function () {
-  var stubGrid = function () {
-    asteroids.Sprite.prototype.grid = [[{
-      enter: sinon.spy(),
-      leave: sinon.spy(),
-      isEmpty: sinon.stub().returns(true)
-    }]];
-    var node = asteroids.Sprite.prototype.grid[0][0];
-    node.north = node;
-    node.south = node;
-    node.east = node;
-    node.west = node;
-  }
-
   beforeEach(function () {
     this.spritePrototypeDefined = asteroids.Sprite && asteroids.Sprite.prototype;
     if (this.spritePrototypeDefined) {
@@ -20,7 +7,14 @@ describe("Game", function () {
       asteroids.Sprite = asteroids.Sprite || {};
       asteroids.Sprite.prototype = {}
     }
-    stubGrid();
+
+    asteroids.Sprite.prototype.grid = [[new function () {
+      this.enter = sinon.spy();
+      this.leave = sinon.spy();
+      this.isEmpty = sinon.stub().returns(true);
+      this.north = this.south = this.east = this.west = this;
+    }()]];
+
     this.width = asteroids.Game.canvasWidth;
     asteroids.Game.canvasWidth = 0;
     this.height = asteroids.Game.canvasHeight;
