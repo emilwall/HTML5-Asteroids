@@ -4,6 +4,11 @@ describe("BigAlien", function () {
     sinon.stub(asteroids, "Sprite").returns({ init: this.spriteInit });
     sinon.stub(asteroids.BigAlien.prototype, "init");
     sinon.stub(asteroids.BigAlien.prototype, "wrapPostMove");
+    sinon.stub(Math, "random");
+    this.gameCanvasWidth = asteroids.Game.canvasWidth;
+    asteroids.Game.canvasWidth = 780;
+    this.gameCanvasHeight = asteroids.Game.canvasHeight;
+    asteroids.Game.canvasHeight = 540;
     this.bigAlien = new asteroids.BigAlien();
     this.bigAlien.vel = {};
   });
@@ -12,6 +17,9 @@ describe("BigAlien", function () {
     asteroids.Sprite.restore();
     asteroids.BigAlien.prototype.init.restore();
     asteroids.BigAlien.prototype.wrapPostMove.restore();
+    Math.random.restore();
+    asteroids.Game.canvasWidth = this.gameCanvasWidth;
+    asteroids.Game.canvasHeight = this.gameCanvasHeight
   });
 
   it("should have newPosition, setup, preMove, collision and postMove methods", function () {
@@ -35,20 +43,6 @@ describe("BigAlien", function () {
   });
 
   describe("newPosition", function () {
-    beforeEach(function () {
-      sinon.stub(Math, "random");
-      this.gameCanvasWidth = asteroids.Game.canvasWidth;
-      asteroids.Game.canvasWidth = 780;
-      this.gameCanvasHeight = asteroids.Game.canvasHeight;
-      asteroids.Game.canvasHeight = 540;
-    });
-
-    afterEach(function () {
-      Math.random.restore();
-      asteroids.Game.canvasWidth = this.gameCanvasWidth;
-      asteroids.Game.canvasHeight = this.gameCanvasHeight
-    });
-
     it("should set x-position to -20 when Math.random returns small number", function () {
       Math.random.returns(0);
 
@@ -128,7 +122,6 @@ describe("BigAlien", function () {
 
   describe("preMove", function () {
     beforeEach(function () {
-      sinon.stub(Math, "random").returns(0.5);
       var fakeNode = function () { this.east = this.west = this.nextSprite = this; };
       this.bigAlien.currentNode = new function () {
         this.north = new fakeNode();
@@ -137,10 +130,6 @@ describe("BigAlien", function () {
       this.bigAlien.vel = { x: 0, y: 0, rot: 0 };
       this.bigAlien.bulletCounter = 0;
       this.bigAlien.bullets = [{ visible: false, vel: {} }];
-    });
-
-    afterEach(function () {
-      Math.random.restore();
     });
 
     it("should not change velocity, bulletCounter or bullets when currentNode is null", function () {
