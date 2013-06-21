@@ -1,46 +1,51 @@
 describe("Rendering", function () {
+  var canvas, canvasWidth, canvasHeight, sprites, context, grid, matrix, ship, bigAlien, keyStatus, rendering;
+
   beforeEach(function () {
-    var context = {};
-    context.clearRect = sinon.stub();
-    context.beginPath = sinon.stub();
-    context.closePath = sinon.stub();
-    context.moveTo = sinon.stub();
-    context.lineTo = sinon.stub();
-    context.stroke = sinon.stub();
-    context.save = sinon.stub();
-    context.restore = sinon.stub();
+    var fakeContext = {};
+    fakeContext.clearRect = sinon.spy();
+    fakeContext.beginPath = sinon.spy();
+    fakeContext.closePath = sinon.spy();
+    fakeContext.moveTo = sinon.spy();
+    fakeContext.lineTo = sinon.spy();
+    fakeContext.stroke = sinon.spy();
+    fakeContext.save = sinon.spy();
+    fakeContext.restore = sinon.spy();
 
-    this.canvas = {};
-    this.canvas.width = sinon.stub().returns(780);
-    this.canvas.height = sinon.stub().returns(540);
-    this.canvas.getContext = sinon.stub().returns(context);
-    this.canvas[0] = this.canvas;
+    canvas = {};
+    canvas.width = sinon.stub().returns(780);
+    canvas.height = sinon.stub().returns(540);
+    canvas.getContext = sinon.stub().returns(fakeContext);
+    canvas[0] = canvas;
 
-    this.canvasWidth = asteroids.Game.canvasWidth;
-    this.canvasHeight = asteroids.Game.canvasHeight;
-    this.sprites = asteroids.Game.sprites;
-    this.context = asteroids.Sprite.prototype.context;
-    this.grid = asteroids.Sprite.prototype.grid;
-    this.matrix = asteroids.Sprite.prototype.matrix;
-    this.ship = asteroids.Game.ship;
-    this.bigAlien = asteroids.Game.bigAlien;
+    canvasWidth = asteroids.Game.canvasWidth;
+    canvasHeight = asteroids.Game.canvasHeight;
+    sprites = asteroids.Game.sprites;
+    context = asteroids.Sprite.prototype.context;
+    grid = asteroids.Sprite.prototype.grid;
+    matrix = asteroids.Sprite.prototype.matrix;
+    ship = asteroids.Game.ship;
+    bigAlien = asteroids.Game.bigAlien;
+    keyStatus = asteroids.KEY_STATUS;
+    asteroids.KEY_STATUS = {};
 
-    this.rendering = new asteroids.Rendering(this.canvas);
+    rendering = new asteroids.Rendering(canvas);
   });
 
   afterEach(function () {
-    asteroids.Game.canvasWidth = this.canvasWidth;
-    asteroids.Game.canvasHeight = this.canvasHeight;
-    asteroids.Game.sprites = this.sprites;
-    asteroids.Sprite.prototype.context = this.context;
-    asteroids.Sprite.prototype.grid = this.grid;
-    asteroids.Sprite.prototype.matrix = this.matrix;
-    asteroids.Game.ship = this.ship;
-    asteroids.Game.bigAlien = this.bigAlien;
+    asteroids.Game.canvasWidth = canvasWidth;
+    asteroids.Game.canvasHeight = canvasHeight;
+    asteroids.Game.sprites = sprites;
+    asteroids.Sprite.prototype.context = context;
+    asteroids.Sprite.prototype.grid = grid;
+    asteroids.Sprite.prototype.matrix = matrix;
+    asteroids.Game.ship = ship;
+    asteroids.Game.bigAlien = bigAlien;
+    asteroids.KEY_STATUS = keyStatus;
   });
 
   it("should set context of canvas as attribute of self", function () {
-    expect(this.rendering.context).toBeDefined();
+    expect(rendering.context).toBeDefined();
   });
 
   it("should add ship to asteroids.Game.sprites", function () {
@@ -71,24 +76,16 @@ describe("Rendering", function () {
   });
 
   it("should define drawGrid method", function () {
-    expect(typeof this.rendering.drawGrid).toEqual("function");
+    expect(typeof rendering.drawGrid).toEqual("function");
   });
 
   describe("drawGrid", function () {
-    beforeEach(function () {
-      this.g = asteroids.KEY_STATUS.g;
-    });
-
-    afterEach(function () {
-      asteroids.KEY_STATUS.g = this.g;
-    });
-
     it("should call context.stroke when asteroids.KEY_STATUS.g is true", function () {
       asteroids.KEY_STATUS.g = true;
 
-      this.rendering.drawGrid();
+      rendering.drawGrid();
 
-      expect(this.rendering.context.stroke.called).toEqual(true);
+      expect(rendering.context.stroke.called).toEqual(true);
     });
   });
 });
