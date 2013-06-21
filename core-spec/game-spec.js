@@ -1,5 +1,5 @@
 describe("Game", function () {
-  var spritePrototypeDefined, spriteGrid, canvasWidth, canvasHeight, asteroidFake
+  var spritePrototypeDefined, spriteGrid, canvasWidth, canvasHeight, asteroidFake, keyStatus;
 
   beforeEach(function () {
     spritePrototypeDefined = asteroids.Sprite && asteroids.Sprite.prototype;
@@ -35,6 +35,10 @@ describe("Game", function () {
 
     asteroids.Explosion = asteroids.Explosion || function () { };
     sinon.stub(asteroids, "Explosion").returns(asteroidFake);
+
+    keyStatus = asteroids.KEY_STATUS;
+    asteroids.KEY_STATUS = { space: false };
+    window.gameStart = false;
   });
 
   afterEach(function () {
@@ -49,6 +53,7 @@ describe("Game", function () {
     asteroids.Game.removeSprite.restore();
     asteroids.Asteroid.restore();
     asteroids.Explosion.restore();
+    asteroids.KEY_STATUS = keyStatus;
   });
 
   it("should have finite state machine (FSM)", function () {
@@ -125,17 +130,6 @@ describe("Game", function () {
     });
 
     describe("waiting", function () {
-      beforeEach(function () {
-        asteroids.Game.FSM.state = "waiting";
-        this.KEY_STATUS = asteroids.KEY_STATUS;
-        asteroids.KEY_STATUS = { space: false };
-        window.gameStart = false;
-      });
-
-      afterEach(function () {
-        asteroids.KEY_STATUS = this.KEY_STATUS;
-      });
-
       it("should call Text.renderText with Press Space to Start", function () {
         asteroids.Game.FSM.waiting();
 
@@ -160,6 +154,8 @@ describe("Game", function () {
       });
 
       it("should not set state when space is not pressed and window.gameStart is false", function () {
+        asteroids.Game.FSM.state = "waiting";
+
         asteroids.Game.FSM.waiting();
 
         expect(asteroids.Game.FSM.state).toEqual("waiting");
