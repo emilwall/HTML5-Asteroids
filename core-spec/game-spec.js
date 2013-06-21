@@ -1,8 +1,10 @@
 describe("Game", function () {
+  var spritePrototypeDefined, spriteGrid, canvasWidth, canvasHeight, asteroidFake
+
   beforeEach(function () {
-    this.spritePrototypeDefined = asteroids.Sprite && asteroids.Sprite.prototype;
-    if (this.spritePrototypeDefined) {
-      this.spriteGrid = asteroids.Sprite.prototype.grid;
+    spritePrototypeDefined = asteroids.Sprite && asteroids.Sprite.prototype;
+    if (spritePrototypeDefined) {
+      spriteGrid = asteroids.Sprite.prototype.grid;
     } else {
       asteroids.Sprite = asteroids.Sprite || {};
       asteroids.Sprite.prototype = {}
@@ -15,34 +17,34 @@ describe("Game", function () {
       this.north = this.south = this.east = this.west = this;
     }()]];
 
-    this.width = asteroids.Game.canvasWidth;
+    canvasWidth = asteroids.Game.canvasWidth;
     asteroids.Game.canvasWidth = 0;
-    this.height = asteroids.Game.canvasHeight;
+    canvasHeight = asteroids.Game.canvasHeight;
     asteroids.Game.canvasHeight = 0;
 
     sinon.stub(asteroids.Game, "addSprite");
     sinon.stub(asteroids.Game, "removeSprite");
 
-    this.asteroidFake = {
+    asteroidFake = {
       moveToSafePosition: sinon.spy(),
       vel: {},
       points: { reverse: sinon.spy() }
     };
     asteroids.Asteroid = asteroids.Asteroid || function () { };
-    sinon.stub(asteroids, "Asteroid").returns(this.asteroidFake);
+    sinon.stub(asteroids, "Asteroid").returns(asteroidFake);
 
     asteroids.Explosion = asteroids.Explosion || function () { };
-    sinon.stub(asteroids, "Explosion").returns(this.asteroidFake);
+    sinon.stub(asteroids, "Explosion").returns(asteroidFake);
   });
 
   afterEach(function () {
-    if (this.spritePrototypeDefined) {
-      asteroids.Sprite.prototype.grid = this.spriteGrid;
+    if (spritePrototypeDefined) {
+      asteroids.Sprite.prototype.grid = spriteGrid;
     } else {
       delete asteroids.Sprite.prototype;
     }
-    asteroids.Game.canvasWidth = this.width;
-    asteroids.Game.canvasHeight = this.height;
+    asteroids.Game.canvasWidth = canvasWidth;
+    asteroids.Game.canvasHeight = canvasHeight;
     asteroids.Game.addSprite.restore();
     asteroids.Game.removeSprite.restore();
     asteroids.Asteroid.restore();
