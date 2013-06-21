@@ -266,4 +266,34 @@ describe("BigAlien", function () {
       expect(this.bigAlien.newPosition.called).toBe(true);
     });
   });
+
+  describe("postMove", function () {
+    beforeEach(function () {
+      this.bigAlien.newPosition = sinon.stub();
+    });
+
+    it("should wrap around in vertical direction when above canvas", function () {
+      this.bigAlien.y = -1;
+
+      this.bigAlien.postMove();
+
+      expect(this.bigAlien.y).toEqual(asteroids.Game.canvasHeight);
+    });
+
+    it("should wrap around in vertical direction when below canvas", function () {
+      this.bigAlien.y = asteroids.Game.canvasHeight + 1;
+
+      this.bigAlien.postMove();
+
+      expect(this.bigAlien.y).toEqual(0);
+    });
+
+    it("should not wrap around in vertical direction when on canvas bottom border", function () {
+      this.bigAlien.y = asteroids.Game.canvasHeight;
+
+      this.bigAlien.postMove();
+
+      expect(this.bigAlien.y).toEqual(asteroids.Game.canvasHeight);
+    });
+  });
 });
