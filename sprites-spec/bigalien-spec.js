@@ -270,6 +270,11 @@ describe("BigAlien", function () {
   describe("postMove", function () {
     beforeEach(function () {
       this.bigAlien.newPosition = sinon.stub();
+      this.bigAlien.x = -21;
+      this.bigAlien.y = 0;
+      this.bigAlien.vel.x = 1.5;
+      this.bigAlien.vel.y = 1;
+      this.bigAlien.visible = true;
     });
 
     it("should wrap around in vertical direction when above canvas", function () {
@@ -294,6 +299,41 @@ describe("BigAlien", function () {
       this.bigAlien.postMove();
 
       expect(this.bigAlien.y).toEqual(asteroids.Game.canvasHeight);
+    });
+
+    it("should not hide and set new position when heading towards canvas from left", function () {
+      this.bigAlien.postMove();
+
+      expect(this.bigAlien.visible).toEqual(true);
+      expect(this.bigAlien.newPosition.called).toEqual(false);
+    });
+
+    it("should hide and set new position when leaving canvas at left side", function () {
+      this.bigAlien.vel.x *= -1;
+
+      this.bigAlien.postMove();
+
+      expect(this.bigAlien.visible).toEqual(false);
+      expect(this.bigAlien.newPosition.called).toEqual(true);
+    });
+
+    it("should not hide and set new position when heading towards canvas from right", function () {
+      this.bigAlien.x = asteroids.Game.canvasWidth + 21;
+      this.bigAlien.vel.x *= -1;
+
+      this.bigAlien.postMove();
+
+      expect(this.bigAlien.visible).toEqual(true);
+      expect(this.bigAlien.newPosition.called).toEqual(false);
+    });
+
+    it("should hide and set new position when leaving canvas at right side", function () {
+      this.bigAlien.x = asteroids.Game.canvasWidth + 21;
+
+      this.bigAlien.postMove();
+
+      expect(this.bigAlien.visible).toEqual(false);
+      expect(this.bigAlien.newPosition.called).toEqual(true);
     });
   });
 });
