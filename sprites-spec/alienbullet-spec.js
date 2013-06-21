@@ -1,10 +1,12 @@
 describe("AlienBullet", function () {
+  var alienBullet;
+
   beforeEach(function () {
-    this.alienBullet = new asteroids.AlienBullet();
+    alienBullet = new asteroids.AlienBullet();
   });
 
   it("should have init method", function () {
-    expect(typeof this.alienBullet.init).toEqual("function");
+    expect(typeof alienBullet.init).toEqual("function");
   });
 
   // init: set name of object
