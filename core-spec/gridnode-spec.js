@@ -41,7 +41,27 @@ describe("GridNode", function () {
       expect(gridNode.nextSprite.nextSprite).toBe(sprite);
     });
   });
-  // leave: remove sprite from grid node
+
+  describe("leave", function () {
+    it("should remove sprite from grid node", function () {
+      gridNode.nextSprite = sprite;
+
+      gridNode.leave(sprite);
+
+      expect(gridNode.nextSprite).toBeNull();
+    });
+
+    it("should be able to remove sprite when several sprites in grid node", function () {
+      sprite.nextSprite = anotherSprite;
+      gridNode.nextSprite = sprite;
+
+      gridNode.leave(sprite);
+
+      expect(gridNode.nextSprite).toBe(anotherSprite);
+      expect(anotherSprite.nextSprite).toBeNull();
+      expect(sprite.nextSprite).toBeNull();
+    });
+  });
   // eachSprite: call the callback on every sprite in grid node
   // isEmpty: checks whether grid node contains any sprites with name in collidables
 });
