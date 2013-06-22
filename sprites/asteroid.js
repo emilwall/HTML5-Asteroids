@@ -41,12 +41,10 @@ asteroids.Asteroid = function () {
   };
 
   this.moveToSafePosition = function (width, height) {
-    this.x = Math.random() * width;
-    this.y = Math.random() * height;
-    while (!this.isClear()) {
+    do {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
-    }
+    } while (!this.isClear());
   }
 };
 asteroids.Asteroid.prototype = new asteroids.Sprite();
