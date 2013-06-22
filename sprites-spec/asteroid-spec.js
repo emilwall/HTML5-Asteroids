@@ -23,6 +23,26 @@ describe("Asteroid", function () {
     expect(asteroids.Asteroid.prototype.init.called).toEqual(true);
   });
 
+  it("should be able to collide with ship", function () {
+    expect(asteroid.collidesWith).toContain("ship");
+  });
+
+  it("should be able to collide with bullet", function () {
+    expect(asteroid.collidesWith).toContain("bullet");
+  });
+
+  it("should be able to collide with bigalien", function () {
+    expect(asteroid.collidesWith).toContain("bigalien");
+  });
+
+  it("should be able to collide with alienbullet", function () {
+    expect(asteroid.collidesWith).toContain("alienbullet");
+  });
+
+  it("should not be able to collide with other asteroids", function () {
+    expect(asteroid.collidesWith).not.toContain("asteroid");
+  });
+
   describe("Collision", function () {
     beforeEach(function () {
       asteroid.die = sinon.spy();
