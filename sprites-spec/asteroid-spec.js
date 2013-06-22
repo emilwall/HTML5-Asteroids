@@ -81,5 +81,29 @@ describe("Asteroid", function () {
 
       expect(asteroids.Game.score).toEqual(60);
     });
+
+    it("should not increase score when other is ship", function () {
+      other.name = "ship";
+
+      asteroid.collision(other);
+
+      expect(asteroids.Game.score).toEqual(0);
+    });
+
+    it("should not increase score when other is alienbullet", function () {
+      other.name = "alienbullet";
+
+      asteroid.collision(other);
+
+      expect(asteroids.Game.score).toEqual(0);
+    });
+
+    it("should not increase score when other is bigalien", function () {
+      other.name = "bigalien";
+
+      asteroid.collision(other);
+
+      expect(asteroids.Game.score).toEqual(0);
+    });
   });
 });
