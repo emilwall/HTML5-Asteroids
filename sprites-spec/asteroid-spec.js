@@ -8,6 +8,7 @@ describe("Asteroid", function () {
     sinon.stub(asteroids.Asteroid.prototype, "wrapPostMove");
     sinon.stub(asteroids.Game, "addSprite");
     gameScore = asteroids.Game.score;
+    asteroids.Game.score = 0;
 
     asteroid = new asteroids.Asteroid();
     asteroid.vel = {};
@@ -58,18 +59,27 @@ describe("Asteroid", function () {
   });
 
   describe("Collision", function () {
+    var other;
+
     beforeEach(function () {
       asteroid.die = sinon.spy();
       asteroid.move = sinon.spy();
       asteroid.points = asteroids.Asteroid.prototype.init.args[0][1];
+      other = { name: "bullet" };
     });
 
     it("should call this.die", function () {
-      var other = { name: "bullet" };
-
       asteroid.collision(other);
 
       expect(asteroid.die.called).toEqual(true);
+    });
+
+    it("should increase score with 120 / this.scale when other is bullet", function () {
+      asteroid.scale = 2;
+
+      asteroid.collision(other);
+
+      expect(asteroids.Game.score).toEqual(60);
     });
   });
 });
