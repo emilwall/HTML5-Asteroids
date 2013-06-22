@@ -64,12 +64,12 @@ describe("Asteroid", function () {
       asteroid.points = asteroids.Asteroid.prototype.init.args[0][1];
     });
 
-    it("should die when other is bullet", function () {
-      var bullet = { name: "bullet" };
+    it("should call this.die", function () {
+      var other = { name: "bullet" };
 
-      asteroid.collision(bullet);
+      asteroid.collision(other);
 
-      assert(asteroid.die.called);
+      expect(asteroid.die.called).toEqual(true);
     });
   });
 });
