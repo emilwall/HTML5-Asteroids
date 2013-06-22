@@ -2,13 +2,14 @@ describe("Asteroid", function () {
   var fakeAsteroid, spriteInit, asteroid, gameScore;
 
   beforeEach(function () {
-    fakeAsteroid = { vel: {}, move: sinon.spy(), points: { reverse: sinon.spy() } };
+    fakeAsteroid = { vel: {}, scale: 2, move: sinon.spy(), points: { reverse: sinon.spy() } };
     sinon.stub($, "extend").returns(fakeAsteroid);
     sinon.stub(Math, "random").returns(0.5);
     spriteInit = sinon.spy();
     sinon.stub(asteroids, "Sprite").returns({ init: spriteInit });
     sinon.stub(asteroids.Asteroid.prototype, "init");
     sinon.stub(asteroids.Asteroid.prototype, "wrapPostMove");
+    sinon.stub(asteroids.Asteroid.prototype, "isClear", function () { return asteroid.isClear.callCount >= 10; });
     sinon.stub(asteroids.Game, "addSprite");
     sinon.stub(asteroids.Game, "explosionAt");
     gameScore = asteroids.Game.score;
@@ -24,6 +25,7 @@ describe("Asteroid", function () {
     asteroids.Sprite.restore();
     asteroids.Asteroid.prototype.init.restore();
     asteroids.Asteroid.prototype.wrapPostMove.restore();
+    asteroids.Asteroid.prototype.isClear.restore();
     asteroids.Game.addSprite.restore();
     asteroids.Game.explosionAt.restore();
     asteroids.Game.score = gameScore;
@@ -178,6 +180,36 @@ describe("Asteroid", function () {
       asteroid.collision(other);
 
       expect(fakeAsteroid.vel).not.toEqual(prevVel);
+    });
+
+    it("should call move method of new asteroids", function () {
+      asteroid.collision(other);
+
+      expect(fakeAsteroid.move.calledWith(fakeAsteroid.scale * 3)).toEqual(true);
+    });
+  });
+
+  describe("moveToSafePosition", function () {
+    it("should set x and y coordinates", function () {
+      asteroid.x = asteroid.y = null;
+
+      asteroid.moveToSafePosition();
+
+      expect(typeof asteroid.x).toBe("number");
+      expect(typeof asteroid.y).toBe("number");
+    });
+
+    it("should call this.isClear", function () {
+      asteroid.moveToSafePosition();
+
+      expect(asteroid.isClear.called).toBe(true);
+    });
+
+    it("should set position using Math.random until this.isClear returns true", function () {
+      asteroid.moveToSafePosition(780, 540);
+
+      expect(Math.random.callCount).toBe(20);
+      expect(asteroid.isClear.callCount).toBe(10);
     });
   });
 });
