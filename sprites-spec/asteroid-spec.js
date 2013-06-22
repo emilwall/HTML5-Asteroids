@@ -1,8 +1,10 @@
 describe("Asteroid", function () {
-  var spriteInit, asteroid, gameScore;
+  var fakeAsteroid, spriteInit, asteroid, gameScore;
 
   beforeEach(function () {
-    sinon.stub($, "extend").returns({ vel: {}, move: sinon.spy(), points: [] });
+    fakeAsteroid = { vel: {}, move: sinon.spy(), points: { reverse: sinon.spy() } };
+    sinon.stub($, "extend").returns(fakeAsteroid);
+    sinon.stub(Math, "random").returns(0.5);
     spriteInit = sinon.spy();
     sinon.stub(asteroids, "Sprite").returns({ init: spriteInit });
     sinon.stub(asteroids.Asteroid.prototype, "init");
@@ -18,6 +20,7 @@ describe("Asteroid", function () {
 
   afterEach(function () {
     $.extend.restore();
+    Math.random.restore();
     asteroids.Sprite.restore();
     asteroids.Asteroid.prototype.init.restore();
     asteroids.Asteroid.prototype.wrapPostMove.restore();
@@ -118,6 +121,16 @@ describe("Asteroid", function () {
       expect(asteroid.scale).toBeCloseTo(0.667, 3);
     });
 
+    it("should divide this.scale with 3 once for every call", function () {
+      asteroid.scale = 12;
+
+      asteroid.collision(other);
+      asteroid.collision(other);
+      asteroid.collision(other);
+
+      expect(asteroid.scale).toBeCloseTo(0.444, 3);
+    });
+
     it("should add 3 asteroids to game when this.scale > 0.5", function () {
       asteroid.collision(other);
 
@@ -137,6 +150,34 @@ describe("Asteroid", function () {
 
       expect($.extend.calledWith(true, {}, asteroid)).toEqual(true);
       expect($.extend.calledWith(false)).toEqual(false);
+    });
+
+    it("should reverse points of new asteroids when Math.random() > 0.5", function () {
+      Math.random.returns(0.75);
+
+      asteroid.collision(other);
+
+      expect(fakeAsteroid.points.reverse.called).toEqual(true);
+    });
+
+    it("should reverse points of new asteroids when Math.random() <= 0.5", function () {
+      asteroid.collision(other);
+
+      expect(fakeAsteroid.points.reverse.called).toEqual(false);
+    });
+
+    it("should set velocity of new asteroids using Math.random()", function () {
+      asteroid.scale = 60;
+      asteroid.collision(other);
+      var prevVel = { x: fakeAsteroid.vel.x, y: fakeAsteroid.vel.y, rot: fakeAsteroid.vel.rot };
+      asteroid.collision(other);
+
+      expect(fakeAsteroid.vel).toEqual(prevVel);
+
+      Math.random.returns(0.25);
+      asteroid.collision(other);
+
+      expect(fakeAsteroid.vel).not.toEqual(prevVel);
     });
   });
 });
