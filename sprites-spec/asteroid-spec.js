@@ -2,6 +2,7 @@ describe("Asteroid", function () {
   var spriteInit, asteroid, gameScore;
 
   beforeEach(function () {
+    sinon.stub($, "extend").returns({ vel: {}, move: sinon.spy(), points: [] });
     spriteInit = sinon.spy();
     sinon.stub(asteroids, "Sprite").returns({ init: spriteInit });
     sinon.stub(asteroids.Asteroid.prototype, "init");
@@ -16,6 +17,7 @@ describe("Asteroid", function () {
   });
 
   afterEach(function () {
+    $.extend.restore();
     asteroids.Sprite.restore();
     asteroids.Asteroid.prototype.init.restore();
     asteroids.Asteroid.prototype.wrapPostMove.restore();
@@ -128,6 +130,13 @@ describe("Asteroid", function () {
       asteroid.collision(other);
 
       expect(asteroids.Game.addSprite.called).toEqual(false);
+    });
+
+    it("should perform deep copy with $.extend when adding new asteroids to game", function () {
+      asteroid.collision(other);
+
+      expect($.extend.calledWith(true, {}, asteroid)).toEqual(true);
+      expect($.extend.calledWith(false)).toEqual(false);
     });
   });
 });
