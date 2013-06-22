@@ -5,6 +5,7 @@ describe("Asteroid", function () {
     spriteInit = sinon.spy();
     sinon.stub(asteroids, "Sprite").returns({ init: spriteInit });
     sinon.stub(asteroids.Asteroid.prototype, "init");
+    sinon.stub(asteroids.Asteroid.prototype, "wrapPostMove");
     sinon.stub(asteroids.Game, "addSprite");
     gameScore = asteroids.Game.score;
 
@@ -15,12 +16,25 @@ describe("Asteroid", function () {
   afterEach(function () {
     asteroids.Sprite.restore();
     asteroids.Asteroid.prototype.init.restore();
+    asteroids.Asteroid.prototype.wrapPostMove.restore();
     asteroids.Game.addSprite.restore();
     asteroids.Game.score = gameScore;
   });
 
   it("should call asteroids.Asteroid.prototype.init in constructor", function () {
     expect(asteroids.Asteroid.prototype.init.called).toEqual(true);
+  });
+
+  describe("postMove", function () {
+    it("should call wrapPostMove", function () {
+      asteroid.postMove();
+
+      expect(asteroids.Asteroid.prototype.wrapPostMove.called).toEqual(true);
+    });
+
+    it("should be wrapPostMove", function () {
+      expect(asteroid.postMove).toBe(asteroids.Asteroid.prototype.wrapPostMove);
+    });
   });
 
   it("should be able to collide with ship", function () {
