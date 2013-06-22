@@ -7,6 +7,7 @@ describe("Asteroid", function () {
     sinon.stub(asteroids.Asteroid.prototype, "init");
     sinon.stub(asteroids.Asteroid.prototype, "wrapPostMove");
     sinon.stub(asteroids.Game, "addSprite");
+    sinon.stub(asteroids.Game, "explosionAt");
     gameScore = asteroids.Game.score;
     asteroids.Game.score = 0;
 
@@ -19,6 +20,7 @@ describe("Asteroid", function () {
     asteroids.Asteroid.prototype.init.restore();
     asteroids.Asteroid.prototype.wrapPostMove.restore();
     asteroids.Game.addSprite.restore();
+    asteroids.Game.explosionAt.restore();
     asteroids.Game.score = gameScore;
   });
 
@@ -104,6 +106,28 @@ describe("Asteroid", function () {
       asteroid.collision(other);
 
       expect(asteroids.Game.score).toEqual(0);
+    });
+
+    it("should divide this.scale with 3", function () {
+      asteroid.scale = 2;
+
+      asteroid.collision(other);
+
+      expect(asteroid.scale).toBeCloseTo(0.667, 3);
+    });
+
+    it("should add 3 asteroids to game when this.scale > 0.5", function () {
+      asteroid.collision(other);
+
+      expect(asteroids.Game.addSprite.callCount).toEqual(3);
+    });
+
+    it("should not add asteroids to game when this.scale <= 0.5", function () {
+      asteroid.scale = 0.5;
+
+      asteroid.collision(other);
+
+      expect(asteroids.Game.addSprite.called).toEqual(false);
     });
   });
 });
