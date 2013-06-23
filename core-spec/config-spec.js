@@ -47,6 +47,26 @@ describe("Config", function () {
 
       expect(asteroids.KEY_STATUS.keyDown).toEqual(true);
     });
+
+    it("should call preventDefault of the event when key code is defined in asteroids.KEY_CODES", function () {
+      asteroids.keydownHandler(event);
+
+      expect(event.preventDefault.called).toEqual(true);
+    });
+
+    it("should not call preventDefault of the event when key code is not defined in asteroids.KEY_CODES", function () {
+      event.keyCode = 33;
+
+      asteroids.keydownHandler(event);
+
+      expect(event.preventDefault.called).toEqual(false);
+    });
+
+    it("should set key status of key corresponding to keyCode to true", function () {
+      asteroids.keydownHandler(event);
+
+      expect(asteroids.KEY_STATUS["space"]).toEqual(true);
+    });
   });
 
   describe("keyupHandler", function () {
@@ -54,6 +74,26 @@ describe("Config", function () {
       asteroids.keyupHandler(event);
 
       expect(asteroids.KEY_STATUS.keyDown).toEqual(false);
+    });
+
+    it("should call preventDefault of the event when key code is defined in asteroids.KEY_CODES", function () {
+      asteroids.keyupHandler(event);
+
+      expect(event.preventDefault.called).toEqual(true);
+    });
+
+    it("should not call preventDefault of the event when key code is not defined in asteroids.KEY_CODES", function () {
+      event.keyCode = 33;
+
+      asteroids.keyupHandler(event);
+
+      expect(event.preventDefault.called).toEqual(false);
+    });
+
+    it("should set key status of key corresponding to keyCode to false", function () {
+      asteroids.keyupHandler(event);
+
+      expect(asteroids.KEY_STATUS["space"]).toEqual(false);
     });
   });
 
