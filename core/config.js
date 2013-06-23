@@ -17,18 +17,26 @@ for (code in asteroids.KEY_CODES) {
   asteroids.KEY_STATUS[asteroids.KEY_CODES[code]] = false;
 };
 
-$(window).keydown(function (e) {
+asteroids.keydownHandler = function (e) {
   asteroids.KEY_STATUS.keyDown = true;
   if (asteroids.KEY_CODES[e.keyCode]) {
     e.preventDefault();
     asteroids.KEY_STATUS[asteroids.KEY_CODES[e.keyCode]] = true;
   }
-}).keyup(function (e) {
+};
+
+asteroids.keyupHandler = function (e) {
   asteroids.KEY_STATUS.keyDown = false;
   if (asteroids.KEY_CODES[e.keyCode]) {
     e.preventDefault();
     asteroids.KEY_STATUS[asteroids.KEY_CODES[e.keyCode]] = false;
   }
+};
+
+$(window).keydown(function (e) {
+  asteroids.keydownHandler(e);
+}).keyup(function (e) {
+  asteroids.keyupHandler(e);
 });
 
 asteroids.GRID_SIZE = 60;

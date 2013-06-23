@@ -4,10 +4,11 @@
  */
 
 describe("Config", function () {
-  var keyStatus;
+  var keyStatus, event;
 
   beforeEach(function () {
     keyStatus = asteroids.KEY_STATUS;
+    event = { keyCode: 32, preventDefault: sinon.spy() };
   });
 
   afterEach(function () {
@@ -40,19 +41,51 @@ describe("Config", function () {
     });
   });
 
-  describe("keydown event handler", function () {
+  describe("keydownHandler", function () {
     it("should set asteroids.KEY_STATUS.keyDown to true", function () {
-      $(window).trigger("keydown");
+      asteroids.keydownHandler(event);
 
       expect(asteroids.KEY_STATUS.keyDown).toEqual(true);
     });
   });
 
-  describe("keyup event handler", function () {
+  describe("keyupHandler", function () {
     it("should set asteroids.KEY_STATUS.keyDown to false", function () {
-      $(window).trigger("keyup");
+      asteroids.keyupHandler(event);
 
       expect(asteroids.KEY_STATUS.keyDown).toEqual(false);
+    });
+  });
+
+  describe("keydown event handler", function () {
+    beforeEach(function () {
+      sinon.stub(asteroids, "keydownHandler");
+    });
+
+    afterEach(function () {
+      asteroids.keydownHandler.restore();
+    });
+
+    it("should call asteroids.keydownHandler", function () {
+      $(window).trigger("keydown");
+
+      expect(asteroids.keydownHandler.called).toEqual(true);
+    });
+  });
+
+  describe("keyup event handler", function () {
+    beforeEach(function () {
+      sinon.stub(asteroids, "keyupHandler");
+    });
+
+    afterEach(function () {
+      asteroids.keyupHandler.restore();
+    });
+
+    it("should call asteroids.keyupHandler", function () {
+      $(window).trigger("keyup");
+
+      expect(asteroids.keyupHandler.called).toEqual(true);
     });
   });
 
