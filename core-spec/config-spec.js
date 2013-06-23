@@ -4,6 +4,16 @@
  */
 
 describe("Config", function () {
+  var keyStatus;
+
+  beforeEach(function () {
+    keyStatus = asteroids.KEY_STATUS;
+  });
+
+  afterEach(function () {
+    asteroids.KEY_STATUS = keyStatus;
+  });
+
   it("should define KEY_CODES object", function () {
     expect(typeof asteroids.KEY_CODES).toEqual("object");
   });
@@ -27,6 +37,22 @@ describe("Config", function () {
       expect(typeof asteroids.KEY_STATUS["space"]).toEqual("boolean");
       expect(typeof asteroids.KEY_STATUS["left"]).toEqual("boolean");
       expect(typeof asteroids.KEY_STATUS["p"]).toEqual("boolean");
+    });
+  });
+
+  describe("keydown event handler", function () {
+    it("should set asteroids.KEY_STATUS.keyDown to true", function () {
+      $(window).trigger("keydown");
+
+      expect(asteroids.KEY_STATUS.keyDown).toEqual(true);
+    });
+  });
+
+  describe("keyup event handler", function () {
+    it("should set asteroids.KEY_STATUS.keyDown to false", function () {
+      $(window).trigger("keyup");
+
+      expect(asteroids.KEY_STATUS.keyDown).toEqual(false);
     });
   });
 
