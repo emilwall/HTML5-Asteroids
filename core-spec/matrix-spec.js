@@ -22,4 +22,12 @@ describe("Matrix", function () {
       expect(matrix.set.called).toEqual(true);
     });
   });
+
+  describe("set", function () {
+    it("should set values of data matrix row-wise", function () {
+      matrix.set(1, 2, 3, 4, 5, 6);
+
+      expect(matrix.data).toEqual([[1, 2, 3], [4, 5, 6]]);
+    });
+  });
 });
