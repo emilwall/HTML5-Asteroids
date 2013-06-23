@@ -16,11 +16,9 @@ asteroids.Matrix = function (rows, columns) {
   };
 
   this.set = function () {
-    var k = 0;
     for (i = 0; i < rows; i++) {
       for (j = 0; j < columns; j++) {
-        this.data[i][j] = arguments[k];
-        k++;
+        this.data[i][j] = arguments[i * columns + j];
       }
     }
   }
