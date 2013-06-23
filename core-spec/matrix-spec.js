@@ -10,4 +10,16 @@ describe("Matrix", function () {
     expect(typeof matrix.set).toEqual("function");
     expect(typeof matrix.multiply).toEqual("function");
   });
+
+  describe("configure", function () {
+    beforeEach(function () {
+      matrix.set = sinon.spy();
+    });
+
+    it("should call this.set", function () {
+      matrix.configure();
+
+      expect(matrix.set.called).toEqual(true);
+    });
+  });
 });
