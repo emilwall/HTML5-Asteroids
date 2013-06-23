@@ -62,6 +62,38 @@ describe("GridNode", function () {
       expect(sprite.nextSprite).toBeNull();
     });
   });
+
+  describe("eachSprite", function () {
+    it("should call the callback once for every sprite in grid node", function () {
+      var callback = sinon.spy();
+      sprite.nextSprite = anotherSprite;
+      gridNode.nextSprite = sprite;
+
+      gridNode.eachSprite(null, callback);
+
+      expect(callback.callCount).toEqual(2);
+    });
+
+    it("should not call the callback when no sprite in grid node", function () {
+      var callback = sinon.spy();
+
+      gridNode.eachSprite(null, callback);
+
+      expect(callback.called).toEqual(false);
+    });
+
+    it("should call the callback with the supplied object as this", function () {
+      var callback = function (sprite) { this.sprites.push(sprite) },
+          object = { sprites: [] };
+      sprite.nextSprite = anotherSprite;
+      gridNode.nextSprite = sprite;
+
+      gridNode.eachSprite(object, callback);
+
+      expect(object.sprites).toContain(sprite);
+      expect(object.sprites).toContain(anotherSprite);
+    });
+  });
   // eachSprite: call the callback on every sprite in grid node
   // isEmpty: checks whether grid node contains any sprites with name in collidables
 });
