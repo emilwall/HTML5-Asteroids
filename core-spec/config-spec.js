@@ -1,8 +1,3 @@
-/* Sets keydown and keyup events on window using jQuery:
- * Always sets keyDown attribute of KEY_STATUS
- * If defined as key_code, preventDefault of the event and set KEY_STATUS
- */
-
 describe("Config", function () {
   var keyStatus, event;
 
