@@ -94,6 +94,59 @@ describe("GridNode", function () {
       expect(object.sprites).toContain(anotherSprite);
     });
   });
-  // eachSprite: call the callback on every sprite in grid node
-  // isEmpty: checks whether grid node contains any sprites with name in collidables
+
+  describe("isEmpty", function () {
+    it("should return true when grid node is empty", function () {
+      expect(gridNode.isEmpty()).toEqual(true);
+    });
+
+    it("should return false when grid node contains visible sprite with name in collidables", function () {
+      var collidables = ["fake"];
+      sprite.name = "fake";
+      sprite.visible = true;
+      gridNode.nextSprite = sprite;
+
+      expect(gridNode.isEmpty(collidables)).toEqual(false);
+    });
+
+    it("should return true when sprite with name in collidables is not visible", function () {
+      var collidables = ["fake"];
+      sprite.name = "fake";
+      gridNode.nextSprite = sprite;
+
+      expect(gridNode.isEmpty(collidables)).toEqual(true);
+    });
+
+    it("should return true when grid node contains visible sprite with name not in collidables", function () {
+      var collidables = ["fake"];
+      sprite.name = "another";
+      gridNode.nextSprite = sprite;
+
+      expect(gridNode.isEmpty(collidables)).toEqual(true);
+    });
+
+    it("should return false when grid node contains visible sprites, last one with name in collidables", function () {
+      var collidables = ["fake"];
+      sprite.name = "fake";
+      sprite.visible = true;
+      anotherSprite.nextSprite = sprite;
+      anotherSprite.name = "another";
+      anotherSprite.visible = true;
+      gridNode.nextSprite = anotherSprite;
+
+      expect(gridNode.isEmpty(collidables)).toEqual(false);
+    });
+
+    it("should return false when grid node contains visible sprites, last one with name in collidables", function () {
+      var collidables = ["fake"];
+      anotherSprite.name = "another";
+      anotherSprite.visible = true;
+      sprite.name = "fake";
+      sprite.visible = true;
+      sprite.nextSprite = anotherSprite;
+      gridNode.nextSprite = sprite;
+
+      expect(gridNode.isEmpty(collidables)).toEqual(false);
+    });
+  });
 });

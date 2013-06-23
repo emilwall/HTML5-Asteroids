@@ -38,13 +38,13 @@ asteroids.GridNode = function () {
   };
 
   this.isEmpty = function (collidables) {
-    var empty = true;
     var ref = this;
     while (ref.nextSprite) {
       ref = ref.nextSprite;
-      empty = !ref.visible || collidables.indexOf(ref.name) == -1
-      if (!empty) break;
+      if (ref.visible && collidables.indexOf(ref.name) !== -1) {
+        return false;
+      }
     }
-    return empty;
+    return true;
   };
 };
