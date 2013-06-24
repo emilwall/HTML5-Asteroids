@@ -91,6 +91,51 @@ describe("Rendering", function () {
     expect(node.west).toBe(asteroids.Sprite.prototype.grid[11][8]);
   });
 
+  it("should set both dupe properties for upper left node in grid", function () {
+    expect(typeof asteroids.Sprite.prototype.grid[0][0].dupe.horizontal).toEqual("number");
+    expect(typeof asteroids.Sprite.prototype.grid[0][0].dupe.vertical).toEqual("number");
+  });
+
+  it("should set both dupe properties for upper right node in grid", function () {
+    expect(typeof asteroids.Sprite.prototype.grid[12][0].dupe.horizontal).toEqual("number");
+    expect(typeof asteroids.Sprite.prototype.grid[12][0].dupe.vertical).toEqual("number");
+  });
+
+  it("should set both dupe properties for lower left node in grid", function () {
+    expect(typeof asteroids.Sprite.prototype.grid[0][8].dupe.horizontal).toEqual("number");
+    expect(typeof asteroids.Sprite.prototype.grid[0][8].dupe.vertical).toEqual("number");
+  });
+
+  it("should set both dupe properties for lower right node in grid", function () {
+    expect(typeof asteroids.Sprite.prototype.grid[12][8].dupe.horizontal).toEqual("number");
+    expect(typeof asteroids.Sprite.prototype.grid[12][8].dupe.vertical).toEqual("number");
+  });
+
+  it("should set horizontal dupe properties for leftmost and rightmost nodes in grid", function () {
+    expect(typeof asteroids.Sprite.prototype.grid[0][3].dupe.horizontal).toEqual("number");
+    expect(typeof asteroids.Sprite.prototype.grid[12][5].dupe.horizontal).toEqual("number");
+  });
+
+  it("should not set vertical dupe properties for leftmost and rightmost nodes in grid", function () {
+    expect(asteroids.Sprite.prototype.grid[0][3].dupe.vertical).toBeNull();
+    expect(asteroids.Sprite.prototype.grid[12][5].dupe.vertical).toBeNull();
+  });
+
+  it("should set vertical dupe properties for upper and lower nodes in grid", function () {
+    expect(typeof asteroids.Sprite.prototype.grid[3][0].dupe.vertical).toEqual("number");
+    expect(typeof asteroids.Sprite.prototype.grid[5][8].dupe.vertical).toEqual("number");
+  });
+
+  it("should not set horizontal dupe properties for upper and lower nodes in grid", function () {
+    expect(asteroids.Sprite.prototype.grid[3][0].dupe.horizontal).toBeNull();
+    expect(asteroids.Sprite.prototype.grid[5][8].dupe.horizontal).toBeNull();
+  });
+
+  it("should not set dupe properties for nodes not on grid border", function () {
+    expect(asteroids.Sprite.prototype.grid[7][3].dupe.horizontal).toBeNull();
+    expect(asteroids.Sprite.prototype.grid[4][4].dupe.vertical).toBeNull();
+  });
+
   it("should add ship to asteroids.Game.sprites", function () {
     expect(asteroids.Game.sprites.some(function (sprite) {
       return sprite.name === "ship";
