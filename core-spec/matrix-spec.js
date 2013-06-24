@@ -30,4 +30,20 @@ describe("Matrix", function () {
       expect(matrix.data).toEqual([[1, 2, 3], [4, 5, 6]]);
     });
   });
+
+  describe("multiply", function () {
+    beforeEach(function () {
+      matrix.data = [[1, 2, 3], [4, 5, 6]];
+    });
+
+    it("should return matrix-vector product", function () {
+      expect(matrix.multiply(1, 2, 3)).toEqual([14, 32]);
+    });
+
+    it("should not alter matrix data", function () {
+      matrix.multiply(1, 2, 3);
+
+      expect(matrix.data).toEqual([[1, 2, 3], [4, 5, 6]]);
+    });
+  });
 });
