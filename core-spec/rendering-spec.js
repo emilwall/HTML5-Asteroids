@@ -49,30 +49,15 @@ describe("Rendering", function () {
   });
 
   it("should add ship to asteroids.Game.sprites", function () {
-    var length = asteroids.Game.sprites.length;
-    var found = false;
-
-    for (var i = 0; i < length; i++) {
-      if (asteroids.Game.sprites[i].name === "ship") {
-        found = true;
-        break;
-      }
-    }
-
-    assert(found);
+    expect(asteroids.Game.sprites.some(function (sprite) {
+      return sprite.name === "ship";
+    })).toEqual(true);
   });
 
   it("should add 10 bullets to asteroids.Game.sprites", function () {
-    var length = asteroids.Game.sprites.length;
-    var found = 0;
-
-    for (var i = 0; i < length; i++) {
-      if (asteroids.Game.sprites[i].name === "bullet") {
-        found++;
-      }
-    }
-
-    expect(found).toEqual(10);
+    expect(asteroids.Game.sprites.filter(function (sprite) {
+      return sprite.name === "bullet";
+    }).length).toEqual(10);
   });
 
   it("should define drawGrid method", function () {
