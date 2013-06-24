@@ -18,6 +18,11 @@ describe("Rendering", function () {
     canvas.getContext = sinon.stub().returns(fakeContext);
     canvas[0] = canvas;
 
+    sinon.stub(asteroids, "GridNode", function () {
+      this.north = this.south = this.east = this.west = this.nextSprite = null;
+      this.dupe = { horizontal: null, vertical: null };
+    });
+
     canvasWidth = asteroids.Game.canvasWidth;
     canvasHeight = asteroids.Game.canvasHeight;
     sprites = asteroids.Game.sprites;
@@ -33,6 +38,7 @@ describe("Rendering", function () {
   });
 
   afterEach(function () {
+    asteroids.GridNode.restore();
     asteroids.Game.canvasWidth = canvasWidth;
     asteroids.Game.canvasHeight = canvasHeight;
     asteroids.Game.sprites = sprites;
@@ -59,6 +65,14 @@ describe("Rendering", function () {
 
   it("should set face of Text to vector_battle", function () {
     expect(Text.face).toBe(vector_battle);
+  });
+
+  it("should set grid with empty grid nodes as sprite prototype property", function () {
+    var origin = asteroids.Sprite.prototype.grid[0][0];
+    var corner = asteroids.Sprite.prototype.grid[12][8];
+    expect(origin.nextSprite).toBeNull();
+    expect(Object.keys(corner).length).toEqual(Object.keys(origin).length);
+    expect(corner).not.toBe(origin);
   });
 
   it("should add ship to asteroids.Game.sprites", function () {
