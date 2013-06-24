@@ -68,11 +68,11 @@ describe("Rendering", function () {
   });
 
   it("should set grid with empty grid nodes as sprite prototype property", function () {
-    var origin = asteroids.Sprite.prototype.grid[0][0];
-    var corner = asteroids.Sprite.prototype.grid[12][8];
-    expect(origin.nextSprite).toBeNull();
-    expect(Object.keys(corner).length).toEqual(Object.keys(origin).length);
-    expect(corner).not.toBe(origin);
+    var upperLeft = asteroids.Sprite.prototype.grid[0][0];
+    var lowerRight = asteroids.Sprite.prototype.grid[12][8];
+    expect(upperLeft.nextSprite).toBeNull();
+    expect(Object.keys(lowerRight).length).toEqual(Object.keys(upperLeft).length);
+    expect(lowerRight).not.toBe(upperLeft);
   });
 
   it("should add ship to asteroids.Game.sprites", function () {
