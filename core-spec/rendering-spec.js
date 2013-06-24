@@ -75,6 +75,22 @@ describe("Rendering", function () {
     expect(lowerRight).not.toBe(upperLeft);
   });
 
+  it("should set grid links properly for nodes within grid", function () {
+    var node = asteroids.Sprite.prototype.grid[1][1];
+    expect(node.south).toBe(asteroids.Sprite.prototype.grid[1][2]);
+    expect(node.north).toBe(asteroids.Sprite.prototype.grid[1][0]);
+    expect(node.east).toBe(asteroids.Sprite.prototype.grid[2][1]);
+    expect(node.west).toBe(asteroids.Sprite.prototype.grid[0][1]);
+  });
+
+  it("should set grid links properly for nodes on grid border", function () {
+    var node = asteroids.Sprite.prototype.grid[12][8];
+    expect(node.south).toBe(asteroids.Sprite.prototype.grid[12][0]);
+    expect(node.north).toBe(asteroids.Sprite.prototype.grid[12][7]);
+    expect(node.east).toBe(asteroids.Sprite.prototype.grid[0][8]);
+    expect(node.west).toBe(asteroids.Sprite.prototype.grid[11][8]);
+  });
+
   it("should add ship to asteroids.Game.sprites", function () {
     expect(asteroids.Game.sprites.some(function (sprite) {
       return sprite.name === "ship";
