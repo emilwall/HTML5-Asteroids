@@ -44,8 +44,21 @@ describe("Rendering", function () {
     asteroids.KEY_STATUS = keyStatus;
   });
 
+  it("should set canvasWidth and canvasHeight properties of asteroids.Game", function () {
+    expect(asteroids.Game.canvasWidth).toEqual(canvas.width());
+    expect(asteroids.Game.canvasHeight).toEqual(canvas.height());
+  });
+
   it("should set context of canvas as attribute of self", function () {
-    expect(rendering.context).toBeDefined();
+    expect(rendering.context).toBe(canvas.getContext());
+  });
+
+  it("should set context of canvas as attribute of Text", function () {
+    expect(Text.context).toBe(canvas.getContext());
+  });
+
+  it("should set face of Text to vector_battle", function () {
+    expect(Text.face).toBe(vector_battle);
   });
 
   it("should add ship to asteroids.Game.sprites", function () {
