@@ -22,6 +22,7 @@ describe("Rendering", function () {
       this.north = this.south = this.east = this.west = this.nextSprite = null;
       this.dupe = { horizontal: null, vertical: null };
     });
+    sinon.stub(asteroids, "Matrix").returns([[0, 0, 0], [0, 0, 0]]);
 
     canvasWidth = asteroids.Game.canvasWidth;
     canvasHeight = asteroids.Game.canvasHeight;
@@ -39,6 +40,7 @@ describe("Rendering", function () {
 
   afterEach(function () {
     asteroids.GridNode.restore();
+    asteroids.Matrix.restore();
     asteroids.Game.canvasWidth = canvasWidth;
     asteroids.Game.canvasHeight = canvasHeight;
     asteroids.Game.sprites = sprites;
@@ -134,6 +136,14 @@ describe("Rendering", function () {
   it("should not set dupe properties for nodes not on grid border", function () {
     expect(asteroids.Sprite.prototype.grid[7][3].dupe.horizontal).toBeNull();
     expect(asteroids.Sprite.prototype.grid[4][4].dupe.vertical).toBeNull();
+  });
+
+  it("should set context of canvas as sprite prototype property", function () {
+    expect(asteroids.Sprite.prototype.context).toBe(rendering.context);
+  });
+
+  it("should set matrix as sprite prototype property", function () {
+    expect(asteroids.Sprite.prototype.matrix).toEqual(new asteroids.Matrix());
   });
 
   it("should add ship to asteroids.Game.sprites", function () {
