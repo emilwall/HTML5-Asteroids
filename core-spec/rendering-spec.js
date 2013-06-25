@@ -1,10 +1,10 @@
 describe("Rendering", function () {
   var canvas, canvasWidth, canvasHeight, sprites, context, grid, matrix, ship, bigAlien, keyStatus, rendering;
 
-  var spriteWithName = function (name) {
+  var spritesWithName = function (name) {
     return asteroids.Game.sprites.filter(function (sprite) {
       return sprite.name === name;
-    })[0];
+    });
   };
 
   beforeEach(function () {
@@ -155,44 +155,38 @@ describe("Rendering", function () {
   });
 
   it("should add ship to asteroids.Game.sprites", function () {
-    expect(asteroids.Game.sprites.some(function (sprite) {
-      return sprite.name === "ship";
-    })).toEqual(true);
+    expect(spritesWithName("ship").length).toEqual(1);
   });
 
   it("should set starting position of ship to middle of screen", function () {
-    var ship = spriteWithName("ship");
+    var ship = spritesWithName("ship")[0];
 
     expect(ship.x).toEqual(asteroids.Game.canvasWidth / 2);
     expect(ship.y).toEqual(asteroids.Game.canvasHeight / 2);
   });
 
   it("should add 10 bullets to ship", function () {
-    var ship = spriteWithName("ship");
+    var ship = spritesWithName("ship")[0];
 
     expect(ship.bullets.length).toEqual(10);
   });
 
   it("should add 10 bullets to asteroids.Game.sprites", function () {
-    expect(asteroids.Game.sprites.filter(function (sprite) {
-      return sprite.name === "bullet";
-    }).length).toEqual(10);
+    expect(spritesWithName("bullet").length).toEqual(10);
   });
 
   it("should add bigAlien to asteroids.Game.sprites", function () {
-    expect(asteroids.Game.sprites.some(function (sprite) {
-      return sprite.name === "bigalien";
-    })).toEqual(true);
+    expect(spritesWithName("bigalien").length).toEqual(1);
   });
 
   it("should call setup method of bigAlien before adding it to asteroids.Game.sprites", function () {
-    var bigalien = spriteWithName("bigalien");
+    var bigalien = spritesWithName("bigalien")[0];
 
     sinon.assert.called(bigalien.setup);
   });
 
   it("should set bigAlien as property of asteroids.Game", function () {
-    var bigalien = spriteWithName("bigalien");
+    var bigalien = spritesWithName("bigalien")[0];
 
     expect(asteroids.Game.bigAlien).toBe(bigalien);
   });
