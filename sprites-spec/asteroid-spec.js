@@ -32,14 +32,14 @@ describe("Asteroid", function () {
   });
 
   it("should call asteroids.Asteroid.prototype.init in constructor", function () {
-    expect(asteroids.Asteroid.prototype.init.called).toEqual(true);
+    sinon.assert.called(asteroids.Asteroid.prototype.init);
   });
 
   describe("postMove", function () {
     it("should call wrapPostMove", function () {
       asteroid.postMove();
 
-      expect(asteroids.Asteroid.prototype.wrapPostMove.called).toEqual(true);
+      sinon.assert.called(asteroids.Asteroid.prototype.wrapPostMove);
     });
 
     it("should be wrapPostMove", function () {
@@ -80,7 +80,7 @@ describe("Asteroid", function () {
     it("should call this.die", function () {
       asteroid.collision(other);
 
-      expect(asteroid.die.called).toEqual(true);
+      sinon.assert.called(asteroid.die);
     });
 
     it("should increase score with 120 / this.scale when other is bullet", function () {
@@ -144,7 +144,7 @@ describe("Asteroid", function () {
 
       asteroid.collision(other);
 
-      expect(asteroids.Game.addSprite.called).toEqual(false);
+      sinon.assert.notCalled(asteroids.Game.addSprite);
     });
 
     it("should perform deep copy with $.extend when adding new asteroids to game", function () {
@@ -159,13 +159,13 @@ describe("Asteroid", function () {
 
       asteroid.collision(other);
 
-      expect(fakeAsteroid.points.reverse.called).toEqual(true);
+      sinon.assert.called(fakeAsteroid.points.reverse);
     });
 
     it("should reverse points of new asteroids when Math.random() <= 0.5", function () {
       asteroid.collision(other);
 
-      expect(fakeAsteroid.points.reverse.called).toEqual(false);
+      sinon.assert.notCalled(fakeAsteroid.points.reverse);
     });
 
     it("should set velocity of new asteroids using Math.random()", function () {

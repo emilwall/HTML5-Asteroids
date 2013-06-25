@@ -19,7 +19,7 @@ describe("Matrix", function () {
     it("should call this.set", function () {
       matrix.configure();
 
-      expect(matrix.set.called).toEqual(true);
+      sinon.assert.called(matrix.set);
     });
   });
 

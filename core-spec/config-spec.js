@@ -46,7 +46,7 @@ describe("Config", function () {
     it("should call preventDefault of the event when key code is defined in asteroids.KEY_CODES", function () {
       asteroids.keydownHandler(event);
 
-      expect(event.preventDefault.called).toEqual(true);
+      sinon.assert.called(event.preventDefault);
     });
 
     it("should not call preventDefault of the event when key code is not defined in asteroids.KEY_CODES", function () {
@@ -54,7 +54,7 @@ describe("Config", function () {
 
       asteroids.keydownHandler(event);
 
-      expect(event.preventDefault.called).toEqual(false);
+      sinon.assert.notCalled(event.preventDefault);
     });
 
     it("should set key status of key corresponding to keyCode to true", function () {
@@ -74,7 +74,7 @@ describe("Config", function () {
     it("should call preventDefault of the event when key code is defined in asteroids.KEY_CODES", function () {
       asteroids.keyupHandler(event);
 
-      expect(event.preventDefault.called).toEqual(true);
+      sinon.assert.called(event.preventDefault);
     });
 
     it("should not call preventDefault of the event when key code is not defined in asteroids.KEY_CODES", function () {
@@ -82,7 +82,7 @@ describe("Config", function () {
 
       asteroids.keyupHandler(event);
 
-      expect(event.preventDefault.called).toEqual(false);
+      sinon.assert.notCalled(event.preventDefault);
     });
 
     it("should set key status of key corresponding to keyCode to false", function () {
@@ -104,7 +104,7 @@ describe("Config", function () {
     it("should call asteroids.keydownHandler", function () {
       $(window).trigger("keydown");
 
-      expect(asteroids.keydownHandler.called).toEqual(true);
+      sinon.assert.called(asteroids.keydownHandler);
     });
   });
 
@@ -120,7 +120,7 @@ describe("Config", function () {
     it("should call asteroids.keyupHandler", function () {
       $(window).trigger("keyup");
 
-      expect(asteroids.keyupHandler.called).toEqual(true);
+      sinon.assert.called(asteroids.keyupHandler);
     });
   });
 

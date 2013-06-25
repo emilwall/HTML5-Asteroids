@@ -188,7 +188,7 @@ describe("Rendering", function () {
       return sprite.name === "bigalien";
     }).pop();
 
-    expect(bigalien.setup.called).toEqual(true);
+    sinon.assert.called(bigalien.setup);
   });
 
   it("should set bigAlien as property of asteroids.Game", function () {
@@ -209,7 +209,7 @@ describe("Rendering", function () {
 
       rendering.drawGrid();
 
-      expect(rendering.context.stroke.called).toEqual(true);
+      sinon.assert.called(rendering.context.stroke);
     });
   });
 });

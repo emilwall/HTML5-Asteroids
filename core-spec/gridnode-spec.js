@@ -79,7 +79,7 @@ describe("GridNode", function () {
 
       gridNode.eachSprite(null, callback);
 
-      expect(callback.called).toEqual(false);
+      sinon.assert.notCalled(callback);
     });
 
     it("should call the callback with the supplied object as this", function () {

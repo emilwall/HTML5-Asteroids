@@ -35,7 +35,7 @@ describe("Ship", function () {
     it("should call wrapPostMove", function () {
       ship.postMove();
 
-      expect(asteroids.Ship.prototype.wrapPostMove.called).toEqual(true);
+      sinon.assert.called(asteroids.Ship.prototype.wrapPostMove);
     });
 
     it("should be wrapPostMove", function () {
@@ -241,7 +241,7 @@ describe("Ship", function () {
     it("should call asteroids.Game.explosionAt", function () {
       ship.collision(other);
 
-      expect(asteroids.Game.explosionAt.called).toEqual(true);
+      sinon.assert.called(asteroids.Game.explosionAt);
     });
 
     it("should set state of asteroids.Game.FSM to player_died", function () {
@@ -255,7 +255,7 @@ describe("Ship", function () {
 
       ship.collision(other);
 
-      expect(gridNode.leave.called).toEqual(true);
+      sinon.assert.called(gridNode.leave);
       expect(ship.currentNode).toBeNull();
     });
 

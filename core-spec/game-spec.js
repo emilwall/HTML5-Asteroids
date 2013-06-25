@@ -119,7 +119,7 @@ describe("Game", function () {
       it("should call spawnAsteroids", function () {
         asteroids.Game.FSM.boot();
 
-        expect(asteroids.Game.spawnAsteroids.called).toEqual(true);
+        sinon.assert.called(asteroids.Game.spawnAsteroids);
       });
 
       it("should set state to waiting", function () {
@@ -133,7 +133,7 @@ describe("Game", function () {
       it("should call Text.renderText with Press Space to Start", function () {
         asteroids.Game.FSM.waiting();
 
-        expect(Text.renderText.called).toEqual(true);
+        sinon.assert.called(Text.renderText);
         expect(Text.renderText.args[0][0]).toEqual("Press Space to Start");
       });
 
@@ -180,7 +180,7 @@ describe("Game", function () {
       it("should call spawnAsteroids", function () {
         asteroids.Game.FSM.start();
 
-        expect(asteroids.Game.spawnAsteroids.called).toEqual(true);
+        sinon.assert.called(asteroids.Game.spawnAsteroids);
       });
 
       it("should call die on all asteroids in asteroids.Game.sprites", function () {
@@ -189,7 +189,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.start();
 
-        expect(asteroid.die.called).toEqual(true);
+        sinon.assert.called(asteroid.die);
       });
 
       it("should not call die on sprites that are not asteroids in asteroids.Game.sprites", function () {
@@ -198,7 +198,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.start();
 
-        expect(sprite.die.called).toEqual(false);
+        sinon.assert.notCalled(sprite.die);
       });
 
       it("should set visible to false on bullets and bigalien in asteroids.Game.sprites", function () {
@@ -383,7 +383,7 @@ describe("Game", function () {
         asteroids.Game.FSM.timer = Date.now() - 1000;
         asteroids.Game.FSM.new_level();
 
-        expect(asteroids.Game.spawnAsteroids.called).toEqual(true);
+        sinon.assert.called(asteroids.Game.spawnAsteroids);
       });
 
       it("should not call spawnAsteroids unless changing state", function () {
@@ -391,7 +391,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.new_level();
 
-        expect(asteroids.Game.spawnAsteroids.called).toEqual(false);
+        sinon.assert.notCalled(asteroids.Game.spawnAsteroids);
       });
     });
 
@@ -487,7 +487,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.execute();
 
-        expect(asteroids.Game.FSM.boot.called).toEqual(true);
+        sinon.assert.called(asteroids.Game.FSM.boot);
       });
 
       it("should call end_game when this.state = end_game", function () {
@@ -495,7 +495,7 @@ describe("Game", function () {
 
         asteroids.Game.FSM.execute();
 
-        expect(asteroids.Game.FSM.end_game.called).toEqual(true);
+        sinon.assert.called(asteroids.Game.FSM.end_game);
       });
     });
   });

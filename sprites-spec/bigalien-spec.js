@@ -33,7 +33,7 @@ describe("BigAlien", function () {
   });
 
   it("should call asteroids.BigAlien.prototype.init in constructor", function () {
-    expect(asteroids.BigAlien.prototype.init.called).toEqual(true);
+    sinon.assert.called(asteroids.BigAlien.prototype.init);
   });
 
   it("should call init of object created using asteroids.Sprite with name bigalien_top", function () {
@@ -102,7 +102,7 @@ describe("BigAlien", function () {
     it("should set position using newPosition", function () {
       bigAlien.setup();
 
-      expect(bigAlien.newPosition.called).toEqual(true);
+      sinon.assert.called(bigAlien.newPosition);
     });
 
     it("should add 3 bullets to this.bullets", function () {
@@ -211,7 +211,7 @@ describe("BigAlien", function () {
     it("should set velocity of first hidden bullet using Math.random when this.bulletCounter - delta <= zero", function () {
       bigAlien.preMove(0);
 
-      expect(Math.random.called).toEqual(true);
+      sinon.assert.called(Math.random);
       expect(typeof bigAlien.bullets[0].vel.x).toEqual("number");
       expect(typeof bigAlien.bullets[0].vel.y).toEqual("number");
     });
@@ -261,13 +261,13 @@ describe("BigAlien", function () {
     it("should call asteroids.Game.explosionAt", function () {
       bigAlien.collision(other);
 
-      expect(asteroids.Game.explosionAt.called).toEqual(true);
+      sinon.assert.called(asteroids.Game.explosionAt);
     });
 
     it("should call asteroids.Game.explosionAt", function () {
       bigAlien.collision(other);
 
-      expect(bigAlien.newPosition.called).toEqual(true);
+      sinon.assert.called(bigAlien.newPosition);
     });
   });
 
@@ -309,7 +309,7 @@ describe("BigAlien", function () {
       bigAlien.postMove();
 
       expect(bigAlien.visible).toEqual(true);
-      expect(bigAlien.newPosition.called).toEqual(false);
+      sinon.assert.notCalled(bigAlien.newPosition);
     });
 
     it("should hide and set new position when leaving canvas at left side", function () {
@@ -318,7 +318,7 @@ describe("BigAlien", function () {
       bigAlien.postMove();
 
       expect(bigAlien.visible).toEqual(false);
-      expect(bigAlien.newPosition.called).toEqual(true);
+      sinon.assert.called(bigAlien.newPosition);
     });
 
     it("should not hide and set new position when heading towards canvas from right", function () {
@@ -328,7 +328,7 @@ describe("BigAlien", function () {
       bigAlien.postMove();
 
       expect(bigAlien.visible).toEqual(true);
-      expect(bigAlien.newPosition.called).toEqual(false);
+      sinon.assert.notCalled(bigAlien.newPosition);
     });
 
     it("should hide and set new position when leaving canvas at right side", function () {
@@ -337,7 +337,7 @@ describe("BigAlien", function () {
       bigAlien.postMove();
 
       expect(bigAlien.visible).toEqual(false);
-      expect(bigAlien.newPosition.called).toEqual(true);
+      sinon.assert.called(bigAlien.newPosition);
     });
   });
 });
