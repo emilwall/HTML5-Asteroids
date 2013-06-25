@@ -1,6 +1,12 @@
 describe("Rendering", function () {
   var canvas, canvasWidth, canvasHeight, sprites, context, grid, matrix, ship, bigAlien, keyStatus, rendering;
 
+  var spriteWithName = function (name) {
+    return asteroids.Game.sprites.filter(function (sprite) {
+      return sprite.name === name;
+    })[0];
+  };
+
   beforeEach(function () {
     var fakeContext = {};
     fakeContext.clearRect = sinon.spy();
@@ -155,18 +161,14 @@ describe("Rendering", function () {
   });
 
   it("should set starting position of ship to middle of screen", function () {
-    var ship = asteroids.Game.sprites.filter(function (sprite) {
-      return sprite.name === "ship";
-    })[0];
+    var ship = spriteWithName("ship");
 
     expect(ship.x).toEqual(asteroids.Game.canvasWidth / 2);
     expect(ship.y).toEqual(asteroids.Game.canvasHeight / 2);
   });
 
   it("should add 10 bullets to ship", function () {
-    var ship = asteroids.Game.sprites.filter(function (sprite) {
-      return sprite.name === "ship";
-    })[0];
+    var ship = spriteWithName("ship");
 
     expect(ship.bullets.length).toEqual(10);
   });
@@ -184,17 +186,13 @@ describe("Rendering", function () {
   });
 
   it("should call setup method of bigAlien before adding it to asteroids.Game.sprites", function () {
-    var bigalien = asteroids.Game.sprites.filter(function (sprite) {
-      return sprite.name === "bigalien";
-    })[0];
+    var bigalien = spriteWithName("bigalien");
 
     sinon.assert.called(bigalien.setup);
   });
 
   it("should set bigAlien as property of asteroids.Game", function () {
-    var bigalien = asteroids.Game.sprites.filter(function (sprite) {
-      return sprite.name === "bigalien";
-    })[0];
+    var bigalien = spriteWithName("bigalien");
 
     expect(asteroids.Game.bigAlien).toBe(bigalien);
   });
