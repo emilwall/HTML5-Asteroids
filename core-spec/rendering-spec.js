@@ -23,6 +23,7 @@ describe("Rendering", function () {
       this.dupe = { horizontal: null, vertical: null };
     });
     sinon.stub(asteroids, "Matrix").returns([[0, 0, 0], [0, 0, 0]]);
+    sinon.stub(asteroids, "BigAlien").returns({ name: "bigalien", setup: sinon.stub() });
 
     canvasWidth = asteroids.Game.canvasWidth;
     canvasHeight = asteroids.Game.canvasHeight;
@@ -41,6 +42,7 @@ describe("Rendering", function () {
   afterEach(function () {
     asteroids.GridNode.restore();
     asteroids.Matrix.restore();
+    asteroids.BigAlien.restore();
     asteroids.Game.canvasWidth = canvasWidth;
     asteroids.Game.canvasHeight = canvasHeight;
     asteroids.Game.sprites = sprites;
@@ -152,10 +154,49 @@ describe("Rendering", function () {
     })).toEqual(true);
   });
 
+  it("should set starting position of ship to middle of screen", function () {
+    var ship = asteroids.Game.sprites.filter(function (sprite) {
+      return sprite.name === "ship";
+    }).pop();
+
+    expect(ship.x).toEqual(asteroids.Game.canvasWidth / 2);
+    expect(ship.y).toEqual(asteroids.Game.canvasHeight / 2);
+  });
+
+  it("should add 10 bullets to ship", function () {
+    var ship = asteroids.Game.sprites.filter(function (sprite) {
+      return sprite.name === "ship";
+    }).pop();
+
+    expect(ship.bullets.length).toEqual(10);
+  });
+
   it("should add 10 bullets to asteroids.Game.sprites", function () {
     expect(asteroids.Game.sprites.filter(function (sprite) {
       return sprite.name === "bullet";
     }).length).toEqual(10);
+  });
+
+  it("should add bigAlien to asteroids.Game.sprites", function () {
+    expect(asteroids.Game.sprites.some(function (sprite) {
+      return sprite.name === "bigalien";
+    })).toEqual(true);
+  });
+
+  it("should call setup method of bigAlien before adding it to asteroids.Game.sprites", function () {
+    var bigalien = asteroids.Game.sprites.filter(function (sprite) {
+      return sprite.name === "bigalien";
+    }).pop();
+
+    expect(bigalien.setup.called).toEqual(true);
+  });
+
+  it("should set bigAlien as property of asteroids.Game", function () {
+    var bigalien = asteroids.Game.sprites.filter(function (sprite) {
+      return sprite.name === "bigalien";
+    }).pop();
+
+    expect(asteroids.Game.bigAlien).toBe(bigalien);
   });
 
   it("should define drawGrid method", function () {
