@@ -157,7 +157,7 @@ describe("Rendering", function () {
   it("should set starting position of ship to middle of screen", function () {
     var ship = asteroids.Game.sprites.filter(function (sprite) {
       return sprite.name === "ship";
-    }).pop();
+    })[0];
 
     expect(ship.x).toEqual(asteroids.Game.canvasWidth / 2);
     expect(ship.y).toEqual(asteroids.Game.canvasHeight / 2);
@@ -166,7 +166,7 @@ describe("Rendering", function () {
   it("should add 10 bullets to ship", function () {
     var ship = asteroids.Game.sprites.filter(function (sprite) {
       return sprite.name === "ship";
-    }).pop();
+    })[0];
 
     expect(ship.bullets.length).toEqual(10);
   });
@@ -186,7 +186,7 @@ describe("Rendering", function () {
   it("should call setup method of bigAlien before adding it to asteroids.Game.sprites", function () {
     var bigalien = asteroids.Game.sprites.filter(function (sprite) {
       return sprite.name === "bigalien";
-    }).pop();
+    })[0];
 
     sinon.assert.called(bigalien.setup);
   });
@@ -194,7 +194,7 @@ describe("Rendering", function () {
   it("should set bigAlien as property of asteroids.Game", function () {
     var bigalien = asteroids.Game.sprites.filter(function (sprite) {
       return sprite.name === "bigalien";
-    }).pop();
+    })[0];
 
     expect(asteroids.Game.bigAlien).toBe(bigalien);
   });
