@@ -1,5 +1,5 @@
 describe("Rendering", function () {
-  var canvas, canvasWidth, canvasHeight, sprites, context, grid, matrix, ship, bigAlien, keyStatus, rendering;
+  var canvas, canvasWidth, canvasHeight, sprites, context, prevGrid, grid, matrix, ship, bigAlien, keyStatus, rendering;
 
   var spritesWithName = function (name) {
     return asteroids.Game.sprites.filter(function (sprite) {
@@ -35,7 +35,7 @@ describe("Rendering", function () {
     canvasHeight = asteroids.Game.canvasHeight;
     sprites = asteroids.Game.sprites;
     context = asteroids.Sprite.prototype.context;
-    grid = asteroids.Sprite.prototype.grid;
+    prevGrid = asteroids.Sprite.prototype.grid;
     matrix = asteroids.Sprite.prototype.matrix;
     ship = asteroids.Game.ship;
     bigAlien = asteroids.Game.bigAlien;
@@ -43,6 +43,7 @@ describe("Rendering", function () {
     asteroids.KEY_STATUS = {};
 
     rendering = new asteroids.Rendering(canvas);
+    grid = asteroids.Sprite.prototype.grid;
   });
 
   afterEach(function () {
@@ -53,7 +54,7 @@ describe("Rendering", function () {
     asteroids.Game.canvasHeight = canvasHeight;
     asteroids.Game.sprites = sprites;
     asteroids.Sprite.prototype.context = context;
-    asteroids.Sprite.prototype.grid = grid;
+    asteroids.Sprite.prototype.grid = prevGrid;
     asteroids.Sprite.prototype.matrix = matrix;
     asteroids.Game.ship = ship;
     asteroids.Game.bigAlien = bigAlien;
@@ -78,72 +79,72 @@ describe("Rendering", function () {
   });
 
   it("should set grid with empty grid nodes as sprite prototype property", function () {
-    var upperLeft = asteroids.Sprite.prototype.grid[0][0];
-    var lowerRight = asteroids.Sprite.prototype.grid[12][8];
+    var upperLeft = grid[0][0];
+    var lowerRight = grid[12][8];
     expect(upperLeft.nextSprite).toBeNull();
     expect(Object.keys(lowerRight).length).toEqual(Object.keys(upperLeft).length);
     expect(lowerRight).not.toBe(upperLeft);
   });
 
   it("should set grid links properly for nodes within grid", function () {
-    var node = asteroids.Sprite.prototype.grid[1][1];
-    expect(node.south).toBe(asteroids.Sprite.prototype.grid[1][2]);
-    expect(node.north).toBe(asteroids.Sprite.prototype.grid[1][0]);
-    expect(node.east).toBe(asteroids.Sprite.prototype.grid[2][1]);
-    expect(node.west).toBe(asteroids.Sprite.prototype.grid[0][1]);
+    var node = grid[1][1];
+    expect(node.south).toBe(grid[1][2]);
+    expect(node.north).toBe(grid[1][0]);
+    expect(node.east).toBe(grid[2][1]);
+    expect(node.west).toBe(grid[0][1]);
   });
 
   it("should set grid links properly for nodes on grid border", function () {
-    var node = asteroids.Sprite.prototype.grid[12][8];
-    expect(node.south).toBe(asteroids.Sprite.prototype.grid[12][0]);
-    expect(node.north).toBe(asteroids.Sprite.prototype.grid[12][7]);
-    expect(node.east).toBe(asteroids.Sprite.prototype.grid[0][8]);
-    expect(node.west).toBe(asteroids.Sprite.prototype.grid[11][8]);
+    var node = grid[12][8];
+    expect(node.south).toBe(grid[12][0]);
+    expect(node.north).toBe(grid[12][7]);
+    expect(node.east).toBe(grid[0][8]);
+    expect(node.west).toBe(grid[11][8]);
   });
 
   it("should set both dupe properties for upper left node in grid", function () {
-    expect(typeof asteroids.Sprite.prototype.grid[0][0].dupe.horizontal).toEqual("number");
-    expect(typeof asteroids.Sprite.prototype.grid[0][0].dupe.vertical).toEqual("number");
+    expect(typeof grid[0][0].dupe.horizontal).toEqual("number");
+    expect(typeof grid[0][0].dupe.vertical).toEqual("number");
   });
 
   it("should set both dupe properties for upper right node in grid", function () {
-    expect(typeof asteroids.Sprite.prototype.grid[12][0].dupe.horizontal).toEqual("number");
-    expect(typeof asteroids.Sprite.prototype.grid[12][0].dupe.vertical).toEqual("number");
+    expect(typeof grid[12][0].dupe.horizontal).toEqual("number");
+    expect(typeof grid[12][0].dupe.vertical).toEqual("number");
   });
 
   it("should set both dupe properties for lower left node in grid", function () {
-    expect(typeof asteroids.Sprite.prototype.grid[0][8].dupe.horizontal).toEqual("number");
-    expect(typeof asteroids.Sprite.prototype.grid[0][8].dupe.vertical).toEqual("number");
+    expect(typeof grid[0][8].dupe.horizontal).toEqual("number");
+    expect(typeof grid[0][8].dupe.vertical).toEqual("number");
   });
 
   it("should set both dupe properties for lower right node in grid", function () {
-    expect(typeof asteroids.Sprite.prototype.grid[12][8].dupe.horizontal).toEqual("number");
-    expect(typeof asteroids.Sprite.prototype.grid[12][8].dupe.vertical).toEqual("number");
+    expect(typeof grid[12][8].dupe.horizontal).toEqual("number");
+    expect(typeof grid[12][8].dupe.vertical).toEqual("number");
   });
 
   it("should set horizontal dupe properties for leftmost and rightmost nodes in grid", function () {
-    expect(typeof asteroids.Sprite.prototype.grid[0][3].dupe.horizontal).toEqual("number");
-    expect(typeof asteroids.Sprite.prototype.grid[12][5].dupe.horizontal).toEqual("number");
+    expect(typeof grid[0][3].dupe.horizontal).toEqual("number");
+    expect(typeof grid[12][5].dupe.horizontal).toEqual("number");
   });
 
   it("should not set vertical dupe properties for leftmost and rightmost nodes in grid", function () {
-    expect(asteroids.Sprite.prototype.grid[0][3].dupe.vertical).toBeNull();
-    expect(asteroids.Sprite.prototype.grid[12][5].dupe.vertical).toBeNull();
+    expect(grid[0][3].dupe.vertical).toBeNull();
+    expect(grid[12][5].dupe.vertical).toBeNull();
   });
 
   it("should set vertical dupe properties for upper and lower nodes in grid", function () {
-    expect(typeof asteroids.Sprite.prototype.grid[3][0].dupe.vertical).toEqual("number");
-    expect(typeof asteroids.Sprite.prototype.grid[5][8].dupe.vertical).toEqual("number");
+    expect(typeof grid[3][0].dupe.vertical).toEqual("number");
+    expect(typeof grid[5][8].dupe.vertical).toEqual("number");
   });
 
   it("should not set horizontal dupe properties for upper and lower nodes in grid", function () {
-    expect(asteroids.Sprite.prototype.grid[3][0].dupe.horizontal).toBeNull();
-    expect(asteroids.Sprite.prototype.grid[5][8].dupe.horizontal).toBeNull();
+    expect(grid[3][0].dupe.horizontal).toBeNull();
+    expect(grid[5][8].dupe.horizontal).toBeNull();
   });
 
   it("should not set dupe properties for nodes not on grid border", function () {
-    expect(asteroids.Sprite.prototype.grid[7][3].dupe.horizontal).toBeNull();
-    expect(asteroids.Sprite.prototype.grid[4][4].dupe.vertical).toBeNull();
+    expect(grid[7][3].dupe.horizontal).toBeNull();
+    expect(grid[4][4].dupe.vertical).toBeNull();
   });
 
   it("should set context of canvas as sprite prototype property", function () {
