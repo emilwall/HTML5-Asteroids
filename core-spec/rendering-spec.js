@@ -30,6 +30,7 @@ describe("Rendering", function () {
     });
     sinon.stub(asteroids, "Matrix").returns([[0, 0, 0], [0, 0, 0]]);
     sinon.stub(asteroids, "BigAlien").returns({ name: "bigalien", setup: sinon.stub() });
+    sinon.stub(asteroids, "Ship").returns({ name: "ship" });
 
     canvasWidth = asteroids.Game.canvasWidth;
     canvasHeight = asteroids.Game.canvasHeight;
@@ -50,6 +51,7 @@ describe("Rendering", function () {
     asteroids.GridNode.restore();
     asteroids.Matrix.restore();
     asteroids.BigAlien.restore();
+    asteroids.Ship.restore();
     asteroids.Game.canvasWidth = canvasWidth;
     asteroids.Game.canvasHeight = canvasHeight;
     asteroids.Game.sprites = sprites;
@@ -157,6 +159,12 @@ describe("Rendering", function () {
 
   it("should add ship to asteroids.Game.sprites", function () {
     expect(spritesWithName("ship").length).toEqual(1);
+  });
+
+  it("should set bigAlien as property of asteroids.Game", function () {
+    var ship = spritesWithName("ship")[0];
+
+    expect(asteroids.Game.ship).toBe(ship);
   });
 
   it("should set starting position of ship to middle of screen", function () {
