@@ -248,4 +248,18 @@ describe("Rendering", function () {
       sinon.assert.callCount(rendering.context.restore, 4);
     });
   });
+
+  it("should define displayFramerate method", function () {
+    expect(typeof rendering.displayFramerate).toEqual("function");
+  });
+
+  describe("displayFramerate", function () {
+    it("should call Text.renderText with its argument", function () {
+      var avgFramerate = 60;
+
+      rendering.displayFramerate(avgFramerate);
+
+      sinon.assert.calledWith(Text.renderText, "60");
+    });
+  });
 });
