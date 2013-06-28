@@ -1,5 +1,5 @@
 describe("Rendering", function () {
-  var canvas, canvasWidth, canvasHeight, sprites, context, prevGrid, grid, matrix, ship, bigAlien, score, keyStatus, rendering;
+  var canvas, canvasWidth, canvasHeight, sprites, context, prevGrid, grid, matrix, ship, bigAlien, score, lives, keyStatus, rendering;
 
   var spritesWithName = function (name) {
     return asteroids.Game.sprites.filter(function (sprite) {
@@ -30,7 +30,7 @@ describe("Rendering", function () {
     });
     sinon.stub(asteroids, "Matrix").returns([[0, 0, 0], [0, 0, 0]]);
     sinon.stub(asteroids, "BigAlien").returns({ name: "bigalien", setup: sinon.stub() });
-    sinon.stub(asteroids, "Ship").returns({ name: "ship" });
+    sinon.stub(asteroids, "Ship").returns({ name: "ship", configureTransform: sinon.stub(), draw: sinon.stub() });
     sinon.stub(Text, "renderText");
 
     canvasWidth = asteroids.Game.canvasWidth;
@@ -42,6 +42,7 @@ describe("Rendering", function () {
     ship = asteroids.Game.ship;
     bigAlien = asteroids.Game.bigAlien;
     score = asteroids.Game.score;
+    lives = asteroids.Game.lives;
     keyStatus = asteroids.KEY_STATUS;
     asteroids.KEY_STATUS = {};
 
@@ -64,6 +65,7 @@ describe("Rendering", function () {
     asteroids.Game.ship = ship;
     asteroids.Game.bigAlien = bigAlien;
     asteroids.Game.score = score;
+    asteroids.Game.lives = lives;
     asteroids.KEY_STATUS = keyStatus;
   });
 
@@ -229,6 +231,21 @@ describe("Rendering", function () {
       rendering.displayScore();
 
       sinon.assert.calledWith(Text.renderText, "1337");
+    });
+  });
+
+  it("should define drawExtraLives method", function () {
+    expect(typeof rendering.drawExtraLives).toEqual("function");
+  });
+
+  describe("drawExtraLives", function () {
+    it("should call save and restore on context once for each life", function () {
+      asteroids.Game.lives = 4;
+
+      rendering.drawExtraLives(asteroids.Game.lives);
+
+      sinon.assert.callCount(rendering.context.save, 4);
+      sinon.assert.callCount(rendering.context.restore, 4);
     });
   });
 });
