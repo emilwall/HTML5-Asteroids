@@ -1,5 +1,5 @@
 describe("Rendering", function () {
-  var canvas, canvasWidth, canvasHeight, sprites, context, prevGrid, grid, matrix, ship, bigAlien, keyStatus, rendering;
+  var canvas, canvasWidth, canvasHeight, sprites, context, prevGrid, grid, matrix, ship, bigAlien, score, keyStatus, rendering;
 
   var spritesWithName = function (name) {
     return asteroids.Game.sprites.filter(function (sprite) {
@@ -31,6 +31,7 @@ describe("Rendering", function () {
     sinon.stub(asteroids, "Matrix").returns([[0, 0, 0], [0, 0, 0]]);
     sinon.stub(asteroids, "BigAlien").returns({ name: "bigalien", setup: sinon.stub() });
     sinon.stub(asteroids, "Ship").returns({ name: "ship" });
+    sinon.stub(Text, "renderText");
 
     canvasWidth = asteroids.Game.canvasWidth;
     canvasHeight = asteroids.Game.canvasHeight;
@@ -40,6 +41,7 @@ describe("Rendering", function () {
     matrix = asteroids.Sprite.prototype.matrix;
     ship = asteroids.Game.ship;
     bigAlien = asteroids.Game.bigAlien;
+    score = asteroids.Game.score;
     keyStatus = asteroids.KEY_STATUS;
     asteroids.KEY_STATUS = {};
 
@@ -52,6 +54,7 @@ describe("Rendering", function () {
     asteroids.Matrix.restore();
     asteroids.BigAlien.restore();
     asteroids.Ship.restore();
+    Text.renderText.restore();
     asteroids.Game.canvasWidth = canvasWidth;
     asteroids.Game.canvasHeight = canvasHeight;
     asteroids.Game.sprites = sprites;
@@ -60,6 +63,7 @@ describe("Rendering", function () {
     asteroids.Sprite.prototype.matrix = matrix;
     asteroids.Game.ship = ship;
     asteroids.Game.bigAlien = bigAlien;
+    asteroids.Game.score = score;
     asteroids.KEY_STATUS = keyStatus;
   });
 
@@ -211,6 +215,20 @@ describe("Rendering", function () {
       rendering.drawGrid();
 
       sinon.assert.called(rendering.context.stroke);
+    });
+  });
+
+  it("should define displayScore method", function () {
+    expect(typeof rendering.displayScore).toEqual("function");
+  });
+
+  describe("displayScore", function () {
+    it("should call Text.renderText with current score", function () {
+      asteroids.Game.score = 1337;
+
+      rendering.displayScore();
+
+      sinon.assert.calledWith(Text.renderText, "1337");
     });
   });
 });
