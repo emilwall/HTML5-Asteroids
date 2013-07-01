@@ -17,6 +17,7 @@ describe("Bullet", function () {
     bullet = new asteroids.Bullet();
     bullet.visible = true;
     bullet.vel = {};
+    bullet.currentNode = { leave: sinon.spy() };
   });
 
   afterEach(function () {
@@ -54,15 +55,96 @@ describe("Bullet", function () {
     });
   });
 
-  // does not collide with anything (asteroids and aliens check this themselves)
-  // sets time, bridgesH and bridgesV attributes
-  // defines postMove to be same as asteroids.Sprite.wrapPostMove
-  // defines configureTransform as empty function (why?)
-  /* preMove:
-   * do nothing if not visible
-   * set to invisible AND reset time if time > threshold (50)
-   */
-  // collision: This method essentially does the same as preMove when time > threshold, but is it ever called?
-  // transformedPoints: returns array of the x and y coordinates
-  // Inherits from asteroids.Sprite
+  it("should not collide with anything", function () {
+    expect(bullet.collidesWith).toBeFalsy();
+  });
+
+  it("should set time, bridgesH and bridgesV attributes", function () {
+    expect(typeof bullet.time).toEqual("number");
+    expect(typeof bullet.bridgesH).toEqual("boolean");
+    expect(typeof bullet.bridgesV).toEqual("boolean");
+  });
+
+  it("should define postMove to be same as asteroids.Sprite.wrapPostMove", function () {
+    expect(bullet.postMove).toBe(asteroids.Sprite.wrapPostMove);
+  });
+
+  it("should override steroids.Sprite.configureTransform", function () {
+    expect(typeof bullet.configureTransform).toEqual("function");
+    expect(bullet.configureTransform).not.toBe(asteroids.Sprite.configureTransform);
+  });
+
+  describe("preMove", function () {
+    it("should increment time when visible", function () {
+      bullet.time = 7;
+
+      bullet.preMove(5);
+
+      expect(bullet.time).toEqual(12);
+    });
+
+    it("should not increment time when not visible", function () {
+      bullet.time = 7;
+      bullet.visible = false;
+
+      bullet.preMove(5);
+
+      expect(bullet.time).toEqual(7);
+    });
+
+    it("should set to invisible when time + delta > threshold (50)", function () {
+      bullet.time = 49;
+
+      bullet.preMove(5);
+
+      expect(bullet.visible).toEqual(false);
+    });
+
+    it("should reset time when time + delta > threshold (50)", function () {
+      bullet.time = 49;
+
+      bullet.preMove(5);
+
+      expect(bullet.time).toEqual(0);
+    });
+  });
+
+  describe("collision", function () {
+    it("should set time to 0", function () {
+      bullet.time = 49;
+
+      bullet.collision();
+
+      expect(bullet.time).toEqual(0);
+    });
+
+    it("should set visible to false", function () {
+      bullet.collision();
+
+      expect(bullet.visible).toEqual(false);
+    });
+
+    it("should set currentNode to null", function () {
+      bullet.collision();
+
+      expect(bullet.currentNode).toBeNull();
+    });
+
+    it("should call leave method of currentNode", function () {
+      var currentNode = bullet.currentNode;
+
+      bullet.collision();
+
+      sinon.assert.calledWith(currentNode.leave, bullet);
+    });
+  });
+
+  describe("transformedPoints", function () {
+    it("should return array of the x and y coordinates", function () {
+      bullet.x = 3;
+      bullet.y = 5;
+
+      expect(bullet.transformedPoints()).toEqual([3, 5]);
+    });
+  });
 });
