@@ -33,7 +33,22 @@ describe("Sprite", function () {
     asteroids.Game.canvasHeight = canvasHeight;
   });
 
-  // init: sets name, points, vel and acc
+  describe("init", function () {
+    it("should set name, points, vel and acc", function () {
+      sprite.init("name", [1, 2, 3]);
+
+      expect(sprite.name).toEqual("name");
+      expect(sprite.points).toEqual([1, 2, 3]);
+    });
+
+    it("should set vel and acc", function () {
+      sprite.init();
+
+      expect(sprite.vel).toBeDefined();
+      expect(sprite.acc).toBeDefined();
+    });
+  });
+
   // children: {}
   // visible : false
   // reap    : false
