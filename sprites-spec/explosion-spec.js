@@ -1,19 +1,25 @@
 // init: set name to explosion
 describe("Explosion", function () {
-  var explosion;
+  var explosion, explosionPrototype;
 
   beforeEach(function () {
+    explosionPrototype = asteroids.Explosion.prototype;
+    asteroids.Explosion.prototype = { init: sinon.spy() };
+
     explosion = new asteroids.Explosion();
   });
 
-  it("should have init method", function () {
-    expect(typeof explosion.init).toEqual("function");
+  afterEach(function () {
+    asteroids.Explosion.prototype = explosionPrototype;
   });
 
-  describe("init", function () {
-    it("should set name to explosion", function () {
-      expect(explosion.name).toEqual("explosion");
-    });
+  it("should use implementation of init method from prototype", function () {
+    expect(explosion.init).toBe(asteroids.Explosion.prototype.init);
+  });
+
+  it("should call init method in constructor", function () {
+    sinon.assert.called(explosion.init);
+    sinon.assert.calledWith(explosion.init, "explosion");
   });
 });
 
