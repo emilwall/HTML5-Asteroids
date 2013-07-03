@@ -49,20 +49,23 @@ describe("Sprite", function () {
     });
   });
 
-  // children: {}
-  // visible : false
-  // reap    : false
-  // bridgesH: true
-  // bridgesV: true
-  // collidesWith: []
-  // x    : 0
-  // y    : 0
-  // rot  : 0
-  // scale: 1
-  // currentNode: null
-  // nextSprite : null
-  // preMove : null
-  // postMove: null
+  it("should set attributes to default values", function () {
+    expect(sprite.children).toEqual({});
+    // expect(sprite.visible).toEqual(false); // This fails due to beforeEach!
+    expect(sprite.reap).toEqual(false);
+    expect(sprite.bridgesH).toEqual(true);
+    expect(sprite.bridgesV).toEqual(true);
+    expect(sprite.collidesWith).toEqual([]);
+    expect(sprite.x).toEqual(0);
+    expect(sprite.y).toEqual(0);
+    expect(sprite.rot).toEqual(0);
+    expect(sprite.scale).toEqual(1);
+    expect(sprite.currentNode).toBeNull();
+    expect(sprite.nextSprite).toBeNull();
+    expect(sprite.preMove).toBeNull();
+    expect(sprite.postMove).toBeNull();
+  });
+
   /* run:
    * call move with argument
    * call updateGrid
