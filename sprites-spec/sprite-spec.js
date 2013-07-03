@@ -67,15 +67,26 @@ describe("Sprite", function () {
   });
 
   describe("run", function () {
+    var checkCollisionsAgainstStub;
+
     beforeEach(function () {
       sprite.move = sinon.spy();
       sprite.updateGrid = sinon.spy();
       sprite.configureTransform = sinon.spy();
       sprite.draw = sinon.spy();
       sprite.findCollisionCandidates = sinon.stub().returns({ name: "fake" });
-      sprite.checkCollisionsAgainst = sinon.spy();
       sprite.context = { save: sinon.spy(), restore: sinon.spy() };
       sprite.matrix = { configure: sinon.spy() };
+      sprite.checkCollisionsAgainst = sinon.spy();
+      checkCollisionsAgainstStub = function f() {
+        if (this.x === 780) {
+          f.calledWithModifiedX = true;
+        }
+        if (this.y === 540) {
+          f.calledWithModifiedY = true;
+        }
+      };
+      sprite.currentNode = { dupe: { horizontal: 780, vertical: 540 } };
     });
 
     it("should call move with argument", function () {
@@ -130,6 +141,26 @@ describe("Sprite", function () {
       sprite.run();
 
       sinon.assert.calledWith(sprite.matrix.configure, 1, 2, 3, 4);
+    });
+
+    it("should check for collisions on duplicates", function () {
+      sprite.checkCollisionsAgainst = checkCollisionsAgainstStub;
+
+      sprite.run();
+
+      expect(sprite.checkCollisionsAgainst.calledWithModifiedX).toEqual(true);
+      expect(sprite.checkCollisionsAgainst.calledWithModifiedY).toEqual(true);
+    });
+
+    it("should not check for collisions on duplicates when no horizontal or vertical bridges", function () {
+      sprite.bridgesH = false;
+      sprite.bridgesV = false;
+      sprite.checkCollisionsAgainst = checkCollisionsAgainstStub;
+
+      sprite.run();
+
+      expect(sprite.checkCollisionsAgainst.calledWithModifiedX).toBeUndefined();
+      expect(sprite.checkCollisionsAgainst.calledWithModifiedY).toBeUndefined();
     });
   });
 
