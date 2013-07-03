@@ -162,6 +162,36 @@ describe("Sprite", function () {
       expect(sprite.checkCollisionsAgainst.calledWithModifiedX).toBeUndefined();
       expect(sprite.checkCollisionsAgainst.calledWithModifiedY).toBeUndefined();
     });
+
+    it("should not check for collisions on duplicates when not at grid border", function () {
+      sprite.currentNode = { dupe: { horizontal: null, vertical: null } };
+      sprite.checkCollisionsAgainst = checkCollisionsAgainstStub;
+
+      sprite.run();
+
+      expect(sprite.checkCollisionsAgainst.calledWithModifiedX).toBeUndefined();
+      expect(sprite.checkCollisionsAgainst.calledWithModifiedY).toBeUndefined();
+    });
+
+    it("should check for collisions on vertical duplicates when at top or bottom of grid", function () {
+      sprite.currentNode = { dupe: { horizontal: null, vertical: 540 } };
+      sprite.checkCollisionsAgainst = checkCollisionsAgainstStub;
+
+      sprite.run();
+
+      expect(sprite.checkCollisionsAgainst.calledWithModifiedX).toBeUndefined();
+      expect(sprite.checkCollisionsAgainst.calledWithModifiedY).toEqual(true);
+    });
+
+    it("should check for collisions on horizontal duplicates when at left or right of grid", function () {
+      sprite.currentNode = { dupe: { horizontal: 780, vertical: null } };
+      sprite.checkCollisionsAgainst = checkCollisionsAgainstStub;
+
+      sprite.run();
+
+      expect(sprite.checkCollisionsAgainst.calledWithModifiedX).toEqual(true);
+      expect(sprite.checkCollisionsAgainst.calledWithModifiedY).toBeUndefined();
+    });
   });
 
   /* run:
