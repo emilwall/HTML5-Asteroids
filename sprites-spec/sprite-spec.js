@@ -66,15 +66,74 @@ describe("Sprite", function () {
     expect(sprite.postMove).toBeNull();
   });
 
+  describe("run", function () {
+    beforeEach(function () {
+      sprite.move = sinon.spy();
+      sprite.updateGrid = sinon.spy();
+      sprite.configureTransform = sinon.spy();
+      sprite.draw = sinon.spy();
+      sprite.findCollisionCandidates = sinon.stub().returns({ name: "fake" });
+      sprite.checkCollisionsAgainst = sinon.spy();
+      sprite.context = { save: sinon.spy(), restore: sinon.spy() };
+      sprite.matrix = { configure: sinon.spy() };
+    });
+
+    it("should call move with argument", function () {
+      sprite.run("arg");
+
+      sinon.assert.calledWith(sprite.move, "arg");
+    });
+
+    it("should call updateGrid", function () {
+      sprite.run();
+
+      sinon.assert.called(sprite.updateGrid);
+    });
+
+    it("should call configureTransform", function () {
+      sprite.run();
+
+      sinon.assert.called(sprite.configureTransform);
+    });
+
+    it("should call draw", function () {
+      sprite.run();
+
+      sinon.assert.called(sprite.draw);
+    });
+
+    it("should call findCollisionCandidates", function () {
+      sprite.run();
+
+      sinon.assert.called(sprite.findCollisionCandidates);
+    });
+
+    it("should checkCollisionsAgainst with result from calling findCollisionCandidates", function () {
+      sprite.run();
+
+      sinon.assert.calledWith(sprite.checkCollisionsAgainst, { name: "fake" });
+    });
+
+    it("should save and restore context", function () {
+      sprite.run();
+
+      sinon.assert.called(sprite.context.save);
+      sinon.assert.called(sprite.context.restore);
+    });
+
+    it("should call matrix.configure with state attributes", function () {
+      sprite.rot = 1;
+      sprite.scale = 2;
+      sprite.x = 3;
+      sprite.y = 4;
+
+      sprite.run();
+
+      sinon.assert.calledWith(sprite.matrix.configure, 1, 2, 3, 4);
+    });
+  });
+
   /* run:
-   * call move with argument
-   * call updateGrid
-   * save and restore context
-   * call configureTransform
-   * call draw
-   * call findCollisionCandidates
-   * call matrix.configure with state attributes
-   * call checkCollisionsAgainst with result from calling findCollisionCandidates
    * three different conditional blocks: (no else if or trailing else!)
    * - bridgesH, currentNode.dupe.horizontal -> x
    * - bridgesV, currentNode.dupe.vertical -> y
