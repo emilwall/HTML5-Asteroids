@@ -86,6 +86,8 @@ describe("Sprite", function () {
           f.calledWithModifiedY = true;
         }
       };
+      checkCollisionsAgainstStub.calledWithModifiedX = false;
+      checkCollisionsAgainstStub.calledWithModifiedY = false;
       sprite.currentNode = { dupe: { horizontal: 780, vertical: 540 } };
     });
 
@@ -159,8 +161,8 @@ describe("Sprite", function () {
 
       sprite.run();
 
-      expect(sprite.checkCollisionsAgainst.calledWithModifiedX).toBeUndefined();
-      expect(sprite.checkCollisionsAgainst.calledWithModifiedY).toBeUndefined();
+      expect(sprite.checkCollisionsAgainst.calledWithModifiedX).toEqual(false);
+      expect(sprite.checkCollisionsAgainst.calledWithModifiedY).toEqual(false);
     });
 
     it("should not check for collisions on duplicates when not at grid border", function () {
@@ -169,8 +171,8 @@ describe("Sprite", function () {
 
       sprite.run();
 
-      expect(sprite.checkCollisionsAgainst.calledWithModifiedX).toBeUndefined();
-      expect(sprite.checkCollisionsAgainst.calledWithModifiedY).toBeUndefined();
+      expect(sprite.checkCollisionsAgainst.calledWithModifiedX).toEqual(false);
+      expect(sprite.checkCollisionsAgainst.calledWithModifiedY).toEqual(false);
     });
 
     it("should check for collisions on vertical duplicates when at top or bottom of grid", function () {
@@ -179,7 +181,7 @@ describe("Sprite", function () {
 
       sprite.run();
 
-      expect(sprite.checkCollisionsAgainst.calledWithModifiedX).toBeUndefined();
+      expect(sprite.checkCollisionsAgainst.calledWithModifiedX).toEqual(false);
       expect(sprite.checkCollisionsAgainst.calledWithModifiedY).toEqual(true);
     });
 
@@ -190,7 +192,7 @@ describe("Sprite", function () {
       sprite.run();
 
       expect(sprite.checkCollisionsAgainst.calledWithModifiedX).toEqual(true);
-      expect(sprite.checkCollisionsAgainst.calledWithModifiedY).toBeUndefined();
+      expect(sprite.checkCollisionsAgainst.calledWithModifiedY).toEqual(false);
     });
   });
 
