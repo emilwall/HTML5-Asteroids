@@ -203,8 +203,8 @@ describe("Sprite", function () {
     beforeEach(function () {
       sprite.preMove = sinon.spy();
       sprite.postMove = sinon.spy();
-      sprite.vel = { x: 0, y: 0 };
-      sprite.acc = { x: 0, y: 0 };
+      sprite.vel = { x: 1.5, y: 2.5, rot: 6 };
+      sprite.acc = { x: 1, y: 2, rot: 3 };
     });
 
     it("should do nothing if not visible", function () {
@@ -248,9 +248,85 @@ describe("Sprite", function () {
 
       sinon.assert.notCalled(sprite.preMove);
     });
+
+    it("should update velocity when argument is non-zero", function () {
+      var oldVel = { x: sprite.vel.x, y: sprite.vel.y };
+
+      sprite.move(2);
+
+      expect(sprite.vel.x).not.toEqual(oldVel.x);
+      expect(sprite.vel.y).not.toEqual(oldVel.y);
+    });
+
+    it("should not update velocity when argument is zero", function () {
+      var oldVel = { x: sprite.vel.x, y: sprite.vel.y };
+
+      sprite.move(0);
+
+      expect(sprite.vel.x).toEqual(oldVel.x);
+      expect(sprite.vel.y).toEqual(oldVel.y);
+    });
+
+    it("should update position when argument is non-zero", function () {
+      var oldPos = { x: sprite.x, y: sprite.y };
+
+      sprite.move(2);
+
+      expect(sprite.x).not.toEqual(oldPos.x);
+      expect(sprite.y).not.toEqual(oldPos.y);
+    });
+
+    it("should not update position when argument is zero", function () {
+      var oldPos = { x: sprite.x, y: sprite.y };
+
+      sprite.move(0);
+
+      expect(sprite.x).toEqual(oldPos.x);
+      expect(sprite.y).toEqual(oldPos.y);
+    });
+
+    it("should update rotation when argument is non-zero", function () {
+      var oldRot = sprite.rot;
+
+      sprite.move(2);
+
+      expect(sprite.rot).not.toEqual(oldRot);
+    });
+
+    it("should not update rotation when argument is zero", function () {
+      var oldRot = sprite.rot;
+
+      sprite.move(0);
+
+      expect(sprite.rot).toEqual(oldRot);
+    });
+
+    it("should ensure rotation is at most 360 degrees", function () {
+      sprite.rot = 355;
+
+      sprite.move(1);
+
+      expect(sprite.rot).toEqual(1);
+    });
+
+    it("should ensure rotation is at least 0 degrees", function () {
+      sprite.rot = 5;
+      sprite.vel.rot = -6;
+
+      sprite.move(1);
+
+      expect(sprite.rot).toEqual(359);
+    });
+
+    it("should represent no rotation as 0 degrees", function () {
+      sprite.rot = 354;
+
+      sprite.move(1);
+
+      expect(sprite.rot).toEqual(0);
+    });
   });
 
-  // move: Update vel, pos and rot
   /* updateGrid:
    * Updates currentNode if moving to new grid square
    * If grid is activated, displays the boundaries on context
