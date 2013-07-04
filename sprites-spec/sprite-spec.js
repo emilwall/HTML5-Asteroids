@@ -220,13 +220,37 @@ describe("Sprite", function () {
 
       expect(sprite.transPoints).toBeNull();
     });
+
+    it("should call preMove when defined", function () {
+      sprite.move();
+
+      sinon.assert.called(sprite.preMove);
+    });
+
+    it("should not call preMove when not defined", function () {
+      $.isFunction.returns(false);
+
+      sprite.move();
+
+      sinon.assert.notCalled(sprite.preMove);
+    });
+
+    it("should call postMove when defined", function () {
+      sprite.move();
+
+      sinon.assert.called(sprite.preMove);
+    });
+
+    it("should not call postMove when not defined", function () {
+      $.isFunction.returns(false);
+
+      sprite.move();
+
+      sinon.assert.notCalled(sprite.preMove);
+    });
   });
 
-  /* move:
-   * calls preMove iff defined
-   * Update vel, pos and rot
-   * calls postMove iff defined
-   */
+  // move: Update vel, pos and rot
   /* updateGrid:
    * Updates currentNode if moving to new grid square
    * If grid is activated, displays the boundaries on context
