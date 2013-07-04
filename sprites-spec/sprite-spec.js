@@ -2,6 +2,8 @@ describe("Sprite", function () {
   var sprite, keyStatus, canvasWidth, canvasHeight;
 
   beforeEach(function () {
+    sinon.stub($, "isFunction").returns(true);
+
     keyStatus = asteroids.KEY_STATUS;
     asteroids.KEY_STATUS = {};
     canvasWidth = asteroids.Game.canvasWidth;
@@ -28,6 +30,7 @@ describe("Sprite", function () {
   });
 
   afterEach(function () {
+    $.isFunction.restore();
     asteroids.KEY_STATUS = keyStatus;
     asteroids.Game.canvasWidth = canvasWidth;
     asteroids.Game.canvasHeight = canvasHeight;
@@ -196,14 +199,22 @@ describe("Sprite", function () {
     });
   });
 
-  /* run:
-   * three different conditional blocks: (no else if or trailing else!)
-   * - bridgesH, currentNode.dupe.horizontal -> x
-   * - bridgesV, currentNode.dupe.vertical -> y
-   * - both -> x and y
-   */
+  describe("move", function () {
+    beforeEach(function () {
+      sprite.preMove = sinon.spy();
+      sprite.postMove = sinon.spy();
+    });
+
+    it("should do nothing if not visible", function () {
+      sprite.visible = false;
+
+      sprite.move();
+
+      sinon.assert.notCalled($.isFunction);
+    });
+  });
+
   /* move:
-   * Does nothing if not visible
    * sets transPoints to null
    * calls preMove iff defined
    * Update vel, pos and rot
