@@ -203,6 +203,8 @@ describe("Sprite", function () {
     beforeEach(function () {
       sprite.preMove = sinon.spy();
       sprite.postMove = sinon.spy();
+      sprite.vel = { x: 0, y: 0 };
+      sprite.acc = { x: 0, y: 0 };
     });
 
     it("should do nothing if not visible", function () {
@@ -212,10 +214,15 @@ describe("Sprite", function () {
 
       sinon.assert.notCalled($.isFunction);
     });
+
+    it("should clear transformed points cache", function () {
+      sprite.move();
+
+      expect(sprite.transPoints).toBeNull();
+    });
   });
 
   /* move:
-   * sets transPoints to null
    * calls preMove iff defined
    * Update vel, pos and rot
    * calls postMove iff defined
