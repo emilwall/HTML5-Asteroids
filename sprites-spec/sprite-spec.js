@@ -12,7 +12,12 @@ describe("Sprite", function () {
     asteroids.Game.canvasHeight = 540;
 
     sprite = new asteroids.Sprite();
-    sprite.context = { strokeRect: sinon.spy() };
+    sprite.context = {
+      strokeRect: sinon.spy(),
+      translate: sinon.spy(),
+      rotate: sinon.spy(),
+      scale: sinon.spy()
+    };
     sprite.x = 0;
     sprite.y = 0;
     sprite.visible = true;
@@ -316,9 +321,6 @@ describe("Sprite", function () {
     });
   });
 
-  /* updateGrid:
-   * If grid is activated, displays the boundaries on context
-   */
   describe("updateGrid", function () {
     var gridSize;
 
@@ -388,6 +390,15 @@ describe("Sprite", function () {
   });
 
   // configureTransform: translates, rotates and scales if visible
+  describe("configureTransform", function () {
+    it("should call translate, rotate and scale on context", function () {
+      sprite.configureTransform();
+
+      sinon.assert.called(sprite.context.translate);
+      sinon.assert.called(sprite.context.rotate);
+      sinon.assert.called(sprite.context.scale);
+    })
+  });
   // draw: recursively draw children, connect points with lines
   // findCollisionCandidates: return first sprite from all adjacent nodes in grid
   // checkCollisionsAgainst: calls checkCollision with all candidates and their nextSprites
