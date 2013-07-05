@@ -16,17 +16,6 @@ describe("Sprite", function () {
     sprite.x = 0;
     sprite.y = 0;
     sprite.visible = true;
-
-    var cn = new function () {
-      this.north = this;
-      this.south = this;
-      this.east = this;
-      this.west = this;
-      this.isEmpty = sinon.stub().returns(true);
-      this.enter = sinon.spy();
-      this.leave = sinon.spy();
-    }();
-    sprite.grid = [[cn]];
   });
 
   afterEach(function () {
@@ -328,10 +317,27 @@ describe("Sprite", function () {
   });
 
   /* updateGrid:
-   * Updates currentNode if moving to new grid square
    * If grid is activated, displays the boundaries on context
    */
-  describe("isClear", function () {
+  describe("updateGrid", function () {
+    var gridSize;
+
+    beforeEach(function () {
+      sprite.grid = [
+        [{ enter: sinon.spy(), leave: sinon.spy() },
+         { enter: sinon.spy(), leave: sinon.spy() }],
+        [{ enter: sinon.spy(), leave: sinon.spy() },
+         { enter: sinon.spy(), leave: sinon.spy() }]
+      ];
+      sprite.currentNode = sprite.grid[0][0];
+      gridSize = asteroids.GRID_SIZE;
+      asteroids.GRID_SIZE = 400;
+    });
+
+    afterEach(function () {
+      asteroids.GRID_SIZE = gridSize;
+    });
+
     it("should do nothing if not visible", function () {
       sprite.visible = false;
 
@@ -341,12 +347,24 @@ describe("Sprite", function () {
       sinon.assert.notCalled(sprite.grid[0][0].leave);
     });
 
-    it("should update currentNode when previously undefined", function () {
-      var prevCurrentNode = sprite.currentNode;
+    it("should update currentNode when moving to new grid square", function () {
+      sprite.x = 600;
+      sprite.y = 400;
 
       sprite.updateGrid();
 
-      expect(sprite.currentNode).not.toBe(prevCurrentNode);
+      expect(sprite.currentNode).not.toBe(sprite.grid[0][0]);
+      sinon.assert.called(sprite.grid[0][0].leave);
+      expect(sprite.currentNode).toBe(sprite.grid[1][1]);
+      sinon.assert.called(sprite.grid[1][1].enter);
+    });
+
+    it("should update currentNode when previously undefined", function () {
+      sprite.currentNode = undefined;
+
+      sprite.updateGrid();
+
+      expect(sprite.currentNode).toBeDefined();
     });
 
     it("should display boundaries on context when grid activated", function () {
@@ -384,6 +402,19 @@ describe("Sprite", function () {
   });
 
   describe("isClear", function () {
+    beforeEach(function () {
+      var cn = new function () {
+        this.north = this;
+        this.south = this;
+        this.east = this;
+        this.west = this;
+        this.isEmpty = sinon.stub().returns(true);
+        this.enter = sinon.spy();
+        this.leave = sinon.spy();
+      }();
+      sprite.grid = [[cn]];
+    })
+
     it("should return true when sprite collides with nothing", function () {
       expect(sprite.isClear()).toEqual(true);
     });
